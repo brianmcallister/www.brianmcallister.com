@@ -447,6 +447,18 @@ section nav {
 	margin-bottom: 45px;
 }
 
+#featured-project-info-slider {
+	overflow: hidden;
+	position: relative;
+	height: 270px;
+	width: 100%;
+}
+
+.featured-project {
+	width: 809px;
+	float: left;
+}
+
 #featured_project_summary>aside { margin: 10px 0; }
 #featured_project_summary p { margin-bottom: 20px; }
 
@@ -524,12 +536,13 @@ section nav {
 	overflow: hidden;
 }
 
-.scrollable .items {
+.items {
+	/* want this for all .items, which are only ever used for a scroller */
 	width: 20000em;
 	position: absolute;
 }
 
-.items div {
+.scrollable .items div {
 	float: left;
 	width: 530px;
 	height: 400px;

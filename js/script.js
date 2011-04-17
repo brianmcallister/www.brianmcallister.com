@@ -4,6 +4,30 @@
 
 $(document).ready(function(){
 	
+	// change the prev/next buttons on the portfolio page to fixed when you
+	// scroll down the page
+	var $buttonWrap = $('.button-wrap'),
+		currentPos = 'relative';
+	
+	$(this).scroll( function() {
+		
+		var pageDistance = $(this).scrollTop();
+
+		if (currentPos == 'relative') {
+			if (pageDistance > 135) {
+				$buttonWrap.css({'position' : 'fixed', 'top' : '10px'});
+				currentPos = 'fixed';
+			}
+		} else {
+			if (pageDistance < 135) {
+				$buttonWrap.css({'position' : 'relative', 'top' : '0'});
+				currentPos = 'relative';
+			}
+		}
+	
+	}); // end change to fixed while scrolling
+	
+	
 	// get ready to fix emails
 	$('.email').each(function(){		
 
@@ -37,6 +61,7 @@ $(document).ready(function(){
 	
 	
 	// Animation for the Work category selector on the homepage
+	/* currently unused
 	$('#work_select section').mouseenter(function() {
 		$(this).animate({'backgroundColor' : 'rgba(0, 0, 0, 0.2)'}, 'fast');
 	});
@@ -44,6 +69,7 @@ $(document).ready(function(){
 	$('#work_select section').mouseleave(function() {
 		$(this).animate({'backgroundColor' : 'transparent'}, 'fast');
 	});
+	*/
 	
 	
 	// Featured project slider counter
@@ -52,13 +78,13 @@ $(document).ready(function(){
 	
 	$('.next, .prev').click(function() {
 		going_next = $(this).hasClass('next');
-	})
+	});
 	
 	$(".scrollable").scrollable({circular : true, keyboard : true});
 	var api = $(".scrollable").data("scrollable");
 
 	var animate = function(next_page) {
-			
+		
 		var span = $('<span/>').attr('id', 'page-' + next_page).addClass('flipper one').text(next_page);
 		
 		if(going_next) {
@@ -120,6 +146,13 @@ $(document).ready(function(){
 		} else if( border_value == true ) {
 			border_value = false;
 		}
+		
+		var slideHeight = $($('.items img')[next_page]).attr('height');
+		
+		if (!slideHeight == 0) {
+			api.getRoot().animate({'height' : slideHeight}, 400);
+		}
+		
 		
 	});
 

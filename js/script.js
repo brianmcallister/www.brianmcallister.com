@@ -71,56 +71,90 @@ $(document).ready(function(){
 	});
 	*/
 	
+	// featured project summaries
+	$('#featured-project-info-slider').scrollable({ circular : false,
+	  																							keyboard : false,
+																									next		 : null,
+																									prev     : null });
+	
+	var ftd_proj_info_slider = $('#featured-project-info-slider').data('scrollable');
+	
 	
 	// Featured project slider counter
-	var going_next = '';
-	var sliding = false;
+	var going_next = '',
+			sliding = false;
 	
 	$('.next, .prev').click(function() {
 		going_next = $(this).hasClass('next');
 	});
 	
-	$(".scrollable").scrollable({circular : true, keyboard : true});
+	$(".scrollable").scrollable({ circular : true, 
+																keyboard : true });
 	var api = $(".scrollable").data("scrollable");
 
 	var animate = function(next_page) {
 		
-		var span = $('<span/>').attr('id', 'page-' + next_page).addClass('flipper one').text(next_page);
+		var span = $('<span/>').attr('id', 'page-' + next_page)
+													 .addClass('flipper one')
+													 .text(next_page);
 		
-		if(going_next) {
+		if( going_next ) {
+			
+			// animate the summary
+			if( next_page == 3 )
+				ftd_proj_info_slider.next();
+			else if( next_page == 1 )
+				ftd_proj_info_slider.prev();
+			
 			span.appendTo('.one_slide');
 			
 			sliding = true;
 			
-			$('.one_slide').animate({ top : '-=18px' }, {easing : 'easeInQuad', duration : 300, queue : true, complete: function() {
+			$('.one_slide').animate({ top 		 : '-=18px' }, 
+															{ easing   : 'easeInQuad', 
+																duration : 300, 
+																queue    : true, 
+																complete : function() {
 					
-					$('.one_slide span:not(#page-' + next_page + ')').remove();
-					$(this).css({ top : 0 });
+																	$('.one_slide span:not(#page-' + next_page + ')').remove();
+																	$(this).css({ top : 0 });
+																	sliding = false;
 					
-					sliding = false;
-					
-				}
-			});
-		} else {
+																} // end complete callback
+															});
+		} // endif going next
+		else {
+			
+			// going previous
+			
+			// animate the summary
+			if( next_page == 2 )
+				ftd_proj_info_slider.prev();
+			else if( next_page == 5 )
+				ftd_proj_info_slider.next();
 			
 			span.prependTo('.one_slide');
 			
 			sliding = true;
 			
-			$('.one_slide').css({ top : "-18px" });
-			$('.one_slide').animate({ top : "0" }, {easing : 'easeOutQuad', duration : 300, queue : true, complete: function() {
-				
-					$('.one_slide span:not(#page-' + next_page + ')').remove();
-					
-					sliding = false;
-					
-				}
-			});
-		}
+			$('.one_slide').css({ top : "-18px" })
+										 .animate({ top 		 : "0" }, 
+															{ easing   : 'easeOutQuad', 
+															  duration : 300, 
+															  queue    : true, 
+															  complete : function() {
+																
+																	$('.one_slide span:not(#page-' + next_page + ')').remove();
+																	sliding = false;
+																	
+																} // end complete callback
+															});
+			
+		} // end going previous
 		
 		
 		
-	}
+	}; // animate()
 	
 	var border_value = false;
 	
@@ -156,9 +190,5 @@ $(document).ready(function(){
 		
 	});
 
-
-
-
-	
 
 });

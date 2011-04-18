@@ -454,8 +454,12 @@ section nav {
 	width: 100%;
 }
 
+#featured-project-info-slider .items {
+	width: 200%;
+}
+
 .featured-project {
-	width: 809px;
+	width: 50%;
 	float: left;
 }
 

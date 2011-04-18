@@ -57,98 +57,89 @@ $(document).ready(function(){
 	});
 
 	
-	// $.localScroll({ duration : 200, easing : 'easeOutQuad' } );
-	
-	
-	// Animation for the Work category selector on the homepage
-	/* currently unused
-	$('#work_select section').mouseenter(function() {
-		$(this).animate({'backgroundColor' : 'rgba(0, 0, 0, 0.2)'}, 'fast');
-	});
-	
-	$('#work_select section').mouseleave(function() {
-		$(this).animate({'backgroundColor' : 'transparent'}, 'fast');
-	});
-	*/
+
 	
 	// featured project summaries
 	$('#featured-project-info-slider').scrollable({ circular : false,
-	  																							keyboard : false,
-																									next		 : null,
-																									prev     : null });
+	  												keyboard : false,
+													next	 : null,
+													prev     : null });
 	
 	var ftd_proj_info_slider = $('#featured-project-info-slider').data('scrollable');
 	
-	
 	// Featured project slider counter
 	var going_next = '',
-			sliding = false;
+		sliding = false;
 	
 	$('.next, .prev').click(function() {
 		going_next = $(this).hasClass('next');
 	});
 	
-	$(".scrollable").scrollable({ circular : true, 
-																keyboard : true });
+	$(".scrollable").scrollable({ circular : true, keyboard : true });
+	
 	var api = $(".scrollable").data("scrollable");
 
 	var animate = function(next_page) {
 		
 		var span = $('<span/>').attr('id', 'page-' + next_page)
-													 .addClass('flipper one')
-													 .text(next_page);
+							   .addClass('flipper one')
+							   .text(next_page);
 		
 		if( going_next ) {
 			
 			// animate the summary
-			if( next_page == 3 )
-				ftd_proj_info_slider.next();
-			else if( next_page == 1 )
-				ftd_proj_info_slider.prev();
+			if( ftd_proj_info_slider != undefined ) {
+				
+				if( next_page == 3 )
+					ftd_proj_info_slider.next();
+				else if( next_page == 1 )
+					ftd_proj_info_slider.prev();
+			
+			} // !undefined
 			
 			span.appendTo('.one_slide');
 			
 			sliding = true;
 			
-			$('.one_slide').animate({ top 		 : '-=18px' }, 
-															{ easing   : 'easeInQuad', 
-																duration : 300, 
-																queue    : true, 
-																complete : function() {
-					
-																	$('.one_slide span:not(#page-' + next_page + ')').remove();
-																	$(this).css({ top : 0 });
-																	sliding = false;
-					
-																} // end complete callback
-															});
+			$('.one_slide').animate({ top : '-=18px' }, 
+									{ easing   : 'easeInQuad', 
+									  duration : 300, 
+									  queue    : true, 
+									  complete : function() {
+										$('.one_slide span:not(#page-' + next_page + ')').remove();
+										$(this).css({ top : 0 });
+										sliding = false;
+									  } // end complete callback
+									});
 		} // endif going next
 		else {
 			
 			// going previous
 			
 			// animate the summary
-			if( next_page == 2 )
-				ftd_proj_info_slider.prev();
-			else if( next_page == 5 )
-				ftd_proj_info_slider.next();
+			if( ftd_proj_info_slider != undefined ) {
+				
+				if( next_page == 2 )
+					ftd_proj_info_slider.prev();
+				else if( next_page == 5 )
+					ftd_proj_info_slider.next();
+			
+			} // !undefined
 			
 			span.prependTo('.one_slide');
 			
 			sliding = true;
 			
 			$('.one_slide').css({ top : "-18px" })
-										 .animate({ top 		 : "0" }, 
-															{ easing   : 'easeOutQuad', 
-															  duration : 300, 
-															  queue    : true, 
-															  complete : function() {
-																
-																	$('.one_slide span:not(#page-' + next_page + ')').remove();
-																	sliding = false;
-																	
-																} // end complete callback
-															});
+						   .animate({ top : "0" }, 
+									{ easing   : 'easeOutQuad', 
+									  duration : 300, 
+									  queue    : true, 
+									  complete : function() {
+										$('.one_slide span:not(#page-' + next_page + ')').remove();
+										sliding = false;
+									  } // end complete callback
+							});
 			
 		} // end going previous
 		

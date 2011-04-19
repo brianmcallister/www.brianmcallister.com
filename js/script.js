@@ -10,6 +10,13 @@ $(document).ready(function(){
 		currentPos = 'relative',
 		is_portfolio = $('body').hasClass('portfolio');
 	
+	if( is_portfolio ) {
+		
+		// set height of container
+		$('.portfolio .scrollable').height( $('.scrollable').find('img:first').attr('height') );
+		
+	}
+	
 	$(this).scroll( function() {
 		
 		var pageDistance = $(this).scrollTop();
@@ -79,8 +86,8 @@ $(document).ready(function(){
 	
 	$(".scrollable").scrollable({ circular : true, keyboard : true });
 	
-	var api 		   = $(".scrollable").data("scrollable"),
-			$one_slide = $('#counter .one_slide');
+	var api		   = $(".scrollable").data("scrollable"),
+		$one_slide = $('#counter .one_slide');
 
 	var animate = function(next_page) {
 		

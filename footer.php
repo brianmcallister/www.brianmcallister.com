@@ -2,8 +2,8 @@
 	if( !$_GET['portfolio'] ): ?>
 	<footer class="home_footer">
 		<h1>Odds and Ends: </h1>
-		<p>This section is great if you want to <a id="resume" rel="enclosure" href="#">download my resume</a>, <em class="email" title="brian [at] brianmcallister [dot] com">email me</em>, or follow me on <a id="twitter" rel="external" href="http://twitter.com/freebowlofsoup">Twitter</a>.</p>
-		<aside>it might also be great if you were hoping for pictures of cats</aside>
+		<p>This section is great if you want to <em class="email" title="brian [at] brianmcallister [dot] com">email me</em>, or follow me on <a id="twitter" rel="external" href="http://twitter.com/freebowlofsoup">Twitter</a>.</p>
+		<!-- <aside>it might also be great if you were hoping for pictures of cats</aside> -->
 
 		<div id="dark_footerbar">
 				<p><span>.........</span>COPYRIGHT<span>.........</span></p>

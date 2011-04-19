@@ -16,7 +16,7 @@
 	<link rel="stylesheet" href="/css/style.css">
 	<link rel="stylesheet" media="handheld" href="/css/handheld.css">
 	
-	<script src="js/libs/modernizr-1.7.min.js"></script>
+	<script src="/js/libs/modernizr-1.7.min.js"></script>
 </head>
 
 <!--[if lt IE 7 ]> <body class="<?= $_GET['portfolio'] ? 'portfolio' : ''; ?> ie ie6"> <![endif]-->
@@ -32,24 +32,22 @@
 
 $portfolio = array();
 
-$portfolio['web'] = array( 'jackiebalzer' => 'Jackie Balzer',
-													 'fanagram' => 'Fanagram',
-													 'insomniacs' => 'Insomniacs',
-													 'margali-and-flynn' => 'Margali and Flynn',
-													 'etail' => 'Etail Landing Page',
-													 'northern' => 'Northern Public Adjusters' );
+$portfolio['web'] = array( 'jackiebalzer'		=> 'Jackie Balzer',
+						   'fanagram'			=> 'Fanagram',
+						   'insomniacs'			=> 'Insomniacs',
+						   'northern'			=> 'Northern Public Adjusters',
+						   'etail'				=> 'Etail Landing Page',
+						   'margaliandflynn'	=> 'Margali and Flynn' );
 													
-$portfolio['logos'] = array( 'playful-art' => 'Playful Art Logo',
-														 'moonstruck'	 => 'Moonstruc logo',
-															'suffolk-bull-moose' => 'Suffolk Bull Moose Logo',
-															'octopus-ink'	=> 'Octopus Ink logo',
-															'prowl'	=> 'Prowl icon concept',
-															'google-notofier' => 'Google Notifier icons' );
+$portfolio['logos'] = array( 'downloadcenter'	=> 'WBR Download Center Icons',
+							 'octopusink'		=> 'Octopus Ink',
+							 'playfulart'		=> 'Playful Art',
+							 'moonstruck'		=> 'Moonstruck' );
 															
-$portfolio['print'] = array( 'abi-mde' => 'ABI Forums MDE poster',
-															'abi-4g' => 'ABI Forums 4G poster',
-															'the-shade-guy' => 'The Shade Guy',
-															'south-beach-plaza' => 'South Beach Plaza' );
+// $portfolio['print'] = array( 'abi-mde'				=> 'ABI Forums MDE poster',
+// 							 'abi-4g'				=> 'ABI Forums 4G poster',
+// 							 'the-shade-guy'		=> 'The Shade Guy',
+// 							 'south-beach-plaza'	=> 'South Beach Plaza' );
 ?>
 <header>
 	<div id="portfolio_wrap">
@@ -80,13 +78,16 @@ $portfolio['print'] = array( 'abi-mde' => 'ABI Forums MDE poster',
 						<?php endforeach; ?>
 					</ul>
 					
+					<!--
 					<h3>Print</h3>
 					<aside>all kinds of things on the printed page</aside>
 					<br /><br />
 					<ul>
+						
 						<?php foreach( $portfolio['print'] as $key => $title ):?>
 						<li class="<?= $_GET['portfolio'] == $key ? 'current' : ''; ?>"><a href="/portfolio-<?= $key; ?>"><?= $title; ?></a></li>
 						<?php endforeach; ?>
+						-->
 					</ul>
 				</div>
 			</div><!-- end #switcher -->

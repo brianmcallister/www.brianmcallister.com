@@ -28,6 +28,27 @@
 
 <?php
  if( $_GET['portfolio']):
+
+$portfolio = array();
+
+$portfolio['web'] = array( 'jackiebalzer' => 'Jackie Balzer',
+													 'fanagram' => 'Fanagram',
+													 'insomniacs' => 'Insomniacs',
+													 'margali-and-flynn' => 'Margali and Flynn',
+													 'etail' => 'Etail Landing Page',
+													 'northern' => 'Northern Public Adjusters' );
+													
+$portfolio['logos'] = array( 'playful-art' => 'Playful Art Logo',
+														 'moonstruck'	 => 'Moonstruc logo',
+															'suffolk-bull-moose' => 'Suffolk Bull Moose Logo',
+															'octopus-ink'	=> 'Octopus Ink logo',
+															'prowl'	=> 'Prowl icon concept',
+															'google-notofier' => 'Google Notifier icons' );
+															
+$portfolio['print'] = array( 'abi-mde' => 'ABI Forums MDE poster',
+															'abi-4g' => 'ABI Forums 4G poster',
+															'the-shade-guy' => 'The Shade Guy',
+															'south-beach-plaza' => 'South Beach Plaza' );
 ?>
 <header>
 	<div id="portfolio_wrap">
@@ -44,34 +65,27 @@
 					<aside>projects designed by me</aside>
 					<br /><br />
 					<ul>
-						<li><a>Jackie Balzer</a></li>
-						<li><a>Fanagram</a></li>
-						<li><a>Insomniacs</a></li>
-						<li><a>Margali &amp; Flynn</a></li>
-						<li><a>eTail Landing Page</a></li>
-						<li><a>Northern Public Adjusters</a></li>
+						<?php foreach( $portfolio['web'] as $key => $title ):?>
+						<li class="<?= $_GET['portfolio'] == $key ? 'current' : ''; ?>"><a href="/portfolio-<?= $key; ?>"><?= $title; ?></a></li>
+						<?php endforeach; ?>
 					</ul>
 					
 					<h3>Logos &amp; Icons</h3>
 					<aside>some logos, some icons, all beautiful</aside>
 					<br /><br />
 					<ul>
-						<li><a>Playful Art logo</a></li>
-						<li><a>Moonstruck logo</a></li>
-						<li><a>Suffolk Bull Moose logo</a></li>
-						<li><a>Octopus Ink logo</a></li>
-						<li><a>Prowl icon concept</a></li>
-						<li><a>Google Notifier icons</a></li>
+						<?php foreach( $portfolio['logos'] as $key => $title ):?>
+						<li class="<?= $_GET['portfolio'] == $key ? 'current' : ''; ?>"><a href="/portfolio-<?= $key; ?>"><?= $title; ?></a></li>
+						<?php endforeach; ?>
 					</ul>
 					
 					<h3>Print</h3>
 					<aside>all kinds of things on the printed page</aside>
 					<br /><br />
 					<ul>
-						<li><a>ABI Forums MDE poster</a></li>
-						<li><a>ABI Forums 4G poster</a></li>
-						<li><a>The Shade Guy</a></li>
-						<li><a>South Beach Plaza</a></li>
+						<?php foreach( $portfolio['print'] as $key => $title ):?>
+						<li class="<?= $_GET['portfolio'] == $key ? 'current' : ''; ?>"><a href="/portfolio-<?= $key; ?>"><?= $title; ?></a></li>
+						<?php endforeach; ?>
 					</ul>
 				</div>
 			</div><!-- end #switcher -->
@@ -81,4 +95,17 @@
 	
 	<div id="bluebar"></div>
 </header>
+
+<?php
+
+// secret navigation!
+?>
+<div id="secret-navigation" style="display: none;">
+<?php
+foreach( $portfolio as $group ):
+	foreach( $group as $key => $title ): ?>
+		<a class="<?= $_GET['portfolio'] == $key ? 'current' : ''; ?>" href="/portfolio-<?= $key; ?>"><?= $title; ?></a>
+	<?php endforeach;
+endforeach;?>
+</div> <!--secret-navigation-->
 <?php endif; ?>

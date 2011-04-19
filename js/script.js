@@ -7,7 +7,8 @@ $(document).ready(function(){
 	// change the prev/next buttons on the portfolio page to fixed when you
 	// scroll down the page
 	var $buttonWrap = $('.button-wrap'),
-		currentPos = 'relative';
+		currentPos = 'relative',
+		is_portfolio = $('body').hasClass('portfolio');
 	
 	$(this).scroll( function() {
 		
@@ -60,12 +61,13 @@ $(document).ready(function(){
 
 	
 	// featured project summaries
-	$('#featured-project-info-slider').scrollable({ circular : false,
+	var $featured_project_info_slider = $('#featured-project-info-slider');
+	$featured_project_info_slider.scrollable({ circular : false,
 	  												keyboard : false,
 													next	 : null,
 													prev     : null });
 	
-	var ftd_proj_info_slider = $('#featured-project-info-slider').data('scrollable');
+	var ftd_proj_info_slider = $featured_project_info_slider.data('scrollable');
 	
 	// Featured project slider counter
 	var going_next = '',
@@ -77,7 +79,8 @@ $(document).ready(function(){
 	
 	$(".scrollable").scrollable({ circular : true, keyboard : true });
 	
-	var api = $(".scrollable").data("scrollable");
+	var api 		   = $(".scrollable").data("scrollable"),
+			$one_slide = $('#counter .one_slide');
 
 	var animate = function(next_page) {
 		
@@ -97,16 +100,16 @@ $(document).ready(function(){
 			
 			} // !undefined
 			
-			span.appendTo('.one_slide');
+			span.appendTo( $one_slide );
 			
 			sliding = true;
 			
-			$('.one_slide').animate({ top : '-=18px' }, 
+			$one_slide.animate({ top : '-=18px' }, 
 									{ easing   : 'easeInQuad', 
 									  duration : 300, 
 									  queue    : true, 
 									  complete : function() {
-										$('.one_slide span:not(#page-' + next_page + ')').remove();
+										$one_slide.find('span:not(#page-' + next_page + ')').remove();
 										$(this).css({ top : 0 });
 										sliding = false;
 									  } // end complete callback
@@ -116,7 +119,7 @@ $(document).ready(function(){
 			
 			// going previous
 			
-			// animate the summary
+			// animate the summary on the home page
 			if( ftd_proj_info_slider != undefined ) {
 				
 				if( next_page == 2 )
@@ -126,17 +129,17 @@ $(document).ready(function(){
 			
 			} // !undefined
 			
-			span.prependTo('.one_slide');
+			span.prependTo( $one_slide );
 			
 			sliding = true;
 			
-			$('.one_slide').css({ top : "-18px" })
+			$one_slide.css({ top : "-18px" })
 						   .animate({ top : "0" }, 
 									{ easing   : 'easeOutQuad', 
 									  duration : 300, 
 									  queue    : true, 
 									  complete : function() {
-										$('.one_slide span:not(#page-' + next_page + ')').remove();
+										$one_slide.find('span:not(#page-' + next_page + ')').remove();
 										sliding = false;
 									  } // end complete callback
 							});
@@ -154,16 +157,44 @@ $(document).ready(function(){
 		if( sliding && !border_value )
 			return false;
 		
-		var current = parseInt($('.one').text());
-		var next_page = "";
-
+		var current 	= parseInt($('.one').text()),
+				next_page = null;
+		
+		if( is_portfolio ) {
+			var $secret_navigation = $('#secret-navigation');
+		}
+		
 		if(next === -1) {
 			border_value = true;
 			next_page = api.getSize();
+			
+			if( is_portfolio ) {
+				// go to the next project
+				var next_url = $secret_navigation.find('.current').prev().attr('href');
+				if( typeof( next_url ) == 'undefined' ) {
+					next_url = $secret_navigation.find('a:last').attr('href');
+				}
+				window.location = next_url;
+				
+				return false;
+			}
+			
 			animate(next_page);
 		} else if (next === api.getSize()) {
 			border_value = true;
 			next_page = '1';
+			
+			if( is_portfolio ) {
+				// go to the next project
+				var next_url = $secret_navigation.find('.current').next().attr('href');
+				if( typeof( next_url ) == 'undefined' ) {
+					next_url = $secret_navigation.find('a:first').attr('href');
+				}
+				window.location = next_url;
+				
+				return false;
+			}
+			
 			animate(next_page);
 		} else if( border_value == false ) {
 			next_page = next+1;

@@ -473,3 +473,7 @@ AddCharset utf-8 .html .css .js .xml .json .rss
 
 
 
+# ----------------------------------------------------------------------
+# Portfolio URLs
+# ----------------------------------------------------------------------
+RewriteRule ^portfolio-([^/\.]+)/?$ index.php?portfolio=$1 [L]

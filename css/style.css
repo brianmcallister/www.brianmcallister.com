@@ -512,12 +512,19 @@ section nav {
 	margin: -1px 5px 0 0;
 }
 
-.ten_slide, .one_slide {
+.ten_slide,
+.one_slide {
 	width: 12px;
 	height: 10em;
 	float: left;
 	position: relative;
 	margin-left: 1px;
+}
+
+.counter-container {
+	float: left;
+	height: 10em;
+	width: 31px;
 }
 
 .flipper {

@@ -164,7 +164,7 @@ $(document).ready(function(){
 		if( sliding && !border_value )
 			return false;
 		
-		var current 	= parseInt($('.one').text()),
+		var current 	= parseInt($one_slide.find('.one').text()),
 				next_page = null;
 		
 		if( is_portfolio ) {
@@ -192,6 +192,7 @@ $(document).ready(function(){
 			next_page = '1';
 			
 			if( is_portfolio ) {
+				
 				// go to the next project
 				var next_url = $secret_navigation.find('.current').next().attr('href');
 				if( typeof( next_url ) == 'undefined' ) {

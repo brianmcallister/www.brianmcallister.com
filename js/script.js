@@ -214,7 +214,7 @@ $(document).ready(function(){
 			border_value = false;
 		}
 		
-		var slideHeight = $($('.items img')[next_page]).attr('height');
+		var slideHeight = $($('.items img')[next_page-1]).attr('height');
 		
 		if (!slideHeight == 0) {
 			api.getRoot().animate({'height' : slideHeight}, 400);

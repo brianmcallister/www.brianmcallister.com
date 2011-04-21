@@ -13,7 +13,7 @@
 	</footer>
 <?php else: ?>
 	<footer>
-		<a class="button pill">head home</a>
+		<a href="/" class="button pill">head home</a>
 	</footer>
 	
 	<?php endif;?>

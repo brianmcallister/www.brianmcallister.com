@@ -292,11 +292,13 @@ header:after {
 /* styles for header on the portfolio page */
 #portfolio_wrap {
 	width: 780px;
+	height: 35px;
 	margin: 0 auto;
 }
 
 /* smaller logo */
 .smalllogo {
+	display: block;
 	float: left;
 	width: 122px;
 	height: 22px;

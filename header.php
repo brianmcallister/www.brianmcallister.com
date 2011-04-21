@@ -51,7 +51,7 @@ $portfolio['logos'] = array( 'downloadcenter'	=> 'WBR Download Center Icons',
 ?>
 <header>
 	<div id="portfolio_wrap">
-		<h1 class="ir smalllogo">Brian W. McAllister</h1>
+		<a href="/" class="ir smalllogo">Brian W. McAllister</a>
 		
 		<div id="navigate">
 			<aside>hey guess what, you're now viewing:</aside>

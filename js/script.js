@@ -84,7 +84,7 @@ $(document).ready(function(){
 		going_next = $(this).hasClass('next');
 	});
 	
-	$(".scrollable").scrollable({ circular : true, keyboard : true });
+	$(".scrollable").scrollable({ circular : !is_portfolio, keyboard : true });
 	
 	var api		   = $(".scrollable").data("scrollable"),
 		$one_slide = $('#counter .one_slide');
@@ -159,6 +159,22 @@ $(document).ready(function(){
 	
 	var border_value = false;
 	
+	if( is_portfolio ) {
+		var $secret_navigation = $('#secret-navigation');
+	}
+	
+	var go_to_prev_or_next = function( direction ) {
+		
+		// go to the next project
+		var next_url = direction == 'next' ? $secret_navigation.find('.current').next().attr('href')
+																			 : $secret_navigation.find('.current').prev().attr('href');
+		if( typeof( next_url ) == 'undefined' ) {
+			next_url = $secret_navigation.find('a:' + ( direction == 'next' ? 'first' : 'last' ) ).attr('href');
+		}
+		window.location = next_url;
+		
+	}
+	
 	api.onBeforeSeek(function(e, next) {
 		
 		if( sliding && !border_value )
@@ -167,21 +183,13 @@ $(document).ready(function(){
 		var current 	= parseInt($one_slide.find('.one').text()),
 				next_page = null;
 		
-		if( is_portfolio ) {
-			var $secret_navigation = $('#secret-navigation');
-		}
-		
 		if(next === -1) {
 			border_value = true;
 			next_page = api.getSize();
 			
 			if( is_portfolio ) {
-				// go to the next project
-				var next_url = $secret_navigation.find('.current').prev().attr('href');
-				if( typeof( next_url ) == 'undefined' ) {
-					next_url = $secret_navigation.find('a:last').attr('href');
-				}
-				window.location = next_url;
+				
+				go_to_prev_or_next( 'prev' );
 				
 				return false;
 			}
@@ -193,12 +201,7 @@ $(document).ready(function(){
 			
 			if( is_portfolio ) {
 				
-				// go to the next project
-				var next_url = $secret_navigation.find('.current').next().attr('href');
-				if( typeof( next_url ) == 'undefined' ) {
-					next_url = $secret_navigation.find('a:first').attr('href');
-				}
-				window.location = next_url;
+				go_to_prev_or_next( 'next' );
 				
 				return false;
 			}
@@ -220,5 +223,17 @@ $(document).ready(function(){
 		
 	});
 
-
+	
+	$('#portfolio_prev .disabled').live('click', function() {
+	
+		if( is_portfolio ) {
+			
+			go_to_prev_or_next( 'prev' );
+			
+			return false;
+			
+		}
+		
+	});
+	
 });

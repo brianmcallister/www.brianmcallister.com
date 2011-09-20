@@ -53,11 +53,22 @@ $( function() {
     
     tag: 'article',
     
-    template: _.template( $('#project-template').html() ),
+    template: _.template( $('#project-template').html() )
+  
+  });
+  
+  window.PortfolioView = Backbone.View.extend({
     
+    el: $('#contain'),
     
+    init: function() {
+      
+      Projects.fetch();
+    }
     
   });
+  
+  window.Portfolio = new PortfolioView;
   
   
   

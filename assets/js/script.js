@@ -35,29 +35,27 @@ $( function() {
     
   }; // projects
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
   window.Project = Backbone.Model.extend({
+
     
-    title: 'Title',
+  });
+  
+  window.ProjectList = Backbone.Collection.exten({
     
-    link: 'http://example.com',
+    model: Project
     
-    featured: false,
+  });
+  
+  window.Projects = new ProjectList;
+  
+  window.ProjectView = Backbone.View.extend({
     
-    type: ['dev', 'design'],
+    tag: 'article',
     
-    images: [
-      '/img/image.jpg',
-      '/img/image2.jpg'
-    ]
+    template: _.template( $('#project-template').html() ),
+    
+    
     
   });
   

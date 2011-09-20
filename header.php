@@ -33,17 +33,22 @@
 
 $portfolio = array();
 
-$portfolio['web'] = array( 'jackiebalzer'		=> 'Jackie Balzer',
-						   'fanagram'			=> 'Fanagram',
-						   'insomniacs'			=> 'Insomniacs',
-						   'northern'			=> 'Northern Public Adjusters',
-						   'etail'				=> 'Etail Landing Page',
-						   'margaliandflynn'	=> 'Margali and Flynn' );
+$portfolio['web'] = array( 
+  'aiga'            => 'AIGA',
+  'jackiebalzer'		=> 'Jackie Balzer',
+	'fanagram'			  => 'Fanagram',
+	'insomniacs'			=> 'Insomniacs',
+	'northern'			  => 'Northern Public Adjusters',
+	'etail'				    => 'Etail Landing Page',
+	'margaliandflynn' => 'Margali and Flynn'
+);
 													
-$portfolio['logos'] = array( 'downloadcenter'	=> 'WBR Download Center Icons',
-							 'octopusink'		=> 'Octopus Ink',
-							 'playfulart'		=> 'Playful Art',
-							 'moonstruck'		=> 'Moonstruck' );
+$portfolio['logos'] = array(
+  'downloadcenter'	=> 'WBR Download Center Icons',
+	'octopusink'		  => 'Octopus Ink',
+	'playfulart'		  => 'Playful Art',
+	'moonstruck'		  => 'Moonstruck'
+);
 															
 // $portfolio['print'] = array( 'abi-mde'				=> 'ABI Forums MDE poster',
 // 							 'abi-4g'				=> 'ABI Forums 4G poster',

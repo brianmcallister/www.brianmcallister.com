@@ -56,12 +56,12 @@ article{margin:0 0 250px 0;}
 h1{margin:0;font:100 42px sans-serif;color:#161616;}
 aside{display:block;margin:0 0 10px 0;}
 .design,.dev{float:left;display:block;height:67px;margin:0 -25px;text-align:center;color:#161616;position:relative;}
-.design{width:144px;font:bold 18px/67px sans-serif;left:-17px;background:center center no-repeat url(/assets/img/design-background.png);}
-.dev{width:139px;font:normal 24px/67px inconsolata,mono-space;left:-8px;background:center -15px no-repeat url(/assets/img/dev-background.png);}
+.design{width:144px;font:bold 18px/67px sans-serif;left:-17px;background:center center no-repeat url(../img/design-background.png);}
+.dev{width:139px;font:normal 24px/67px inconsolata,mono-space;left:-8px;background:center -15px no-repeat url(../img/dev-background.png);}
 .and{float:left;display:block;width:20px;height:67px;font:normal 16px/67px courier,mono-space;color:#707070;position:relative;left:-15px;}
 figure{width:100%;position:relative;text-align:center;}
 figure img{width:100%;-webkit-border-radius:0 0 5px 5px;-moz-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;}
-.browser{padding:25px 0 0 0;background:center top no-repeat url(/assets/img/bar.png);}
+.browser{padding:25px 0 0 0;background:center top no-repeat url(../img/bar.png);}
 .browser .project-title{display:block;width:100%;font:13px 'Lucida Grande',lucia,sans-serif;color:#3b3b3b;line-height:25px;position:absolute;top:0;left:0;z-index:999;text-shadow:0 1px 1px rgba(255, 255, 255, 0.5);}
 footer{width:100%;margin:20px 0;text-align:center;}
 #signature{padding:20px 0;}

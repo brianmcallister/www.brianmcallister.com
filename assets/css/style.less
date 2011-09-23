@@ -8,9 +8,8 @@ audio:not([controls]) { display: none; }
 ::selection { background: #bebebe; color: #fff; text-shadow: none; }
 
 a { color: #00e; }
-a:visited { color: #551a8b; }
 a:hover { color: #06e; }
-a:focus { outline: thin dotted; }
+a:focus { outline: none; }
 a:hover, a:active { outline: 0; }
 
 abbr[title] { border-bottom: 1px dotted; }
@@ -82,6 +81,18 @@ textarea {
   color: @default; 
 }
 
+/* Type */
+.wf-loading p {
+  font-family: serif;
+}
+.wf-inactive p {
+  font-family: serif;
+}
+
+p {
+  font-family: 'News Cycle', serif;
+}
+
 
 
 /** Primary */
@@ -100,10 +111,19 @@ textarea {
 #logo {
   float: left;
   display: block;
+  opacity: 0;
   width: 140px;
   margin: 0;
   padding: 20px 0;
   text-align: center;
+  outline: none;
+  
+  -webkit-transition: all 0.3s ease-out;  
+     -moz-transition: all 0.3s ease-out;  
+      -ms-transition: all 0.3s ease-out;  
+       -o-transition: all 0.3s ease-out;  
+          transition: all 0.3s ease-out;  
+
 }
 
 /* Projects */
@@ -144,7 +164,7 @@ aside {
 
 .dev {
   width: 139px;
-  font: normal 24px/67px inconsolata, mono-space;
+  font: normal 24px/67px Inconsolata, monospace;
   left: -8px;
   background: center -15px no-repeat url(../img/dev-background.png);
 }
@@ -154,24 +174,22 @@ aside {
   display: block;
   width: 20px;
   height: 67px;
-  font: normal 16px/67px courier, mono-space;
+  font: normal 16px/67px courier, monospace;
   color: #707070;
   position: relative;
   left: -15px;
 }
 
+
+
+
+
+
+/* Top level figure */
 figure {
   width: 100%;
   position: relative;
   text-align: center;
-}
-
-figure img {
-  width: 100%;
-  
-  -webkit-border-radius: 0 0 5px 5px;
-  -moz-border-radius: 0 0 5px 5px;
-  border-radius: 0 0 5px 5px;
 }
 
 .browser {
@@ -179,6 +197,8 @@ figure img {
   background: center top no-repeat url(../img/bar.png);  
 }
 
+
+/* Image extras */
 .browser .project-title {
   display: block;
   width: 100%;
@@ -189,9 +209,136 @@ figure img {
   top: 0;
   left: 0;
   z-index: 999;
-  
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.50);
 }
+
+
+/* Main portfolio image */
+figure img {
+  width: 100%;
+}
+
+.browser img {
+  -webkit-border-radius: 0 0 5px 5px;
+     -moz-border-radius: 0 0 5px 5px;
+          border-radius: 0 0 5px 5px; 
+}
+
+
+/* Figcaption */
+figcaption {
+  position: absolute;
+}
+
+figcaption:after {
+  content: '\2026';
+  display: block;
+  opacity: 1;
+  width: 20px;
+  height: 20px;
+  padding: 0 0 0 1px;
+  font: bold 15px serif;
+  color: rgba(255, 255, 255, 0.50);
+  text-align: center;
+  line-height: 12px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(0, 0, 0, 0.20);
+  
+  text-shadow: rgba(0, 0, 0, 0.20);
+  
+  -webkit-border-radius: 30px;
+     -moz-border-radius: 30px;
+          border-radius: 30px;
+          
+  -webkit-transition: opacity .5s ease-out;
+     -moz-transition: opacity .5s ease-out;
+      -ms-transition: opacity .5s ease-out;
+       -o-transition: opacity .5s ease-out;
+          transition: opacity .5s ease-out;
+
+  -webkit-user-select: none;
+   -khtml-user-select: none;
+     -moz-user-select: none;
+       -o-user-select: none;
+          user-select: none;
+}
+
+.browser figcaption {
+  text-align: center;
+  top: 25px;
+}
+
+.browser figcaption:hover a {
+  opacity: 1;
+}
+
+.browser figcaption:hover:after {
+  opacity: 0;
+  cursor: default;
+}
+
+
+/* Links bar */
+figcaption a {
+  float: left;
+  display: block;
+  opacity: 0;
+  width: 100px;
+  height: 100px;
+  margin: 20px;
+  padding: 20px;
+  font: 15px 'News Cycle', sans-serif;
+  color: #161617;
+  text-align: center;
+  line-height: 100px;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.8);
+  
+  -webkit-border-radius: 500px;
+     -moz-border-radius: 500px;
+          border-radius: 500px;
+          
+  -webkit-background-clip: padding-box;
+     -moz-background-clip: padding;
+          background-clip: padding-box;
+
+  -webkit-transition: all .5s ease-out;
+     -moz-transition: all .5s ease-out;
+      -ms-transition: all .5s ease-out;
+       -o-transition: all .5s ease-out;
+          transition: all .5s ease-out;
+          
+  -webkit-box-shadow: 0px 0px 14px 10px rgba(255, 255, 255, 0.8); 
+     -moz-box-shadow: 0px 0px 14px 10px rgba(255, 255, 255, 0.8); 
+          box-shadow: 0px 0px 14px 10px rgba(255, 255, 255, 0.8); 
+
+  -webkit-user-select: none;
+   -khtml-user-select: none;
+     -moz-user-select: none;
+       -o-user-select: none;
+          user-select: none;
+}
+
+figcaption a:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.see-more:hover {
+  cursor: url(../img/eye.png), pointer;
+}
+
+.visit-site:hover {
+  cursor: url(../img/sextant.png), pointer;
+}
+
+
+
+
+
+
+
 
 
 
@@ -206,9 +353,6 @@ footer {
 #signature {
   padding: 20px 0;
 }
-
-
-
 
 .blocks {
   display: none;

@@ -105,6 +105,7 @@ p {
 /* Page Header */
 #contain header {
   margin: 50px 0;
+  position: relative;
   overflow: hidden;
 }
 
@@ -118,12 +119,57 @@ p {
   text-align: center;
   outline: none;
   
-  -webkit-transition: all 0.3s ease-out;  
-     -moz-transition: all 0.3s ease-out;  
-      -ms-transition: all 0.3s ease-out;  
-       -o-transition: all 0.3s ease-out;  
-          transition: all 0.3s ease-out;  
+  -webkit-transition: all 0.6s ease-out;  
+     -moz-transition: all 0.6s ease-out;  
+      -ms-transition: all 0.6s ease-out;  
+       -o-transition: all 0.6s ease-out;  
+          transition: all 0.6s ease-out;  
+}
 
+#logo:hover + #logo-links,
+#logo-links:hover {
+  opacity: 1;
+}
+
+#logo-links {
+  display: block;
+  opacity: 0;
+  margin: 0;
+  padding: 0 10px;
+  position: absolute;
+  top: 46px;
+  left: 130px;
+  background: rgba(0, 0, 0, 0.90);
+  
+  -webkit-border-radius: 2px;
+     -moz-border-radius: 2px;
+          border-radius: 2px;
+          
+  -webkit-transition: all 0.4s ease-out;  
+     -moz-transition: all 0.4s ease-out;  
+      -ms-transition: all 0.4s ease-out;  
+       -o-transition: all 0.4s ease-out;  
+          transition: all 0.4s ease-out;
+}
+
+#logo-links:before {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  position: absolute;
+  left: -8px;
+  top: 15px;
+  border-color: transparent rgba(0, 0, 0, 0.90) transparent transparent;
+  border-style: solid;
+  border-width: 4px;
+}
+
+#logo-links a {
+  float: left;
+  display: block;
+  padding: 10px;
+  color: #c5c5c5;
 }
 
 /* Projects */
@@ -321,9 +367,9 @@ figcaption a {
           user-select: none;
 }
 
-figcaption a:hover {
+/*figcaption a:hover {
   background: rgba(255, 255, 255, 0.2);
-}
+}*/
 
 .see-more:hover {
   cursor: url(../img/eye.png), pointer;

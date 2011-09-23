@@ -52,8 +52,12 @@ body,button,input,select,textarea{font-family:sans-serif;color:#161616;}
 .wf-inactive p{font-family:serif;}
 p{font-family:'News Cycle',serif;}
 #contain{width:940px;margin:0 auto;}
-#contain header{margin:50px 0;overflow:hidden;}
-#logo{float:left;display:block;opacity:0;width:140px;margin:0;padding:20px 0;text-align:center;outline:none;-webkit-transition:all 0.3s ease-out;-moz-transition:all 0.3s ease-out;-ms-transition:all 0.3s ease-out;-o-transition:all 0.3s ease-out;transition:all 0.3s ease-out;}
+#contain header{margin:50px 0;position:relative;overflow:hidden;}
+#logo{float:left;display:block;opacity:0;width:140px;margin:0;padding:20px 0;text-align:center;outline:none;-webkit-transition:all 0.6s ease-out;-moz-transition:all 0.6s ease-out;-ms-transition:all 0.6s ease-out;-o-transition:all 0.6s ease-out;transition:all 0.6s ease-out;}
+#logo:hover+#logo-links,#logo-links:hover{opacity:1;}
+#logo-links{display:block;opacity:0;margin:0;padding:0 10px;position:absolute;top:46px;left:130px;background:rgba(0, 0, 0, 0.9);-webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;-webkit-transition:all 0.4s ease-out;-moz-transition:all 0.4s ease-out;-ms-transition:all 0.4s ease-out;-o-transition:all 0.4s ease-out;transition:all 0.4s ease-out;}
+#logo-links:before{content:'';display:block;width:0;height:0;position:absolute;left:-8px;top:15px;border-color:transparent rgba(0, 0, 0, 0.9) transparent transparent;border-style:solid;border-width:4px;}
+#logo-links a{float:left;display:block;padding:10px;color:#c5c5c5;}
 article{margin:0 0 250px 0;}
 h1{margin:0;font:100 42px sans-serif;color:#161616;}
 aside{display:block;margin:0 0 10px 0;}
@@ -72,7 +76,6 @@ figcaption:after{content:'\2026';display:block;opacity:1;width:20px;height:20px;
 .browser figcaption:hover a{opacity:1;}
 .browser figcaption:hover:after{opacity:0;cursor:default;}
 figcaption a{float:left;display:block;opacity:0;width:100px;height:100px;margin:20px;padding:20px;font:15px 'News Cycle',sans-serif;color:#161617;text-align:center;line-height:100px;text-decoration:none;background:rgba(255, 255, 255, 0.8);-webkit-border-radius:500px;-moz-border-radius:500px;border-radius:500px;-webkit-background-clip:padding-box;-moz-background-clip:padding;background-clip:padding-box;-webkit-transition:all 0.5s ease-out;-moz-transition:all 0.5s ease-out;-ms-transition:all 0.5s ease-out;-o-transition:all 0.5s ease-out;transition:all 0.5s ease-out;-webkit-box-shadow:0px 0px 14px 10px rgba(255, 255, 255, 0.8);-moz-box-shadow:0px 0px 14px 10px rgba(255, 255, 255, 0.8);box-shadow:0px 0px 14px 10px rgba(255, 255, 255, 0.8);-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-o-user-select:none;user-select:none;}
-figcaption a:hover{background:rgba(255, 255, 255, 0.2);}
 .see-more:hover{cursor:url(../img/eye.png),pointer;}
 .visit-site:hover{cursor:url(../img/sextant.png),pointer;}
 footer{width:100%;margin:20px 0;text-align:center;}

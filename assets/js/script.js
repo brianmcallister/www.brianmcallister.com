@@ -77,60 +77,50 @@ $( function() {
     
   }); // window.load
     
- 
+  
+  
+  
+  
+
+  var $email      = $('#link-email'),
+      $clientlist = $('#link-client-list'),
+      $worksheet  = $('#link-client-worksheet'),
+      $links      = $('#logo-links'),
+      $logo       = $('#logo'),
+      $header     = $('#contain > header');
+      
+  $email.click( function( event ) {
+    
+    $links.css('opacity', 0);
+    $logo.css('opacity', 0);
+      
+    $header.append('<section id="contact">adsfasdf</section>');
+    
+    $contact = $('#contact');
+    
+    
+    
+    event.preventDefault;
+    
+  });
+  
+  $('article').click( function() {
+
+    $('.shutter').animate({
+      'top'     : -400
+    }, 600, 'easeInchQuint');
+    
+    
+  })
+  
+
+  
+  
+  $links.mouseleave( function() {
+    $(this).removeAttr('style');
+  });
+
+  
+  
+  
 });
-
-
-
-
-// 
-// $( function() {
-//   
-//   window.portfolioItems = [
-//     
-//     {  
-//       'title': 'Project 1',
-//       'description': 'blah blha blah',
-//       'link': 'http://example.com',
-//       'type': ['dev', 'design'],
-//       'images': ['image1.jpg', 'image2.jpg'] 
-//     },
-//     
-//     {  
-//       'title': 'Project 2',
-//       'description': 'blah blha blah',
-//       'link': 'http://example.com',
-//       'type': ['dev'],
-//       'images': ['image1.jpg', 'image2.jpg'] 
-//     },
-//     
-//     {  
-//       'title': 'Project 3',
-//       'description': 'blah blha blah',
-//       'link': 'http://example.com',
-//       'type': ['design'],
-//       'images': ['image1.jpg', 'image2.jpg'] 
-//     }
-//     
-//   ];
-//   
-//   window.Project = Backbone.Model.extend({});
-//   
-//   _.each( portfolioItems, function(project) {
-//     console.log(project);
-//     window.projects = new Project(project);
-//   });
-//   
-//   
-//   
-//   // window.project = new Project;
-//   
-//   // window.project.set({
-//   //   title: 'Project 1',
-//   //   description: 'blabhablhba balhba',
-//   //   link: 'http://example.com',
-//   //   type: ['dev', 'design'],
-//   //   images: ['image1.jpg', 'image2.jpg']
-//   // });
-//     
-// });

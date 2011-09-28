@@ -214,6 +214,74 @@ textarea {
   color: @default; 
 }
 
+/** Label */
+.label {
+  display: block;
+  margin: 0;
+  padding: 0;
+
+  -webkit-transition: all 0.4s ease-out;  
+     -moz-transition: all 0.4s ease-out;  
+      -ms-transition: all 0.4s ease-out;  
+       -o-transition: all 0.4s ease-out;  
+          transition: all 0.4s ease-out;
+}
+
+.label a {
+  float: left;
+  display: block;
+  height: 31px;
+  margin: 0 10px 0 11px;
+  padding: 0 15px;
+  color: #c5c5c5;
+  line-height: 29px;
+  position: relative;
+  background: rgba(0, 0, 0, 0.90);
+  
+  -webkit-transition: opacity 0.4s ease-out;  
+     -moz-transition: opacity 0.4s ease-out;  
+      -ms-transition: opacity 0.4s ease-out;  
+       -o-transition: opacity 0.4s ease-out;  
+          transition: opacity 0.4s ease-out;
+          
+  -webkit-user-select: none;
+   -khtml-user-select: none;
+     -moz-user-select: none;
+       -o-user-select: none;
+          user-select: none;
+}
+
+.label a:before {
+  content: '';
+  display: block;
+  width: 21px;
+  height: 31px;
+  position: absolute;
+  top: 0;
+  left: -21px;
+  background: 0 0 no-repeat url(../img/label-background.png);
+}
+
+.label a:first-child {
+  margin-left: 0;
+  
+  -webkit-border-radius: 2px 0 0 2px;
+     -moz-border-radius: 2px 0 0 2px;
+          border-radius: 2px 0 0 2px;
+}
+
+.label a:last-child {
+  margin-right: 0;
+  
+  -webkit-border-radius: 0 2px 2px 0;
+     -moz-border-radius: 0 2px 2px 0;
+          border-radius: 0 2px 2px 0;
+}
+
+.label a:first-child:before {
+  display: none;
+}
+
 
 /** Primary */
 /* Page Container */
@@ -253,30 +321,12 @@ textarea {
 
 #logo-links {
   opacity: 0;
+  position: absolute;
   top: 48px;
   left: 130px;
 }
 
-
-
-
-
-
-
-.label {
-  display: block;
-  margin: 0;
-  padding: 0;
-  position: absolute;
-
-  -webkit-transition: all 0.4s ease-out;  
-     -moz-transition: all 0.4s ease-out;  
-      -ms-transition: all 0.4s ease-out;  
-       -o-transition: all 0.4s ease-out;  
-          transition: all 0.4s ease-out;
-}
-
-.label:before {
+#logo-links:before {
   content: '';
   display: block;
   width: 0;
@@ -290,79 +340,99 @@ textarea {
   border-width: 4px;
 }
 
-.label a {
-  float: left;
-  display: block;
-  height: 31px;
-  margin: 0;
-  padding: 0 20px 0 16px;
-  color: #c5c5c5;
-  line-height: 29px;
-  position: relative;
-  background: 100% center no-repeat url(../img/wedge.png) rgba(0, 0, 0, 0.90);
-  
-  -webkit-border-radius: 2px;
-     -moz-border-radius: 2px;
-          border-radius: 2px;
-}
+/**
 
-.label a:after,
-.label a:before {
-  content: '';
-  display: block;
-  width: 14px;
-  height: 14px;
-  position: absolute;
-  z-index: 999;
-  top: -2px;
-  right: -5px;
-  background: #fff;
-
-  -webkit-border-radius: 100px;
-     -moz-border-radius: 100px;
-          border-radius: 100px;
-}
-
-.label a:before {
-  top: auto;
-  bottom: -2px;
-}
-
-.label a:first-child {
-  padding: 0 20px 0 12px;
-}
-
-.label a:last-child {
-  padding: 0 12px 0 16px;
-  background: rgba(0, 0, 0, 0.90);
-  background-image: none;
-}
-
-.label a:last-child:after,
-.label a:last-child:before {
-  display: none;
-}
-
-
-
-
-
-/* Projects */
+    Projects 
+    
+*/
 article {
   margin: 0 0 250px 0;
-  
-/*  box-shadow: 0 0 0 10px red;*/
+  position: relative;
 }
 
 h1 {
+  float: left;
   margin: 0;
+  padding: 0 20px 0 0;
+  position: relative;
   font: 100 42px sans-serif;
   color: #161616;
 }
 
-aside {
+h1:after {
+  content: '\00B7 \00B7 \00B7';
+  float: left;
+  display: block;
+  opacity: 1;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 0;
+  padding: 0;
+  font: bold 15px serif;
+  color: rgba(255, 255, 255, 0.50);
+  text-align: center;
+  line-height: 21px;
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  background: rgba(0, 0, 0, 0.20);
+  
+  text-shadow: rgba(0, 0, 0, 0.20);
+  
+  -webkit-border-radius: 30px;
+     -moz-border-radius: 30px;
+          border-radius: 30px;
+          
+  -webkit-transition: opacity .5s ease-out;
+     -moz-transition: opacity .5s ease-out;
+      -ms-transition: opacity .5s ease-out;
+       -o-transition: opacity .5s ease-out;
+          transition: opacity .5s ease-out;
+
+  -webkit-user-select: none;
+   -khtml-user-select: none;
+     -moz-user-select: none;
+       -o-user-select: none;
+          user-select: none;
+}
+
+h1:hover:after {
+  background: rgba(0, 0, 0, 0.40);
+  cursor: default;
+}
+
+h1:hover + .project-links,
+.project-links:hover {
+  opacity: 1;
+}
+
+/* Project links */
+.project-links {
+  opacity: 0;
+  position: relative;
+  left: 40px;
+  top: 8px;
+}
+
+.see-more:hover {
+  cursor: url(../img/eye.png), pointer;
+}
+
+.visit-site:hover {
+  cursor: url(../img/sextant.png), pointer;
+}
+
+
+
+/* Project type */
+.project-type {
+  clear: left;
   display: block;
   margin: 0 0 10px 0;
+}
+
+.project-type span:hover {
+  cursor: default;
 }
 
 .design,
@@ -372,7 +442,6 @@ aside {
   height: 67px;
   margin: 0 -25px;
   text-align: center;
-  color: @default;
   position: relative;
 }
 
@@ -422,6 +491,11 @@ figure {
 
 }
 
+.macbook .label {
+  top: 50px;
+  left: 145px;
+}
+
 
 /* Image extras */
 .browser .project-title {
@@ -452,145 +526,14 @@ figure {
 }
 
 
-/* Figcaption */
-/*figcaption {
-  position: absolute;
-}
-
-figcaption:after {
-  content: '\2026';
-  display: block;
-  opacity: 1;
-  width: 20px;
-  height: 20px;
-  padding: 0 0 0 1px;
-  font: bold 15px serif;
-  color: rgba(255, 255, 255, 0.50);
-  text-align: center;
-  line-height: 12px;
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background: rgba(0, 0, 0, 0.20);
-  
-  text-shadow: rgba(0, 0, 0, 0.20);
-  
-  -webkit-border-radius: 30px;
-     -moz-border-radius: 30px;
-          border-radius: 30px;
-          
-  -webkit-transition: opacity .5s ease-out;
-     -moz-transition: opacity .5s ease-out;
-      -ms-transition: opacity .5s ease-out;
-       -o-transition: opacity .5s ease-out;
-          transition: opacity .5s ease-out;
-
-  -webkit-user-select: none;
-   -khtml-user-select: none;
-     -moz-user-select: none;
-       -o-user-select: none;
-          user-select: none;
-}
-
-figcaption:hover:after {
-  opacity: 0;
-  cursor: default;
-}
-
-figcaption:hover a {
-  opacity: 1;
-}
-
-.browser figcaption {
-  text-align: center;
-  top: 25px;
-}
-
-.macbook figcaption {
-  top: 37px;
-  left: 135px;
-}
-
-figcaption a {
-  float: left;
-  display: block;
-  opacity: 0;
-  width: 100px;
-  height: 100px;
-  margin: 20px;
-  padding: 20px;
-  font: 15px 'News Cycle', sans-serif;
-  color: #161617;
-  text-align: center;
-  line-height: 100px;
-  text-decoration: none;
-  background: rgba(255, 255, 255, 0.8);
-  
-  -webkit-border-radius: 500px;
-     -moz-border-radius: 500px;
-          border-radius: 500px;
-          
-  -webkit-background-clip: padding-box;
-     -moz-background-clip: padding;
-          background-clip: padding-box;
-
-  -webkit-transition: all .5s ease-out;
-     -moz-transition: all .5s ease-out;
-      -ms-transition: all .5s ease-out;
-       -o-transition: all .5s ease-out;
-          transition: all .5s ease-out;
-          
-  -webkit-box-shadow: 0px 0px 14px 10px rgba(255, 255, 255, 0.8); 
-     -moz-box-shadow: 0px 0px 14px 10px rgba(255, 255, 255, 0.8); 
-          box-shadow: 0px 0px 14px 10px rgba(255, 255, 255, 0.8); 
-
-  -webkit-user-select: none;
-   -khtml-user-select: none;
-     -moz-user-select: none;
-       -o-user-select: none;
-          user-select: none;
-}
-
-.see-more:hover {
-  cursor: url(../img/eye.png), pointer;
-}
-
-.visit-site:hover {
-  cursor: url(../img/sextant.png), pointer;
-}*/
-
-figcaption {
-  
-  position: absolute;
-  top: 50px;
-  outline: 1px solid red;
-}
-
-figcaption a {
-  color: #c5c5c5;
-  background: rgba(0, 0, 0, 0.90);
-}
-
-.see-more:hover {
-  cursor: url(../img/eye.png), pointer;
-}
-
-.visit-site:hover {
-  cursor: url(../img/sextant.png), pointer;
-}
 
 
 
+/**
 
-
-
-
-
-
-
-
-
-
+    Footer
+    
+*/
 footer {
   width: 100%;
   margin: 20px 0;

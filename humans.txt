@@ -8,11 +8,6 @@
   Twitter: @freebowlofsoup
   Location: Brooklyn, NY
 
-  Web Developer: Jackie Balzer
-  Site: http://jackiebalzer.com
-  Twitter: @jackiebackwards
-  Location: Brooklyn, NY
-
 /* SITE */
   Standards: HTML5, CSS3
   Components: Modernizr, jQuery, Boilerplate

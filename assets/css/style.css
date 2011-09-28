@@ -53,35 +53,38 @@ td{vertical-align:top;}
 html{font-size:100%;overflow-y:scroll;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}
 body{margin:0;font-size:13px;line-height:1.231;}
 body,button,input,select,textarea{font-family:sans-serif;color:#161616;}
+.label{display:block;margin:0;padding:0;-webkit-transition:all 0.4s ease-out;-moz-transition:all 0.4s ease-out;-ms-transition:all 0.4s ease-out;-o-transition:all 0.4s ease-out;transition:all 0.4s ease-out;}
+.label a{float:left;display:block;height:31px;margin:0 10px 0 11px;padding:0 15px;color:#c5c5c5;line-height:29px;position:relative;background:rgba(0, 0, 0, 0.9);-webkit-transition:opacity 0.4s ease-out;-moz-transition:opacity 0.4s ease-out;-ms-transition:opacity 0.4s ease-out;-o-transition:opacity 0.4s ease-out;transition:opacity 0.4s ease-out;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-o-user-select:none;user-select:none;}
+.label a:before{content:'';display:block;width:21px;height:31px;position:absolute;top:0;left:-21px;background:0 0 no-repeat url(../img/label-background.png);}
+.label a:first-child{margin-left:0;-webkit-border-radius:2px 0 0 2px;-moz-border-radius:2px 0 0 2px;border-radius:2px 0 0 2px;}
+.label a:last-child{margin-right:0;-webkit-border-radius:0 2px 2px 0;-moz-border-radius:0 2px 2px 0;border-radius:0 2px 2px 0;}
+.label a:first-child:before{display:none;}
 #contain{width:940px;margin:0 auto;}
 #contain header{margin:50px 0;position:relative;overflow:hidden;}
 #logo{float:left;display:block;opacity:0;width:140px;margin:0;padding:20px 0;text-align:center;outline:none;-webkit-transition:all 0.6s ease-out;-moz-transition:all 0.6s ease-out;-ms-transition:all 0.6s ease-out;-o-transition:all 0.6s ease-out;transition:all 0.6s ease-out;}
 #logo:hover+#logo-links,#logo-links:hover{opacity:1;}
-#logo-links{opacity:0;top:48px;left:130px;}
-.label{display:block;margin:0;padding:0;position:absolute;-webkit-transition:all 0.4s ease-out;-moz-transition:all 0.4s ease-out;-ms-transition:all 0.4s ease-out;-o-transition:all 0.4s ease-out;transition:all 0.4s ease-out;}
-.label:before{content:'';display:block;width:0;height:0;margin:-3px 0 0 0;position:absolute;left:-8px;top:50%;border-color:transparent rgba(0, 0, 0, 0.9) transparent transparent;border-style:solid;border-width:4px;}
-.label a{float:left;display:block;height:31px;margin:0;padding:0 20px 0 16px;color:#c5c5c5;line-height:29px;position:relative;background:100% center no-repeat url(../img/wedge.png) rgba(0, 0, 0, 0.9);-webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;}
-.label a:after,.label a:before{content:'';display:block;width:14px;height:14px;position:absolute;z-index:999;top:-2px;right:-5px;background:#fff;-webkit-border-radius:100px;-moz-border-radius:100px;border-radius:100px;}
-.label a:before{top:auto;bottom:-2px;}
-.label a:first-child{padding:0 20px 0 12px;}
-.label a:last-child{padding:0 12px 0 16px;background:rgba(0, 0, 0, 0.9);background-image:none;}
-.label a:last-child:after,.label a:last-child:before{display:none;}
-article{margin:0 0 250px 0;}
-h1{margin:0;font:100 42px sans-serif;color:#161616;}
-aside{display:block;margin:0 0 10px 0;}
-.design,.dev{float:left;display:block;height:67px;margin:0 -25px;text-align:center;color:#161616;position:relative;}
+#logo-links{opacity:0;position:absolute;top:48px;left:130px;}
+#logo-links:before{content:'';display:block;width:0;height:0;margin:-3px 0 0 0;position:absolute;left:-8px;top:50%;border-color:transparent rgba(0, 0, 0, 0.9) transparent transparent;border-style:solid;border-width:4px;}
+article{margin:0 0 250px 0;position:relative;}
+h1{float:left;margin:0;padding:0 20px 0 0;position:relative;font:100 42px sans-serif;color:#161616;}
+h1:after{content:'\00B7 \00B7 \00B7';float:left;display:block;opacity:1;width:20px;height:20px;margin:-10px 0 0 0;padding:0;font:bold 15px serif;color:rgba(255, 255, 255, 0.5);text-align:center;line-height:21px;position:absolute;top:50%;left:100%;background:rgba(0, 0, 0, 0.2);text-shadow:rgba(0, 0, 0, 0.2);-webkit-border-radius:30px;-moz-border-radius:30px;border-radius:30px;-webkit-transition:opacity 0.5s ease-out;-moz-transition:opacity 0.5s ease-out;-ms-transition:opacity 0.5s ease-out;-o-transition:opacity 0.5s ease-out;transition:opacity 0.5s ease-out;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-o-user-select:none;user-select:none;}
+h1:hover:after{background:rgba(0, 0, 0, 0.4);cursor:default;}
+h1:hover+.project-links,.project-links:hover{opacity:1;}
+.project-links{opacity:0;position:relative;left:40px;top:8px;}
+.see-more:hover{cursor:url(../img/eye.png),pointer;}
+.visit-site:hover{cursor:url(../img/sextant.png),pointer;}
+.project-type{clear:left;display:block;margin:0 0 10px 0;}
+.project-type span:hover{cursor:default;}
+.design,.dev{float:left;display:block;height:67px;margin:0 -25px;text-align:center;position:relative;}
 .design{width:144px;font:bold 18px/67px sans-serif;left:-17px;background:center center no-repeat url(../img/design-background.png);}
 .dev{width:139px;font:normal 24px/67px Inconsolata,monospace;left:-8px;background:center -15px no-repeat url(../img/dev-background.png);}
 .and{float:left;display:block;width:20px;height:67px;font:normal 16px/67px courier,monospace;color:#707070;position:relative;left:-15px;}
 figure{width:100%;position:relative;text-align:center;}
 .browser{padding:25px 0 0 0;background:center top no-repeat url(../img/bar.png);}
+.macbook .label{top:50px;left:145px;}
 .browser .project-title{display:block;width:100%;font:13px 'Lucida Grande',lucia,sans-serif;color:#3b3b3b;line-height:25px;position:absolute;top:0;left:0;z-index:999;text-shadow:0 1px 1px rgba(255, 255, 255, 0.5);}
 .browser img{width:100%;-webkit-border-radius:0 0 5px 5px;-moz-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;}
 .macbook img{padding:37px 147px 94px 135px;background:center center no-repeat transparent url(../img/air-template.png);}
-figcaption{position:absolute;top:50px;outline:1px solid red;}
-figcaption a{color:#c5c5c5;background:rgba(0, 0, 0, 0.9);}
-.see-more:hover{cursor:url(../img/eye.png),pointer;}
-.visit-site:hover{cursor:url(../img/sextant.png),pointer;}
 footer{width:100%;margin:20px 0;text-align:center;}
 #signature{padding:20px 0;}
 .blocks{display:none;width:100%;height:100%;position:fixed;top:0;z-index:-999;}

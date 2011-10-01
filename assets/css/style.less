@@ -160,6 +160,7 @@ td { vertical-align: top; }
 */
 /* Variables */
 @default: #161616;
+@sprite: "/assets/img/sprite.png";
 
 /* Functions */
 .transition (@type: all, @speed: 0.4s, @easing: ease-out) {
@@ -253,7 +254,7 @@ textarea {
       position: absolute;
       top: 0;
       left: -21px;
-      background: 0 0 no-repeat url(../img/label-background.png);
+      background: 0 -92px no-repeat url(/assets/img/sprite.png);
     }
 
     &:first-child {
@@ -288,12 +289,13 @@ textarea {
 
 #logo {
   float: left;
-  display: none;
+  display: block;
   opacity: 0;
-  width: 140px;
-  margin: 0;
-  padding: 20px 0;
+  width: 91px;
+  height: 92px;
+  margin: 20px 25px 20px 24px;
   text-align: center;
+  background: 0 0 no-repeat url(@sprite);
   outline: none;
   
   .transition(0.8s);
@@ -305,7 +307,7 @@ textarea {
 }
 
 #logo-links {
-  display: none;
+  display: block;
   opacity: 0;
   position: absolute;
   top: 48px;
@@ -324,40 +326,6 @@ textarea {
   border-color: transparent fadeout(#000, 10%) transparent transparent;
   border-style: solid;
   border-width: 4px;
-}
-
-/* Contact section */
-#contact {
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  background-image: -moz-radial-gradient(50% -100%, ellipse closest-side, rgba(0, 0, 0, 0.5), #191919 100%);
-  background-image: -webkit-radial-gradient(50% -100%, ellipse closest-side, rgba(0, 0, 0, 0.5), #191919 100%);
-  background-image: -o-radial-gradient(50% -100%, ellipse closest-side, rgba(0, 0, 0, 0.5), #191919 100%);
-  background-image: -ms-radial-gradient(50% -100%, ellipse closest-side, rgba(0, 0, 0, 0.5), #191919 100%);
-  background-image: radial-gradient(50% -100%, ellipse closest-side, rgba(0, 0, 0, 0.5), #191919 100%)
-}
-
-.shutter {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  z-index: 999;
-  background: #fff;
-}
-
-.logo-small {
-  display: block;
-  width: 150px;
-  height: 50px;
-  padding: 0 0 0 30px;
-  position: absolute;
-  top: 10px;
-  left: 20px;
-  font: 14px sans-serif;
-  color: #3a3a3a;
-  line-height: 50px;
-  background: left center no-repeat transparent url(../img/logo-small.png);
 }
 
 
@@ -422,11 +390,11 @@ h1:hover + .project-links,
 }
 
 .see-more:hover {
-  cursor: url(../img/eye.png), pointer;
+  cursor: url(/assets/img/eye.png), pointer;
 }
 
 .visit-site:hover {
-  cursor: url(../img/sextant.png), pointer;
+  cursor: url(/assets/img/sextant.png), pointer;
 }
 
 /* Project type */
@@ -454,14 +422,14 @@ h1:hover + .project-links,
   width: 144px;
   font: bold 18px/67px sans-serif;
   left: -17px;
-  background: center center no-repeat url(../img/design-background.png);
+  background: -466px 0 no-repeat url(@sprite);
 }
 
 .dev {
   width: 139px;
   font: normal 24px/67px Inconsolata, monospace;
   left: -8px;
-  background: center -15px no-repeat url(../img/dev-background.png);
+  background: -610px -15px no-repeat url(@sprite);
 }
 
 .and {
@@ -483,7 +451,7 @@ figure {
 
 .browser {
   padding: 25px 0 0 0;
-  background: center top no-repeat url(../img/bar.png);
+  background: center -123px no-repeat url(@sprite);
   
   .project-title {
     display: block;
@@ -521,8 +489,61 @@ figure {
 */
 footer {
   width: 100%;
-  margin: 20px 0;
+  height: 500px;
+  margin: 20px 0 0 0;
   text-align: center;
+  position: relative;
+  z-index: 99999;
+  background-color: #191919;
+  background-image:    -moz-radial-gradient(50% -50%, ellipse closest-side, #363636, #191919 150%);
+  background-image: -webkit-radial-gradient(50% -50%, ellipse closest-side, #363636, #191919 150%);
+  background-image:      -o-radial-gradient(50% -50%, ellipse closest-side, #363636, #191919 150%);
+  background-image:     -ms-radial-gradient(50% -50%, ellipse closest-side, #363636, #191919 150%);
+  background-image:         radial-gradient(50% -50%, ellipse closest-side, #363636, #191919 150%)}
+
+#tagline {
+  width: 100%;
+  margin: 50px 0;
+  padding: 0;
+  font: 100 30px sans-serif;
+  color: #f8f8f8;
+  text-align: center;
+}
+
+#tagline:before,
+#tagline:after {
+  display: none;
+}
+
+#tagline pre {
+  font-family: Inconsolata, monospace;
+  display: inline;
+}
+
+footer p {
+  font: 100 15px sans-serif;
+  color: #f8f8f8;
+}
+
+.social-links {
+  width: 100%;
+  margin: 0;
+  text-align: center;
+  list-style: none;
+  overflow: hidden;
+  
+  a {
+    font: 400 11px sans-serif;
+    color: #f8f8f8;
+    
+    &:before {
+      content: '\2022 \00A0';
+    }
+    
+    &:first-child:before {
+      display: none;
+    }
+  }
 }
 
 #signature {

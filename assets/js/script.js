@@ -40,7 +40,7 @@ $( function() {
           // Place each block in a random spot within each range.
       var top     = random(currentRange, currentRange + blockRange),
           height  = random(1000, docHeight),
-          color   = '0.0' + random(8, 50).toPrecision(2),
+          color   = '0.0' + random(10, 50).toPrecision(2),
           
           // factor determines how fast the blocks move while scrolling.
           factor  = random(5, 20);
@@ -82,43 +82,7 @@ $( function() {
   
   
 
-  var $email      = $('#link-email'),
-      $clientlist = $('#link-client-list'),
-      $worksheet  = $('#link-client-worksheet'),
-      $links      = $('#logo-links'),
-      $logo       = $('#logo'),
-      $header     = $('#contain > header');
-      
-  $email.click( function( event ) {
-    
-    $links.css('opacity', 0);
-    $logo.css('opacity', 0);
-      
-    $header.append('<section id="contact">adsfasdf</section>');
-    
-    $contact = $('#contact');
-    
-    
-    
-    event.preventDefault;
-    
-  });
-  
-  $('article').click( function() {
 
-    $('.shutter').animate({
-      'top'     : -400
-    }, 600, 'easeInchQuint');
-    
-    
-  })
-  
-
-  
-  
-  $links.mouseleave( function() {
-    $(this).removeAttr('style');
-  });
 
   
   

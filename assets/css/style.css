@@ -75,15 +75,21 @@ figure{width:100%;position:relative;text-align:center;}
 .browser{padding:25px 0 0 0;background:center -123px no-repeat url("/assets/img/sprite.png");}.browser .project-title{display:block;width:100%;font:13px 'Lucida Grande',lucia,sans-serif;color:#3b3b3b;line-height:25px;position:absolute;top:0;left:0;z-index:999;text-shadow:0 1px 1px rgba(255, 255, 255, 0.5);}
 .browser img{width:100%;-webkit-border-radius:0 0 5px 5px;-moz-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;}
 .macbook{margin:40px 0 0 0;}.macbook img{padding:37px 147px 94px 135px;background:center center no-repeat transparent url(../img/air-template.png);}
-footer{width:100%;height:500px;margin:20px 0 0 0;text-align:center;position:relative;z-index:99999;background-color:#191919;background-image:-moz-radial-gradient(50% -50%, ellipse closest-side, #363636, #191919 150%);background-image:-webkit-radial-gradient(50% -50%, ellipse closest-side, #363636, #191919 150%);background-image:-o-radial-gradient(50% -50%, ellipse closest-side, #363636, #191919 150%);background-image:-ms-radial-gradient(50% -50%, ellipse closest-side, #363636, #191919 150%);background-image:radial-gradient(50% -50%, ellipse closest-side, #363636, #191919 150%);}
-#tagline{width:100%;margin:50px 0;padding:0;font:100 30px sans-serif;color:#f8f8f8;text-align:center;}
-#tagline:before,#tagline:after{display:none;}
+.blocks{display:none;width:100%;height:100%;position:fixed;top:0;z-index:-999;}
+footer{width:100%;margin:20px 0 0 0;padding:50px 0;text-align:center;position:relative;z-index:99999;background-color:#191919;background-image:-moz-radial-gradient(50% -50%, ellipse closest-side, #363636, #191919 150%);background-image:-webkit-radial-gradient(50% -50%, ellipse closest-side, #363636, #191919 150%);background-image:-o-radial-gradient(50% -50%, ellipse closest-side, #363636, #191919 150%);background-image:-ms-radial-gradient(50% -50%, ellipse closest-side, #363636, #191919 150%);background-image:radial-gradient(50% -50%, ellipse closest-side, #363636, #191919 150%);}
+#tagline{float:none;width:100%;margin:0;padding:0;font:100 30px sans-serif;color:#f8f8f8;text-align:center;}#tagline:before,#tagline:after{display:none;}
 #tagline pre{font-family:Inconsolata, monospace;display:inline;}
-footer p{font:100 15px sans-serif;color:#f8f8f8;}
+#client-list{width:940px;margin:50px auto;overflow:hidden;}#client-list p{font:100 15px sans-serif;color:#f8f8f8;}
+#client-list ul{width:100%;margin:0;padding:0;list-style:none;overflow:hidden;}
+#client-list li{float:left;width:25%;height:100px;line-height:100px;overflow:inherit;}
+#client-list a{display:inline-block;text-indent:-999px;vertical-align:middle;background:no-repeat url("/assets/img/sprite.png");}
+#client-list .client-campsite{width:174px;height:29px;background-position:-91px -24px;}
+#client-list .client-iasummit{width:48px;height:65px;background-position:-418px 0;}
+#client-list .client-gesturetheory{width:153px;height:42px;background-position:-265px 0;}
+#client-list .client-2tor{width:108px;height:37px;background-position:-91px -53px;}
+#signature{padding:20px 0;}
 .social-links{width:100%;margin:0;text-align:center;list-style:none;overflow:hidden;}.social-links a{font:400 11px sans-serif;color:#f8f8f8;}.social-links a:before{content:'\2022 \00A0';}
 .social-links a:first-child:before{display:none;}
-#signature{padding:20px 0;}
-.blocks{display:none;width:100%;height:100%;position:fixed;top:0;z-index:-999;}
 .ir{display:block;border:0;text-indent:-999em;overflow:hidden;background-color:transparent;background-repeat:no-repeat;text-align:left;direction:ltr;}
 .ir br{display:none;}
 .hidden{display:none !important;visibility:hidden;}

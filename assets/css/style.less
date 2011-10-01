@@ -484,13 +484,28 @@ figure {
 
 /**
 
+    Sliding color blocks
+    
+*/
+.blocks {
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  z-index: -999;
+}
+
+
+/**
+
     Footer
     
 */
 footer {
   width: 100%;
-  height: 500px;
   margin: 20px 0 0 0;
+  padding: 50px 0;
   text-align: center;
   position: relative;
   z-index: 99999;
@@ -499,30 +514,95 @@ footer {
   background-image: -webkit-radial-gradient(50% -50%, ellipse closest-side, #363636, #191919 150%);
   background-image:      -o-radial-gradient(50% -50%, ellipse closest-side, #363636, #191919 150%);
   background-image:     -ms-radial-gradient(50% -50%, ellipse closest-side, #363636, #191919 150%);
-  background-image:         radial-gradient(50% -50%, ellipse closest-side, #363636, #191919 150%)}
+  background-image:         radial-gradient(50% -50%, ellipse closest-side, #363636, #191919 150%);
+}
 
+/* Tagline */
 #tagline {
+  float: none;
   width: 100%;
-  margin: 50px 0;
+  margin: 0;
   padding: 0;
   font: 100 30px sans-serif;
   color: #f8f8f8;
   text-align: center;
+  
+  &:before,
+  &:after {
+    display: none; 
+  }
+  
+  pre {
+    font-family: Inconsolata, monospace;
+    display: inline;
+  }
 }
 
-#tagline:before,
-#tagline:after {
-  display: none;
+/* Client list */
+#client-list {
+  width: 940px;
+  margin: 50px auto;
+  overflow: hidden;
+  
+  p {
+    font: 100 15px sans-serif;
+    color: #f8f8f8;
+  }
+  
+  ul {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow: hidden;
+  }
+  
+  li {
+    float: left;
+    width: 25%;
+    height: 100px;
+    line-height: 100px;
+    overflow: inherit;
+  }
+  
+  a {
+    display: inline-block;
+    text-indent: -999px;
+    vertical-align: middle;
+    background: no-repeat url(@sprite);
+  }
+  
+  .client-campsite {
+    width: 174px;
+    height: 29px;
+    background-position: -91px -24px;
+  }
+
+  .client-iasummit {
+    width: 48px;
+    height: 65px;
+    background-position: -418px 0;
+  }
+
+  .client-gesturetheory {
+    width: 153px;
+    height: 42px;
+    background-position: -265px 0;
+  }
+
+  .client-2tor {
+    width: 108px;
+    height: 37px;
+    background-position: -91px -53px;
+  }
+  
 }
 
-#tagline pre {
-  font-family: Inconsolata, monospace;
-  display: inline;
-}
 
-footer p {
-  font: 100 15px sans-serif;
-  color: #f8f8f8;
+
+
+#signature {
+  padding: 20px 0;
 }
 
 .social-links {
@@ -546,18 +626,8 @@ footer p {
   }
 }
 
-#signature {
-  padding: 20px 0;
-}
 
-.blocks {
-  display: none;
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  top: 0;
-  z-index: -999;
-}
+
 
 
 /**

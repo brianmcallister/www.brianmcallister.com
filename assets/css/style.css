@@ -55,7 +55,7 @@ body,button,input,select,textarea{font-family:sans-serif;color:#161616;}
 .label a:first-child:before{display:none;}
 #contain{width:940px;margin:0 auto;}
 #contain header{height:140px;margin:50px 0;position:relative;overflow:hidden;}
-#logo{float:left;display:block;opacity:0;width:91px;height:92px;margin:20px 25px 20px 24px;text-align:center;background:0 0 no-repeat url("/assets/img/sprite.png");outline:none;-webkit-transition:0.8s 0.4s ease-out;-moz-transition:0.8s 0.4s ease-out;-ms-transition:0.8s 0.4s ease-out;-o-transition:0.8s 0.4s ease-out;transition:0.8s 0.4s ease-out;}
+#logo{float:left;display:block;opacity:0;width:91px;height:92px;margin:20px 25px 20px 24px;text-align:center;background:0 0 no-repeat url("../img/sprite.png");outline:none;-webkit-transition:0.8s 0.4s ease-out;-moz-transition:0.8s 0.4s ease-out;-ms-transition:0.8s 0.4s ease-out;-o-transition:0.8s 0.4s ease-out;transition:0.8s 0.4s ease-out;}
 #logo:hover+#logo-links,#logo-links:hover{opacity:1;}
 #logo-links{display:block;opacity:0;margin:0 0 0 -20px;padding:0 0 0 20px;position:absolute;top:48px;left:130px;}
 #logo-links a:first-child:before{content:'';display:block;width:0;height:0;margin:-3px 0 0 0;position:absolute;left:-8px;top:50%;background:none;border-color:transparent rgba(0, 0, 0, 0.9) transparent transparent;border-style:solid;border-width:4px;}
@@ -68,11 +68,11 @@ h1:hover+.project-links,.project-links:hover{opacity:1;}
 .visit-site:hover{cursor:url(/assets/img/sextant.png),pointer;}
 .project-type{clear:left;display:block;margin:0 0 10px 0;}.project-type span:hover{cursor:default;}
 .design,.dev{float:left;display:block;height:67px;margin:0 -25px;text-align:center;position:relative;}
-.design{width:144px;font:bold 18px/67px sans-serif;left:-17px;background:-466px 0 no-repeat url("/assets/img/sprite.png");}
-.dev{width:139px;font:normal 24px/67px Inconsolata,monospace;left:-8px;background:-610px -15px no-repeat url("/assets/img/sprite.png");}
+.design{width:144px;font:bold 18px/67px sans-serif;left:-17px;background:-466px 0 no-repeat url("../img/sprite.png");}
+.dev{width:139px;font:normal 24px/67px Inconsolata,monospace;left:-8px;background:-610px -15px no-repeat url("../img/sprite.png");}
 .and{float:left;display:block;width:20px;height:67px;font:normal 16px/67px courier,monospace;color:#707070;position:relative;left:-15px;}
 figure{width:100%;position:relative;text-align:center;}
-.browser{padding:25px 0 0 0;background:center -123px no-repeat url("/assets/img/sprite.png");}.browser .project-title{display:block;width:100%;font:13px 'Lucida Grande',lucia,sans-serif;color:#3b3b3b;line-height:25px;position:absolute;top:0;left:0;z-index:999;text-shadow:0 1px 1px rgba(255, 255, 255, 0.5);}
+.browser{padding:25px 0 0 0;background:center -123px no-repeat url("../img/sprite.png");}.browser .project-title{display:block;width:100%;font:13px 'Lucida Grande',lucia,sans-serif;color:#3b3b3b;line-height:25px;position:absolute;top:0;left:0;z-index:999;text-shadow:0 1px 1px rgba(255, 255, 255, 0.5);}
 .browser img{width:100%;-webkit-border-radius:0 0 5px 5px;-moz-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;}
 .macbook{margin:40px 0 0 0;}.macbook img{padding:37px 147px 94px 135px;background:center center no-repeat transparent url(../img/air-template.png);}
 .macbook .project-title{display:none;}
@@ -83,12 +83,12 @@ footer{width:100%;margin:20px 0 0 0;padding:80px 0;text-align:center;position:re
 #client-list{width:700px;margin:50px auto;overflow:hidden;}#client-list p{font:100 15px sans-serif;color:rgba(255, 255, 255, 0.5);text-shadow:0 -1px 1px rgba(0, 0, 0, 0.2),0 1px 1px rgba(0, 0, 0, 0.2);}
 #client-list ul{width:100%;margin:0;padding:0;list-style:none;overflow:hidden;}
 #client-list li{float:left;width:25%;height:100px;line-height:100px;overflow:inherit;}
-#client-list a{display:inline-block;text-indent:-999px;vertical-align:middle;background:no-repeat url("/assets/img/sprite.png");}
+#client-list a{display:inline-block;text-indent:-999px;vertical-align:middle;background:no-repeat url("../img/sprite.png");}
 #client-list .client-campsite{width:174px;height:29px;background-position:-91px -24px;}
 #client-list .client-iasummit{width:48px;height:65px;background-position:-418px 0;}
 #client-list .client-gesturetheory{width:153px;height:42px;background-position:-265px 0;}
 #client-list .client-2tor{width:108px;height:37px;background-position:-91px -53px;}
-#signature{display:block;width:117px;height:24px;margin:0 auto;background:-91px 0 no-repeat url("/assets/img/sprite.png");}
+#signature{display:block;width:117px;height:24px;margin:0 auto;background:-91px 0 no-repeat url("../img/sprite.png");}
 .social-links{width:100%;margin:0;text-align:center;list-style:none;overflow:hidden;}.social-links a{font:400 11px sans-serif;color:#f8f8f8;}.social-links a:before{content:'\2022 \00A0';}
 .social-links a:first-child:before{display:none;}
 .ir{display:block;border:0;text-indent:-999em;overflow:hidden;background-color:transparent;background-repeat:no-repeat;text-align:left;direction:ltr;}

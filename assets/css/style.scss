@@ -153,25 +153,25 @@ td { vertical-align: top; }
 
 /** 
 
-    LESS
+    Sass
     
     Utility functions / variables
 
 */
 /* Variables */
-@default: #161616;
-@sprite: "../img/sprite.png";
+$default: #161616;
+$sprite: "../img/sprite.png";
 
 /* Functions */
-.transition (@type: all, @speed: 0.4s, @easing: ease-out) {
-  -webkit-transition: @arguments;  
-     -moz-transition: @arguments;  
-      -ms-transition: @arguments;  
-       -o-transition: @arguments;  
-          transition: @arguments;
+@mixin transition($type: all, $speed: 0.4s, $easing: ease-out) {
+  -webkit-transition: $type $speed $easing;
+     -moz-transition: $type $speed $easing; 
+      -ms-transition: $type $speed $easing; 
+       -o-transition: $type $speed $easing; 
+          transition: $type $speed $easing;
 }
 
-.user-select() {
+@mixin user-select($prop: none) {
   -webkit-user-select: none;
    -khtml-user-select: none;
      -moz-user-select: none;
@@ -179,10 +179,10 @@ td { vertical-align: top; }
           user-select: none;
 }
 
-.border-radius(@radius) {
-  -webkit-border-radius: @radius;
-     -moz-border-radius: @radius;
-          border-radius: @radius;
+@mixin border-radius($prop) {
+  -webkit-border-radius: $prop;
+     -moz-border-radius: $prop;
+          border-radius: $prop;
 }
 
 
@@ -217,7 +217,7 @@ input,
 select,
 textarea {
   font-family: sans-serif;
-  color: @default; 
+  color: $default; 
 }
 
 
@@ -231,7 +231,7 @@ textarea {
   margin: 0;
   padding: 0;
   
-  .transition();
+  @include transition();
   
   a {
     float: left;
@@ -242,9 +242,9 @@ textarea {
     color: #c5c5c5;
     line-height: 29px;
     position: relative;  
-    background: fadeout(#000, 10%);
-    .transition();
-    .user-select();
+    background: transparentize(black, .1);
+    @include transition();
+    @include user-select();
 
     &:before {
       content: '';
@@ -254,17 +254,17 @@ textarea {
       position: absolute;
       top: 0;
       left: -21px;
-      background: 0 -92px no-repeat url(@sprite);
+      background: 0 -92px no-repeat url($sprite);
     }
 
     &:first-child {
       margin-left: 0;
-      .border-radius(2px 0 0 2px);
+      @include border-radius(2px 0 0 2px);
     }
 
     &:last-child {
       margin-right: 0;
-      .border-radius(0 2px 2px 0);
+      @include border-radius(0 2px 2px 0);
     }
 
     &:first-child:before {
@@ -295,10 +295,10 @@ textarea {
   height: 92px;
   margin: 20px 25px 20px 24px;
   text-align: center;
-  background: 0 0 no-repeat url(@sprite);
+  background: 0 0 no-repeat url($sprite);
   outline: none;
   
-  .transition(0.8s);
+  @include transition(.8s);
 }
 
 #logo:hover + #logo-links,
@@ -326,7 +326,7 @@ textarea {
   left: -8px;
   top: 50%;
   background: none;
-  border-color: transparent fadeout(#000, 10%) transparent transparent;
+  border-color: transparent transparentize(#000, .1) transparent transparent;
   border-style: solid;
   border-width: 4px;
 }
@@ -348,7 +348,7 @@ h1 {
   padding: 0 60px 0 0;
   position: relative;
   font: 100 42px sans-serif;
-  color: @default;
+  color: $default;
   
   &:after {
     content: '\00B7 \00B7 \00B7';
@@ -360,21 +360,22 @@ h1 {
     margin: -10px 0 0 0;
     padding: 0;
     font: bold 15px serif;
-    color: fadeout(#fff, 50%);
+    color: transparentize(white, .5);
     text-align: center;
     line-height: 21px;
     position: absolute;
     top: 50%;
     right: 10px;
-    background: fadeout(#000, 80%);
-    text-shadow: fadeout(#000, 80%);
-    .border-radius(30px);
-    .transition();
-    .user-select();
+    background: transparentize(black, .8);
+    text-shadow: transparentize(black, .8);
+    
+    @include border-radius(30px);
+    @include transition();
+    @include user-select();
   }
   
   &:hover:after {
-    background: fadeout(#000, 60%);
+    background: transparentize(black, .6);
     cursor: default;
   }
 }
@@ -392,8 +393,13 @@ h1:hover + .project-links,
   top: 8px;
 }
 
-.see-more:hover {
-  cursor: url(/assets/img/eye.png), pointer;
+.see-more {
+  color: red;
+  text-decoration: line-through;
+  
+  &:hover {
+    cursor: url(/assets/img/eye.png), pointer;
+  }
 }
 
 .visit-site:hover {
@@ -402,6 +408,8 @@ h1:hover + .project-links,
 
 /* Project type */
 .project-type {
+  @extend .clearfix;
+  
   clear: left;
   display: block;
   margin: 0 0 10px 0;
@@ -425,14 +433,14 @@ h1:hover + .project-links,
   width: 144px;
   font: bold 18px/67px sans-serif;
   left: -17px;
-  background: -466px 0 no-repeat url(@sprite);
+  background: -466px 0 no-repeat url($sprite);
 }
 
 .dev {
   width: 139px;
   font: normal 24px/67px Inconsolata, monospace;
   left: -8px;
-  background: -610px -15px no-repeat url(@sprite);
+  background: -610px -15px no-repeat url($sprite);
 }
 
 .and {
@@ -454,7 +462,7 @@ figure {
 
 .browser {
   padding: 25px 0 0 0;
-  background: center -123px no-repeat url(@sprite);
+  background: center -123px no-repeat url($sprite);
   
   .project-title {
     display: block;
@@ -466,12 +474,12 @@ figure {
     top: 0;
     left: 0;
     z-index: 999;
-    text-shadow: 0 1px 1px fadeout(#fff, 50%);
+    text-shadow: 0 1px 1px transparentize(white, .5);
   }
   
   img {
     width: 100%;
-    .border-radius(0 0 5px 5px);
+    @include border-radius(0 0 5px 5px);
   }
 }
 
@@ -577,7 +585,7 @@ footer {
     display: inline-block;
     text-indent: -999px;
     vertical-align: middle;
-    background: no-repeat url(@sprite);
+    background: no-repeat url($sprite);
   }
   
   .client-campsite {
@@ -610,7 +618,7 @@ footer {
   width: 117px;
   height: 24px;
   margin: 0 auto;
-  background: -91px 0 no-repeat url(@sprite);
+  background: -91px 0 no-repeat url($sprite);
 }
 
 .social-links {

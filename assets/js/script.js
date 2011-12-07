@@ -21,6 +21,10 @@ $( function() {
       // Keep track of each blocks offset.
       blockOffset   = [];
       
+  $('#link-client-list').bind( 'click', function( event ) {
+    $.scrollTo( $('footer'), { duration: 200 } );
+  });
+      
   // Set up the parallax blocks after everything is loaded.
   // The position of each block is based on the height of
   // the document with all elements loaded.

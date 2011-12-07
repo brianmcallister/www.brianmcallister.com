@@ -17,11 +17,22 @@ audio:not([controls]) { display: none; }
 a {
 	color: #900;
 	text-decoration: none;
+	
+	&:visited {
+	  color: #990000; 
+	}
+	
+  &:hover {
+    color: #fc0;
+    cursor: pointer;
+  }
+  
+  &:focus {
+    outline: thin dotted; 
+  }
 }
 
-a:visited { color: #990000; }
-a:hover { color: #fc0; }
-a:focus { outline: thin dotted; }
+
 
 /* Improve readability when focused and hovered in all browsers: h5bp.com/h */
 a:hover, a:active { outline: 0; }

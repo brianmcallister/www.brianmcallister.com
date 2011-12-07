@@ -11,7 +11,8 @@ $( function() {
     return Math.floor( Math.random() * adjustedMax ) + parseFloat( min );
   };
   
-  var windowHeight  = $(window).height(),
+  var $window       = $(window),
+      windowHeight  = $window.height(),
       $body         = $('body'),
       
       // Parallax effect blocks.
@@ -23,7 +24,7 @@ $( function() {
   // Set up the parallax blocks after everything is loaded.
   // The position of each block is based on the height of
   // the document with all elements loaded.
-  $(window).load( function() {
+  $window.load( function() {
     
     $('#logo').css('opacity', 1);
     
@@ -35,7 +36,7 @@ $( function() {
         currentRange  = 0,
         updateTop, move;
     
-    $blocks.each( function( index, el ) {
+    _.each( $blocks, function( el, index ) {
           
           // Place each block in a random spot within each range.
       var top     = random(currentRange, currentRange + blockRange),
@@ -55,18 +56,20 @@ $( function() {
       
     }); // each
     
-    $(this).scroll( function() {
+    $window.scroll( function() {
       
-      $blocks.each( function( index, el ) {
+      _.each( $blocks, function( el, index ) {
+      
+        var $el = $(el);
         
         if ( window.pageYOffset < move ) {
-          updateTop = blockOffset[index] + $(el).data('factor');
+          updateTop = blockOffset[index] + $el.data('factor');
         } else {
-          updateTop = blockOffset[index] - $(el).data('factor');
+          updateTop = blockOffset[index] - $el.data('factor');
         }
         
-        $(el).offset({ top: updateTop, left: 0 });
-        blockOffset[index] = $(el).offset().top;
+        $el.offset({ top: updateTop, left: 0 });
+        blockOffset[index] = $el.offset().top;
         
       });
       

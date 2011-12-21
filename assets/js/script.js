@@ -3,6 +3,28 @@
     Author: Brian McAllister
 
 */
+
+// Set up spinner when the page is opened.
+var opts = {
+      lines: 16, // The number of lines to draw
+      length: 0, // The length of each line
+      width: 2, // The line thickness
+      radius: 15, // The radius of the inner circle
+      color: '#000', // #rgb or #rrggbb
+      speed: 2.2, // Rounds per second
+      trail: 27, // Afterglow percentage
+      shadow: false // Whether to render a shadow
+    },
+    target = document.getElementById('logo'),
+    spinner = new Spinner(opts).spin(target);
+
+$(spinner.el).css({
+  'position'  : 'absolute',
+  'top'       : '65px',
+  'left'      : '70px'
+})
+
+
 $( function() {
   
   // Generate a random number between min and max.
@@ -30,7 +52,12 @@ $( function() {
   // the document with all elements loaded.
   $window.load( function() {
     
-    $('#logo').css('opacity', 1);
+    $('#logo a').css('opacity', 1);
+    
+    // Hide spinner
+    setTimeout( function() {
+      spinner.stop();
+    }, 800)
     
     var docHeight     = $(document).height(),
     

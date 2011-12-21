@@ -299,22 +299,30 @@ textarea {
 }
 
 #logo {
-  float: left;
-  display: block;
-  opacity: 0;
-  width: 91px;
-  height: 92px;
-  margin: 20px 25px 20px 24px;
-  text-align: center;
-  background: 0 0 no-repeat url($sprite);
-  outline: none;
-  
-  @include transition(.8s);
-}
+  .logo {
+    float: left;
+    display: block;
+    opacity: 0;
+    width: 91px;
+    height: 92px;
+    margin: 20px 25px 20px 24px;
+    text-align: center;
+    background: 0 0 no-repeat url($sprite);
+    outline: none;
 
-#logo:hover + #logo-links,
-#logo-links:hover {
-  opacity: 1;
+    @include transition(.8s);
+  }
+  
+  &:hover {
+    #logo-links {
+      opacity: 1;
+    }
+  }
+  
+  &:hover #logo-links,
+  #logo-links:hover {
+    opacity: 1;
+  }
 }
 
 #logo-links {
@@ -325,6 +333,7 @@ textarea {
   position: absolute;
   top: 48px;
   left: 130px;
+  background: none;
 }
 
 #logo-links a:first-child:before {

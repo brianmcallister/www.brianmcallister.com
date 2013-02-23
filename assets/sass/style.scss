@@ -485,10 +485,10 @@ footer {
     background-position: -91px -24px;
   }
 
-  .client-iasummit {
-    width: 48px;
-    height: 65px;
-    background-position: -418px 0;
+  .client-bigspaceship {
+    width: image-width('logo-bigspaceship.png');
+    height: image-height('logo-bigspaceship.png');
+    background-image: image-url('logo-bigspaceship.png');
   }
 
   .client-gesturetheory {

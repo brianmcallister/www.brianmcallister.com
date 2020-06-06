@@ -1,6 +1,5 @@
 import assert from 'assert';
-import { createPool, sql } from 'slonik';
-import { access } from 'fs';
+import { createPool, sql, QueryResultType, QueryResultRowType } from 'slonik';
 
 interface User {
   id: string;
@@ -12,7 +11,7 @@ const { POSTGRES_CONNECTION_STRING } = process.env;
 
 assert(POSTGRES_CONNECTION_STRING);
 
-export const getUser = async (user = 'freebowlofsoup') => {
+export const getUser = async (user = 'freebowlofsoup'): Promise<User | null> => {
   const pool = createPool(POSTGRES_CONNECTION_STRING);
 
   const result = await pool.maybeOne<User>(sql`
@@ -26,8 +25,12 @@ export const getUser = async (user = 'freebowlofsoup') => {
   return result;
 };
 
-export const updateUser = async (id: string, rawParams: { access_token: string; refresh_token: string | null }) => {
+export const updateUser = async (
+  id: string,
+  rawParams: { access_token: string; refresh_token: string | null },
+): Promise<QueryResultType<QueryResultRowType<string>>> => {
   const pool = createPool(POSTGRES_CONNECTION_STRING);
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const { access_token, refresh_token } = rawParams;
   const fields = [
     { key: 'access_token', value: access_token },
@@ -35,10 +38,7 @@ export const updateUser = async (id: string, rawParams: { access_token: string; 
   ];
   const setFields = fields.reduce<ReturnType<typeof sql.join>[]>((acc, next) => {
     if (next.value != null) {
-      return [
-        ...acc,
-        sql.join([sql.identifier([next.key]), next.value], sql` = `),
-      ];
+      return [...acc, sql.join([sql.identifier([next.key]), next.value], sql` = `)];
     }
 
     return acc;

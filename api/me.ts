@@ -21,7 +21,7 @@ export default async (_: NowRequest, res: NowResponse): Promise<void> => {
     const [current, me] = await Promise.all([spotify.getCurrentlyPlaying(), spotify.getMe()]);
 
     if (current === null || me === null) {
-      res.status(HttpStatusCodes.OK).json({});
+      res.status(HttpStatusCodes.NO_CONTENT).json({});
       return;
     }
 

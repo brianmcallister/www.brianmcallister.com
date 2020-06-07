@@ -13,6 +13,39 @@
   <link href="https://fonts.googleapis.com/css2?family=Karla:wght@400;700&display=swap" rel="stylesheet">
   <title>Brian Wm. McAllister</title>
 
+  <script>
+    const renderSpotify = async () => {
+      const contentEl = document.querySelector('.spotify');
+      const req = await fetch('/api/me');
+
+      if (req.status === 204) {
+        contentEl.innerHTML = '';
+
+        return;
+      }
+
+      const json = await req.json();
+      const markup = `
+        <strong>Now Playing</strong>
+        <img src="${json.image}" alt="${json.album}" class="spotify__img" />
+        <span>${json.artist}, </span>
+        <span>${json.album}, </span>
+        <span>${json.track}</span>
+      `;
+
+      contentEl.innerHTML = markup;
+      contentEl.href = json.profile;
+    };
+
+    const start = () => {
+      try {
+        setInterval(renderSpotify, 2000);
+      } catch (err) {}
+    };
+
+    document.addEventListener('DOMContentLoaded', start);
+  </script>
+
   <style>
     * {
       box-sizing: border-box;
@@ -42,9 +75,9 @@
     }
 
     svg {
-      width: 100%;
-      height: 100%;
       display: block;
+      height: 100%;
+      width: 100%;
     }
 
     .content {
@@ -70,14 +103,29 @@
       font-weight: 700;
     }
 
-    .content a {
-      display: inline-block;
+    a {
       color: #999991;
+      display: inline-block;
       text-decoration: none;
     }
 
     .content a:hover {
       background-color: #80807b31;
+    }
+
+    .spotify {
+      display: inline;
+    }
+
+    .spotify span {
+      margin-left: 5px;
+    }
+
+    .spotify__img {
+      height: 40px;
+      margin-left: 5px;
+      vertical-align: middle;
+      width: 40px;
     }
   </style>
 </head>
@@ -109,6 +157,10 @@
       <a href="https://github.com/brianmcallister">GitHub</a>
       <a href="https://www.npmjs.com/~brianmcallister">npm</a>
       <a href="https://www.linkedin.com/in/brian-wm-mcallister/">LinkedIn</a>
+    </div>
+
+    <div class="group">
+      <a class="spotify"></a>
     </div>
   </div>
 </body>

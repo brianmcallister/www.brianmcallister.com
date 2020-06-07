@@ -39,6 +39,7 @@
 
     const start = () => {
       try {
+        renderSpotify();
         setInterval(renderSpotify, 2000);
       } catch (err) {}
     };
@@ -97,10 +98,6 @@
 
     .content p {
       margin: 5px 0;
-    }
-
-    .content strong {
-      font-weight: 700;
     }
 
     a {

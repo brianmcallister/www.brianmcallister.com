@@ -19,14 +19,13 @@
       const req = await fetch('/api/me');
 
       if (req.status === 204) {
-        contentEl.innerHTML = '';
+        contentEl.innerHTML = 'Nothing right now&hellip;';
 
         return;
       }
 
       const json = await req.json();
       const markup = `
-        <strong>Now Playing</strong>
         <img src="${json.image}" alt="${json.album}" class="spotify__img" />
         <span>${json.artist}, </span>
         <span>${json.album}, </span>
@@ -119,10 +118,10 @@
     }
 
     .spotify__img {
-      height: 40px;
+      height: 50px;
       margin-left: 5px;
       vertical-align: middle;
-      width: 40px;
+      width: 50px;
     }
   </style>
 </head>
@@ -135,28 +134,29 @@
   <div class="content">
     <div class="group">
       <strong>Talks</strong>
-      <a href="https://finjs.io/new-york-2/">Streaming prices (and more!) with redux-websocket</a>
+      <a href="https://finjs.io/new-york-2/">Streaming prices (and more!) with redux-websocket</a>,
       <a href="https://youtu.be/oCY90j3xCKI">Creating, Maintaining and Using a Design System</a>
     </div>
 
     <div class="group">
       <strong>Open Source</strong>
-      <a href="https://github.com/brianmcallister/highlight-text">highlight-text</a>
-      <a href="https://github.com/brianmcallister/react-highlight-text">react-highlight-text</a>
-      <a href="https://github.com/brianmcallister/react-auto-scroll">react-auto-scroll</a>
-      <a href="https://github.com/brianmcallister/api-poller-worker">api-poller-worker</a>
-      <a href="https://github.com/brianmcallister/use-api-poller-worker">use-api-poller-worker</a>
+      <a href="https://github.com/brianmcallister/highlight-text">highlight-text</a>,
+      <a href="https://github.com/brianmcallister/react-highlight-text">react-highlight-text</a>,
+      <a href="https://github.com/brianmcallister/react-auto-scroll">react-auto-scroll</a>,
+      <a href="https://github.com/brianmcallister/api-poller-worker">api-poller-worker</a>,
+      <a href="https://github.com/brianmcallister/use-api-poller-worker">use-api-poller-worker</a>,
       <a href="https://github.com/brianmcallister/sequential-promise">sequential-promise</a>
     </div>
 
     <div class="group">
       <strong>Online</strong>
-      <a href="https://github.com/brianmcallister">GitHub</a>
-      <a href="https://www.npmjs.com/~brianmcallister">npm</a>
+      <a href="https://github.com/brianmcallister">GitHub</a>,
+      <a href="https://www.npmjs.com/~brianmcallister">npm</a>,
       <a href="https://www.linkedin.com/in/brian-wm-mcallister/">LinkedIn</a>
     </div>
 
     <div class="group">
+      <strong>Now Playing</strong>
       <a class="spotify"></a>
     </div>
   </div>

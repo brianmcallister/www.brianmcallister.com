@@ -8,7 +8,9 @@ export default async (req: NowRequest, res: NowResponse): Promise<void> => {
   const { code } = req.query;
   const requestCode = Array.isArray(code) ? code[0] : code;
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  const { access_token, refresh_token } = await spotify.getAccessTokens(requestCode);
+  const { access_token, refresh_token } = await spotify.getAccessTokens(
+    requestCode,
+  );
 
   if (!access_token) {
     res
@@ -20,13 +22,16 @@ export default async (req: NowRequest, res: NowResponse): Promise<void> => {
   try {
     await user.updateUser('freebowlofsoup', { access_token, refresh_token });
 
-    res.setHeader('location', 'http://localhost:3000/api/me');
+    res.setHeader('location', '/');
     res.status(HttpStatusCodes.TEMPORARY_REDIRECT).send('');
   } catch (err) {
+    // eslint-disable-next-line no-console
     console.log(err);
 
     res
       .status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-      .send(HttpStatusCodes.getStatusText(HttpStatusCodes.INTERNAL_SERVER_ERROR));
+      .send(
+        HttpStatusCodes.getStatusText(HttpStatusCodes.INTERNAL_SERVER_ERROR),
+      );
   }
 };

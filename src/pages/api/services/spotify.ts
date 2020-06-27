@@ -92,14 +92,21 @@ const makeRequest = async (apiUrl: string): Promise<SpotifyResponse | null> => {
 
   const json = await req.json();
 
-  if (!req.ok && req.status === 401 && json.error.message === 'The access token expired') {
+  if (
+    !req.ok &&
+    req.status === 401 &&
+    json.error.message === 'The access token expired'
+  ) {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const { access_token } = await refreshAccessToken();
 
     assert(access_token);
 
     module.exports.setTokens(access_token);
-    user.updateUser('freebowlofsoup', { access_token, refresh_token: tokens.refresh_token });
+    user.updateUser('freebowlofsoup', {
+      access_token,
+      refresh_token: tokens.refresh_token,
+    });
 
     return makeRequest(apiUrl);
   }

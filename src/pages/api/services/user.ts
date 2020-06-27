@@ -11,7 +11,9 @@ const { POSTGRES_CONNECTION_STRING } = process.env;
 
 assert(POSTGRES_CONNECTION_STRING);
 
-export const getUser = async (user = 'freebowlofsoup'): Promise<User | null> => {
+export const getUser = async (
+  user = 'freebowlofsoup',
+): Promise<User | null> => {
   const pool = createPool(POSTGRES_CONNECTION_STRING);
 
   const result = await pool.maybeOne<User>(sql`
@@ -36,13 +38,19 @@ export const updateUser = async (
     { key: 'access_token', value: access_token },
     { key: 'refresh_token', value: refresh_token },
   ];
-  const setFields = fields.reduce<ReturnType<typeof sql.join>[]>((acc, next) => {
-    if (next.value != null) {
-      return [...acc, sql.join([sql.identifier([next.key]), next.value], sql` = `)];
-    }
+  const setFields = fields.reduce<ReturnType<typeof sql.join>[]>(
+    (acc, next) => {
+      if (next.value != null) {
+        return [
+          ...acc,
+          sql.join([sql.identifier([next.key]), next.value], sql` = `),
+        ];
+      }
 
-    return acc;
-  }, []);
+      return acc;
+    },
+    [],
+  );
   const query = sql`
     UPDATE users
     SET ${sql.join(setFields, sql`, `)}

@@ -8,6 +8,7 @@ import { LoadingSpinner } from './LoadingSpinner';
 
 interface SmallResponse<T> {
   json?: T;
+  ok: boolean;
   status: number;
   statusText: string;
 }
@@ -42,6 +43,7 @@ const delay = (timeout: number) =>
 
 const createEmptyResponse = () => ({
   status: HttpStatusCodes.NO_CONTENT,
+  ok: true,
   statusText: HttpStatusCodes.getStatusText(HttpStatusCodes.NO_CONTENT),
 });
 
@@ -55,7 +57,7 @@ export const NowPlaying = (): JSX.Element => {
   const cls = classnames(baseClass, {
     [`${baseClass}--loaded`]: finalData,
     [`${baseClass}--song-playing`]:
-      finalData && finalData.status !== HttpStatusCodes.NO_CONTENT,
+      finalData?.ok && finalData.status !== HttpStatusCodes.NO_CONTENT,
   });
 
   React.useEffect(() => {

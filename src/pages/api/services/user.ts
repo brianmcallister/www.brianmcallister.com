@@ -1,61 +1,34 @@
-import assert from 'assert';
-import { createPool, sql, QueryResultType, QueryResultRowType } from 'slonik';
+import { PrismaClient, users } from '@prisma/client';
 
-interface User {
-  id: string;
-  access_token: string | null;
-  refresh_token: string | null;
-}
+const prisma = new PrismaClient();
 
-const { POSTGRES_CONNECTION_STRING } = process.env;
+type UpdateParams = Pick<users, 'access_token' | 'refresh_token'>;
 
-assert(POSTGRES_CONNECTION_STRING);
+export const getUser = async (id = 'freebowlofsoup'): Promise<users | null> => {
+  try {
+    const result = prisma.users.findOne({
+      where: {
+        id,
+      },
+    });
 
-export const getUser = async (
-  user = 'freebowlofsoup',
-): Promise<User | null> => {
-  const pool = createPool(POSTGRES_CONNECTION_STRING);
+    return result;
+  } catch (err) {
+    console.log('getUser error:');
+    console.log(err);
 
-  const result = await pool.maybeOne<User>(sql`
-    SELECT *
-    FROM users
-    WHERE id = ${user}
-  `);
-
-  await pool.end();
-
-  return result;
+    return null;
+  }
 };
 
 export const updateUser = async (
   id: string,
-  rawParams: { access_token: string; refresh_token: string | null },
-): Promise<QueryResultType<QueryResultRowType<string>>> => {
-  const pool = createPool(POSTGRES_CONNECTION_STRING);
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  const { access_token, refresh_token } = rawParams;
-  const fields = [
-    { key: 'access_token', value: access_token },
-    { key: 'refresh_token', value: refresh_token },
-  ];
-  const setFields = fields.reduce<ReturnType<typeof sql.join>[]>(
-    (acc, next) => {
-      if (next.value != null) {
-        return [
-          ...acc,
-          sql.join([sql.identifier([next.key]), next.value], sql` = `),
-        ];
-      }
-
-      return acc;
+  rawParams: UpdateParams,
+): Promise<users> => {
+  return prisma.users.update({
+    where: {
+      id,
     },
-    [],
-  );
-  const query = sql`
-    UPDATE users
-    SET ${sql.join(setFields, sql`, `)}
-    WHERE id = ${id}
-  `;
-
-  return pool.query(query);
+    data: rawParams,
+  });
 };

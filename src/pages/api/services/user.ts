@@ -5,13 +5,20 @@ const prisma = new PrismaClient();
 type UpdateParams = Pick<users, 'access_token' | 'refresh_token'>;
 
 export const getUser = async (id = 'freebowlofsoup'): Promise<users | null> => {
-  const result = prisma.users.findOne({
-    where: {
-      id,
-    },
-  });
+  try {
+    const result = prisma.users.findOne({
+      where: {
+        id,
+      },
+    });
 
-  return result;
+    return result;
+  } catch (err) {
+    console.log('getUser error:');
+    console.log(err);
+
+    return null;
+  }
 };
 
 export const updateUser = async (

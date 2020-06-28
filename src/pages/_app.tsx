@@ -33,6 +33,7 @@ export default ({ Component, pageProps }: AppProps): JSX.Element => {
 
             return {
               json,
+              ok: req.ok,
               status: req.status,
               statusText: req.statusText,
             };

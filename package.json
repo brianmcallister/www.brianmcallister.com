@@ -1,12 +1,10 @@
 {
-  "name": "brianmcallister.github.com",
+  "name": "www-brianmcallister-com",
   "version": "1.0.0",
   "description": "My personal site",
   "homepage": "https://www.brianmcallister.com",
   "author": "Brian Wm. McAllister <brian@brianmcallister.com>",
-  "main": "index.js",
   "scripts": {
-    "old_start": "vercel dev",
     "dev": "next",
     "build": "next build",
     "start": "next start",
@@ -14,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/brianmcallister/brianmcallister.github.com.git"
+    "url": "git@github.com:brianmcallister/www.brianmcallister.com.git"
   },
   "devDependencies": {
     "@prisma/cli": "^2.1.3",
@@ -22,7 +20,6 @@
     "@types/node": "^14.0.5",
     "@types/node-fetch": "^2.5.7",
     "@types/react": "^16.9.36",
-    "@types/slonik": "^22.1.2",
     "@typescript-eslint/eslint-plugin": "^3.1.0",
     "@typescript-eslint/parser": "^3.1.0",
     "eslint": "^7.2.0",

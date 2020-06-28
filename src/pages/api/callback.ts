@@ -1,8 +1,8 @@
 import { NowRequest, NowResponse } from '@vercel/node';
 import HttpStatusCodes from 'http-status-codes';
 
-import * as user from './services/user';
-import * as spotify from './services/spotify';
+import * as user from '../../lib/services/user';
+import * as spotify from '../../lib/services/spotify';
 
 export default async (req: NowRequest, res: NowResponse): Promise<void> => {
   const { code } = req.query;

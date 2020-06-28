@@ -1,7 +1,7 @@
 import { NowRequest, NowResponse } from '@vercel/node';
 import HttpStatusCodes from 'http-status-codes';
 
-import * as spotify from './services/spotify';
+import * as spotify from '../../lib/services/spotify';
 
 const { PASSWORD } = process.env;
 

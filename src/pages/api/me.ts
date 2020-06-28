@@ -1,8 +1,8 @@
 import { NowRequest, NowResponse } from '@vercel/node';
 import HttpStatusCodes from 'http-status-codes';
 
-import * as spotify from './services/spotify';
-import * as user from './services/user';
+import * as spotify from '../../lib/services/spotify';
+import * as user from '../../lib/services/user';
 
 export interface SpotifyPayload {
   artist: string;

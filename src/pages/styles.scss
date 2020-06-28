@@ -87,7 +87,6 @@ a {
 
   &__rendered {
     opacity: 0;
-    padding-left: 65px;
     transition: opacity .3s ease-out;
     will-change: opacity;
   }
@@ -113,6 +112,12 @@ a {
     #{$this}__rendered {
       opacity: 1;
       transition-delay: .1s;
+    }
+  }
+
+  &--song-playing {
+    #{$this}__rendered {
+      padding-left: 65px;
     }
   }
 

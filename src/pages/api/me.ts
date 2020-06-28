@@ -30,7 +30,7 @@ export default async (_: NowRequest, res: NowResponse): Promise<void> => {
     const current = await spotify.getCurrentlyPlaying();
 
     if (current === null) {
-      res.status(HttpStatusCodes.NO_CONTENT).json({});
+      res.status(HttpStatusCodes.NO_CONTENT).send(null);
 
       return;
     }

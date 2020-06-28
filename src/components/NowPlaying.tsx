@@ -7,7 +7,7 @@ import { SpotifyPayload } from '../pages/api/me';
 import { LoadingSpinner } from './LoadingSpinner';
 
 interface SmallResponse<T> {
-  json: T;
+  json?: T;
   status: number;
   statusText: string;
 }
@@ -42,12 +42,11 @@ const delay = (timeout: number) =>
 
 const createEmptyResponse = () => ({
   status: HttpStatusCodes.NO_CONTENT,
-  json: null,
   statusText: HttpStatusCodes.getStatusText(HttpStatusCodes.NO_CONTENT),
 });
 
 export const NowPlaying = (): JSX.Element => {
-  const { data } = useSWR<SmallResponse<SpotifyPayload | null>>('/api/me', {
+  const { data } = useSWR<SmallResponse<SpotifyPayload>>('/api/me', {
     refreshInterval: 1000,
   });
   const [isReady, setIsReady] = React.useState<boolean>(false);
@@ -55,6 +54,8 @@ export const NowPlaying = (): JSX.Element => {
   const rendered = renderContent(finalData);
   const cls = classnames(baseClass, {
     [`${baseClass}--loaded`]: finalData,
+    [`${baseClass}--song-playing`]:
+      finalData && finalData.status !== HttpStatusCodes.NO_CONTENT,
   });
 
   React.useEffect(() => {

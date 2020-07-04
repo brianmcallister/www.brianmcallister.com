@@ -1,6 +1,6 @@
-import { PrismaClient, users } from '@prisma/client';
+import { users } from '@prisma/client';
 
-const prisma = new PrismaClient();
+import { prisma } from '../prisma';
 
 type UpdateParams = Pick<users, 'access_token' | 'refresh_token'>;
 

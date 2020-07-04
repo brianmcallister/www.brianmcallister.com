@@ -5,7 +5,7 @@
   "homepage": "https://www.brianmcallister.com",
   "author": "Brian Wm. McAllister <brian@brianmcallister.com>",
   "scripts": {
-    "dev": "next",
+    "dev": "next -H 0.0.0.0",
     "build": "next build",
     "start": "next start",
     "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx --ignore-path .gitignore ./src"

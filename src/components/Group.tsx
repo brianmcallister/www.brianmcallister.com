@@ -17,7 +17,7 @@ const renderList = (items: ContentBlockWithItems['items']) => {
       {items.map((item, index) => (
         <React.Fragment key={item.href}>
           <a href={item.href}>{item.title}</a>
-          {index < items.length - 1 ? ', ' : null}
+          <span>{index < items.length - 1 ? ', ' : null}</span>
         </React.Fragment>
       ))}
     </>

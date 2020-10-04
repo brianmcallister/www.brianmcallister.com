@@ -4,7 +4,7 @@ import { Logo } from '../components/Logo';
 import { Group } from '../components/Group';
 import { CONTENT } from '../lib/content';
 
-export default (): React.ReactNode => {
+const IndexPage = (): React.ReactNode => {
   return (
     <>
       <Logo />
@@ -17,3 +17,5 @@ export default (): React.ReactNode => {
     </>
   );
 };
+
+export default IndexPage;

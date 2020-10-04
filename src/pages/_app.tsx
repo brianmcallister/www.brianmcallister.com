@@ -5,7 +5,7 @@ import React from 'react';
 
 import './styles.scss';
 
-export default ({ Component, pageProps }: AppProps): JSX.Element => {
+const App = ({ Component, pageProps }: AppProps): JSX.Element => {
   return (
     <>
       <Head>
@@ -46,3 +46,5 @@ export default ({ Component, pageProps }: AppProps): JSX.Element => {
     </>
   );
 };
+
+export default App;

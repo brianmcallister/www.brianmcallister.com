@@ -42,7 +42,7 @@
     "@vercel/node": "^1.6.1",
     "classnames": "^2.2.6",
     "http-status-codes": "^1.4.0",
-    "next": "^9.5.3",
+    "next": "^9.5.4",
     "node-fetch": "^2.6.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

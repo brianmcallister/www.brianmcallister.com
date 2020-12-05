@@ -41,6 +41,15 @@ export const CONTENT: ContentBlock[] = [
       },
     ],
   },
+    {
+    title: 'Writing',
+    items: [
+      {
+        href: 'https://www.lab49.com/insights/building-effective-design-systems-driving-productivity-and-avoiding-pitfalls/',
+        title: 'Building Effective Design Systems: Driving Productivity and Avoiding Pitfalls',
+      },
+    ],
+  },
   {
     title: 'Open Source',
     items: [

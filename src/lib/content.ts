@@ -39,6 +39,10 @@ export const CONTENT: ContentBlock[] = [
         href: 'https://youtu.be/5_gkDf4YDJ8',
         title: 'Creating Icons for Digital Platforms',
       },
+      {
+        href: 'https://us02web.zoom.us/rec/share/DJVBYc39MMaUX9p2tr0uI4ikJcOdWJCqxQvb9NPnPn1nJAgBm84hc_lmAc_OORu_.ohs2jlKnb9nXWrqq',
+        title: 'OpenFin Webinar: Creating, Maintaining and Using a Design System',
+      },
     ],
   },
     {
@@ -113,7 +117,7 @@ export const CONTENT: ContentBlock[] = [
     items: [
       {
         href: 'https://www.lab49.com/',
-        title: 'Engineering Practice Lead at Lab49',
+        title: 'Interactive Practice Head at Lab49',
       },
     ],
   },

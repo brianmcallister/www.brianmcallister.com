@@ -8,11 +8,15 @@
   box-sizing: border-box;
 }
 
+:root {
+  --main-color: black;
+}
+
 body {
   -webkit-font-smoothing: antialiased;
   background-size: cover;
-  background: #fffff8 center center url(/background.jpg) no-repeat;
-  box-shadow: inset 0 0 0 16px #fffff8;
+  background: var(--main-color) left center url(/background2.jpg) no-repeat;
+  box-shadow: inset 0 0 0 16px var(--main-color);
   height: 100vh;
   margin: 0;
   overflow: hidden;
@@ -54,7 +58,7 @@ body {
 
 .content {
   bottom: 0;
-  color: #979791;
+  color: var(--main-color);
   font-family: 'Karla', sans-serif;
   font-size: 30px;
   font-weight: 300;
@@ -71,12 +75,12 @@ body {
   }
 
   a {
-    color: #999991;
-    text-decoration: none;
-    transition: background-color 0.1s ease-in-out;
+    color: var(--main-color);
+    transition: background-color 0.1s ease;
+    text-decoration-thickness: 2px;
 
     &:hover {
-      background-color: #80807b31;
+      background-color: #dadacc31;
     }
   }
 }

@@ -130,7 +130,7 @@ export const CONTENT: ContentBlock[] = [
     items: [
       {
         href: 'https://unsplash.com/@nate_dumlao',
-        title: 'Natan Dumlao',
+        title: 'Nathan Dumlao',
       },
     ],
   },

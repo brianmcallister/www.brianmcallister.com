@@ -41,7 +41,7 @@ export const CONTENT: ContentBlock[] = [
       },
       {
         href:
-          'https://us02web.zoom.us/rec/share/DJVBYc39MMaUX9p2tr0uI4ikJcOdWJCqxQvb9NPnPn1nJAgBm84hc_lmAc_OORu_.ohs2jlKnb9nXWrqq',
+          'https://www.youtube.com/watch?v=gQ8_PU_iGOU',
         title:
           'OpenFin Webinar: Creating, Maintaining and Using a Design System',
       },

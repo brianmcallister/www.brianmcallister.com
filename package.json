@@ -43,7 +43,7 @@
     "classnames": "^2.2.6",
     "http-status-codes": "^1.4.0",
     "next": "^10.0.3",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^2.6.7",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "sass": "^1.30.0",

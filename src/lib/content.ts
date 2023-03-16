@@ -40,17 +40,21 @@ export const CONTENT: ContentBlock[] = [
         title: 'Creating Icons for Digital Platforms',
       },
       {
-        href: 'https://us02web.zoom.us/rec/share/DJVBYc39MMaUX9p2tr0uI4ikJcOdWJCqxQvb9NPnPn1nJAgBm84hc_lmAc_OORu_.ohs2jlKnb9nXWrqq',
-        title: 'OpenFin Webinar: Creating, Maintaining and Using a Design System',
+        href:
+          'https://www.youtube.com/watch?v=gQ8_PU_iGOU',
+        title:
+          'OpenFin Webinar: Creating, Maintaining and Using a Design System',
       },
     ],
   },
-    {
+  {
     title: 'Writing',
     items: [
       {
-        href: 'https://www.lab49.com/insights/building-effective-design-systems-driving-productivity-and-avoiding-pitfalls/',
-        title: 'Building Effective Design Systems: Driving Productivity and Avoiding Pitfalls',
+        href:
+          'https://www.lab49.com/insights/building-effective-design-systems-driving-productivity-and-avoiding-pitfalls/',
+        title:
+          'Building Effective Design Systems: Driving Productivity and Avoiding Pitfalls',
       },
     ],
   },
@@ -118,6 +122,15 @@ export const CONTENT: ContentBlock[] = [
       {
         href: 'https://www.lab49.com/',
         title: 'Interactive Practice Head at Lab49',
+      },
+    ],
+  },
+  {
+    title: 'Photo by',
+    items: [
+      {
+        href: 'https://unsplash.com/@nate_dumlao',
+        title: 'Nathan Dumlao',
       },
     ],
   },

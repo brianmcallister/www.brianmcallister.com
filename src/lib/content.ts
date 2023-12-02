@@ -45,6 +45,10 @@ export const CONTENT: ContentBlock[] = [
         title:
           'OpenFin Webinar: Creating, Maintaining and Using a Design System',
       },
+      {
+        href: 'https://resources.openfin.co/webinar-replay-creating-the-optimal-cx',
+        title: 'Creating the Optimal Customer Experience with Best in Class Technology',
+      },
     ],
   },
   {

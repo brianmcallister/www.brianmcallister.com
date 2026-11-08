@@ -37,6 +37,14 @@
   --bg-color: #211f1e;
 }
 
+/* Some mobile browsers show the page past the bottom of the body, behind
+   their toolbars. Painting the page in the frame color makes that area
+   read as part of the frame. It also keeps the body's photo on the body
+   rather than spreading to the whole page. */
+html {
+  background: var(--bg-color);
+}
+
 body {
   -webkit-font-smoothing: antialiased;
   background: var(--main-color) center / cover no-repeat;

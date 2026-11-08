@@ -51,6 +51,7 @@ body {
   margin: 0;
   overflow: hidden;
   padding: 0;
+  position: relative;
   text-rendering: optimizeLegibility;
   text-shadow: 0 1px 4px var(--bg-color);
   width: 100vw;
@@ -87,6 +88,10 @@ body {
   font-size: 30px;
   font-weight: 300;
   padding: 40px;
+  /* On mobile, 100vh is the height with the browser toolbar collapsed, so
+     the body can extend behind the toolbar. The extra padding keeps the
+     text above it while the shade still reaches the bottom of the body. */
+  padding-bottom: calc(40px + 100vh - 100svh);
   position: absolute;
   width: 100vw;
   z-index: 0;

@@ -54,7 +54,11 @@ body {
     url(/background.webp) type('image/webp'),
     url(/background.jpg) type('image/jpeg')
   );
-  box-shadow: inset 0 0 0 16px var(--bg-color);
+  /* The frame, plus a band at the top that grows to cover the status bar
+     on phones where the page runs edge to edge. */
+  box-shadow:
+    inset 0 0 0 16px var(--bg-color),
+    inset 0 calc(16px + env(safe-area-inset-top, 0px)) 0 0 var(--bg-color);
   height: 100vh;
   margin: 0;
   overflow: hidden;
@@ -69,8 +73,8 @@ body {
   display: block;
   height: 200px;
   position: absolute;
-  right: 16px;
-  top: 16px;
+  right: calc(16px + env(safe-area-inset-right, 0px));
+  top: calc(16px + env(safe-area-inset-top, 0px));
   width: 200px;
   z-index: 2;
 }
@@ -96,10 +100,12 @@ body {
   font-size: 30px;
   font-weight: 300;
   padding: 40px;
-  /* On mobile, 100vh is the height with the browser toolbar collapsed, so
-     the body can extend behind the toolbar. The extra padding keeps the
-     text above it while the shade still reaches the bottom of the body. */
-  padding-bottom: calc(40px + 100vh - 100svh);
+  padding-left: calc(40px + env(safe-area-inset-left, 0px));
+  padding-right: calc(40px + env(safe-area-inset-right, 0px));
+  /* On phones the page runs behind the browser toolbar and home
+     indicator. The extra padding keeps the text above them while the
+     photo and shade still reach the bottom of the screen. */
+  padding-bottom: calc(40px + 100vh - 100svh + env(safe-area-inset-bottom, 0px));
   position: absolute;
   width: 100vw;
   z-index: 0;

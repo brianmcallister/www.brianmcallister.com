@@ -12,6 +12,30 @@
 const TOKEN_URL = 'https://accounts.spotify.com/api/token';
 const NOW_PLAYING_URL = 'https://api.spotify.com/v1/me/player/currently-playing';
 
+// An error whose reason is safe to send to the browser. It never includes
+// tokens or secrets, just enough to tell what went wrong.
+class NowPlayingError extends Error {
+  constructor(reason, detail) {
+    super(detail ? `${reason}: ${detail}` : reason);
+    this.reason = reason;
+  }
+}
+
+// Spotify error bodies look like {"error":"invalid_grant"} or
+// {"error":{"status":403,"message":"..."}}. Pull out the short part.
+const spotifyError = async (res) => {
+  const text = await res.text();
+
+  try {
+    const { error, error_description: description } = JSON.parse(text);
+    return typeof error === 'string'
+      ? [error, description].filter(Boolean).join(': ')
+      : error?.message ?? text;
+  } catch {
+    return text.slice(0, 200);
+  }
+};
+
 let cachedToken = null;
 let cachedTokenExpiresAt = 0;
 
@@ -24,7 +48,15 @@ const getAccessToken = async () => {
     process.env;
 
   if (!SPOTIFY_CLIENT_ID || !SPOTIFY_CLIENT_SECRET || !SPOTIFY_REFRESH_TOKEN) {
-    throw new Error('Missing Spotify environment variables');
+    const missing = Object.entries({
+      SPOTIFY_CLIENT_ID,
+      SPOTIFY_CLIENT_SECRET,
+      SPOTIFY_REFRESH_TOKEN,
+    })
+      .filter(([, value]) => !value)
+      .map(([name]) => name);
+
+    throw new NowPlayingError('missing_env', missing.join(', '));
   }
 
   const credentials = Buffer.from(
@@ -36,12 +68,15 @@ const getAccessToken = async () => {
     headers: { authorization: `Basic ${credentials}` },
     body: new URLSearchParams({
       grant_type: 'refresh_token',
-      refresh_token: SPOTIFY_REFRESH_TOKEN,
+      refresh_token: SPOTIFY_REFRESH_TOKEN.trim(),
     }),
   });
 
   if (!res.ok) {
-    throw new Error(`Token refresh failed: ${res.status} ${await res.text()}`);
+    throw new NowPlayingError(
+      'token_refresh_failed',
+      `${res.status} ${await spotifyError(res)}`,
+    );
   }
 
   const { access_token: accessToken, expires_in: expiresIn } = await res.json();
@@ -82,7 +117,10 @@ export async function GET() {
     }
 
     if (!res.ok) {
-      throw new Error(`Spotify returned ${res.status} ${await res.text()}`);
+      throw new NowPlayingError(
+        'spotify_error',
+        `${res.status} ${await spotifyError(res)}`,
+      );
     }
 
     const data = await res.json();
@@ -106,6 +144,9 @@ export async function GET() {
     });
   } catch (err) {
     console.error(err);
-    return json({ playing: false, error: true }, { status: 500, cache: false });
+
+    const error = err instanceof NowPlayingError ? err.message : 'unexpected';
+
+    return json({ playing: false, error }, { status: 500, cache: false });
   }
 }

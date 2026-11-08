@@ -10,8 +10,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "dev": "vercel dev",
-    "get-refresh-token": "node --env-file=.env scripts/get-refresh-token.js"
+    "dev": "vercel dev"
   },
   "repository": {
     "type": "git",

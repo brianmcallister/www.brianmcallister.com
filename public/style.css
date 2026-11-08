@@ -47,7 +47,7 @@ html {
 
 body {
   -webkit-font-smoothing: antialiased;
-  background: var(--main-color) center / cover no-repeat;
+  background: var(--bg-color) center / cover no-repeat;
   background-image: url(/background.jpg);
   background-image: image-set(
     url(/background.avif) type('image/avif'),

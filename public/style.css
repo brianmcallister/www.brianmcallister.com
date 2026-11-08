@@ -71,23 +71,27 @@ body {
 }
 
 /* Darkens the photo behind the text so it stays readable over the bright
-   water. It is sized to the text and eases out over the 160px above the first line. */
+   water. The fade starts --fade-start above the text box and eases in over
+   --fade, overlapping the first lines of text. */
 .content::before {
+  --fade: 260px;
+  --fade-start: 100px;
   background: linear-gradient(
-    to top,
-    rgb(0 0 0 / 70%),
-    rgb(0 0 0 / 50%) calc(100% - 160px),
-    rgb(0 0 0 / 34%) calc(100% - 120px),
-    rgb(0 0 0 / 20%) calc(100% - 80px),
-    rgb(0 0 0 / 9%) calc(100% - 40px),
-    rgb(0 0 0 / 0%)
+    to bottom,
+    rgb(0 0 0 / 0%),
+    rgb(0 0 0 / 6%) calc(var(--fade) * 0.2),
+    rgb(0 0 0 / 18%) calc(var(--fade) * 0.4),
+    rgb(0 0 0 / 33%) calc(var(--fade) * 0.6),
+    rgb(0 0 0 / 46%) calc(var(--fade) * 0.8),
+    rgb(0 0 0 / 55%) var(--fade),
+    rgb(0 0 0 / 70%)
   );
   bottom: 16px;
   content: '';
   left: 16px;
   position: absolute;
   right: 16px;
-  top: -120px;
+  top: calc(var(--fade-start) * -1);
   z-index: -1;
 }
 

@@ -17,9 +17,12 @@
 
 body {
   -webkit-font-smoothing: antialiased;
-  background: var(--main-color) left center / cover no-repeat;
-  background-image: url(/background.jpg);
-  background-image: image-set(
+  background: var(--main-color) center / cover no-repeat;
+  /* The gradient darkens the lower part of the photo so the text stays
+     readable over the bright water. */
+  --shade: linear-gradient(to top, rgb(0 0 0 / 70%) 0%, rgb(0 0 0 / 45%) 40%, rgb(0 0 0 / 0%) 75%);
+  background-image: var(--shade), url(/background.jpg);
+  background-image: var(--shade), image-set(
     url(/background.avif) type('image/avif'),
     url(/background.webp) type('image/webp'),
     url(/background.jpg) type('image/jpeg')

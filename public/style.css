@@ -2,8 +2,30 @@
   font-family: 'Karla';
   font-style: normal;
   font-weight: 400 700;
-  font-display: swap;
+  font-display: optional;
   src: url(/fonts/karla-latin.woff2) format('woff2');
+}
+
+/* Local fonts adjusted to Karla's widths and line metrics, so the text
+   doesn't rewrap and shift the layout when Karla finishes loading. */
+@font-face {
+  font-family: 'Karla fallback';
+  font-weight: 400;
+  src: local('Arial'), local('ArialMT'), local('Liberation Sans'), local('Helvetica');
+  size-adjust: 102.24%;
+  ascent-override: 89.69%;
+  descent-override: 24.65%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Karla fallback';
+  font-weight: 700;
+  src: local('Arial Bold'), local('Arial-BoldMT'), local('Liberation Sans Bold'), local('Helvetica Bold');
+  size-adjust: 99.78%;
+  ascent-override: 91.90%;
+  descent-override: 25.26%;
+  line-gap-override: 0%;
 }
 
 * {
@@ -61,7 +83,7 @@ body {
 .content {
   bottom: 0;
   color: var(--main-color);
-  font-family: 'Karla', sans-serif;
+  font-family: 'Karla', 'Karla fallback', sans-serif;
   font-size: 30px;
   font-weight: 300;
   padding: 40px;
@@ -127,6 +149,12 @@ body {
 .now-playing__rendered {
   opacity: 0;
   transition: opacity 0.3s ease-out;
+}
+
+/* Keeps the space after the "Now Playing" label from collapsing while
+   this is empty, so the row doesn't shift sideways when a track loads. */
+.now-playing__rendered:empty::before {
+  content: '\2060';
 }
 
 .now-playing__img {

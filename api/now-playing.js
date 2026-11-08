@@ -3,7 +3,7 @@
 // Needs three environment variables:
 //   SPOTIFY_CLIENT_ID
 //   SPOTIFY_CLIENT_SECRET
-//   SPOTIFY_REFRESH_TOKEN  (run `npm run get-refresh-token` once to get it)
+//   SPOTIFY_REFRESH_TOKEN  (visit /api/spotify-auth once to get it)
 //
 // Access tokens last an hour, so one is kept in memory and reused for
 // as long as this function instance stays warm. There's no database:

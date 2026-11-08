@@ -5,7 +5,7 @@ My personal site. It's a static page plus one serverless function on Vercel, wit
 ```
 public/              the site: index.html, style.css, now-playing.js, images
 api/now-playing.js   returns the track currently playing on Spotify
-scripts/             one-time helper for getting a Spotify refresh token
+api/spotify-auth.js  gets a Spotify refresh token, all in the browser
 ```
 
 To change the content, edit `public/index.html`.
@@ -24,10 +24,10 @@ It needs three environment variables in Vercel:
 
 You only need to do this once, or again if you revoke the app's access.
 
-1. In the [Spotify developer dashboard](https://developer.spotify.com/dashboard), add `http://127.0.0.1:8888/callback` to the app's redirect URIs.
-2. Copy `.env.example` to `.env` and fill in the client ID and secret.
-3. Run `npm run get-refresh-token`, open the URL it prints and approve access.
-4. Copy the printed token into Vercel as `SPOTIFY_REFRESH_TOKEN` and redeploy.
+1. In the [Spotify developer dashboard](https://developer.spotify.com/dashboard), add `https://www.brianmcallister.com/api/spotify-auth` to the app's redirect URIs.
+2. Make sure `SPOTIFY_CLIENT_ID` and `SPOTIFY_CLIENT_SECRET` are set in Vercel.
+3. Visit [www.brianmcallister.com/api/spotify-auth](https://www.brianmcallister.com/api/spotify-auth) and approve access.
+4. Copy the token it shows into Vercel as `SPOTIFY_REFRESH_TOKEN` and redeploy.
 
 ## Local development
 
@@ -35,4 +35,4 @@ You only need to do this once, or again if you revoke the app's access.
 npm run dev
 ```
 
-This runs `vercel dev`, which serves the page and the function together. It needs the [Vercel CLI](https://vercel.com/docs/cli) and a linked project; `vercel env pull` copies the environment variables down.
+This runs `vercel dev`, which serves the page and the function together. It needs the [Vercel CLI](https://vercel.com/docs/cli) and a linked project. Running `vercel env pull` copies the environment variables down.

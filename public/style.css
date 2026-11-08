@@ -18,11 +18,8 @@
 body {
   -webkit-font-smoothing: antialiased;
   background: var(--main-color) center / cover no-repeat;
-  /* The gradient darkens the lower part of the photo so the text stays
-     readable over the bright water. */
-  --shade: linear-gradient(to top, rgb(0 0 0 / 70%) 0%, rgb(0 0 0 / 45%) 40%, rgb(0 0 0 / 0%) 75%);
-  background-image: var(--shade), url(/background.jpg);
-  background-image: var(--shade), image-set(
+  background-image: url(/background.jpg);
+  background-image: image-set(
     url(/background.avif) type('image/avif'),
     url(/background.webp) type('image/webp'),
     url(/background.jpg) type('image/jpeg')
@@ -70,6 +67,20 @@ body {
   padding: 40px;
   position: absolute;
   width: 100vw;
+  z-index: 0;
+}
+
+/* Darkens the photo behind the text so it stays readable over the bright
+   water. It is sized to the text, fading out just above the first line. */
+.content::before {
+  background: linear-gradient(to top, rgb(0 0 0 / 70%), rgb(0 0 0 / 50%) calc(100% - 40px), rgb(0 0 0 / 0%));
+  bottom: 16px;
+  content: '';
+  left: 16px;
+  position: absolute;
+  right: 16px;
+  top: 0;
+  z-index: -1;
 }
 
 .content a {

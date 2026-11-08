@@ -71,15 +71,23 @@ body {
 }
 
 /* Darkens the photo behind the text so it stays readable over the bright
-   water. It is sized to the text, fading out just above the first line. */
+   water. It is sized to the text and eases out over the 160px above the first line. */
 .content::before {
-  background: linear-gradient(to top, rgb(0 0 0 / 70%), rgb(0 0 0 / 50%) calc(100% - 40px), rgb(0 0 0 / 0%));
+  background: linear-gradient(
+    to top,
+    rgb(0 0 0 / 70%),
+    rgb(0 0 0 / 50%) calc(100% - 160px),
+    rgb(0 0 0 / 34%) calc(100% - 120px),
+    rgb(0 0 0 / 20%) calc(100% - 80px),
+    rgb(0 0 0 / 9%) calc(100% - 40px),
+    rgb(0 0 0 / 0%)
+  );
   bottom: 16px;
   content: '';
   left: 16px;
   position: absolute;
   right: 16px;
-  top: 0;
+  top: -120px;
   z-index: -1;
 }
 

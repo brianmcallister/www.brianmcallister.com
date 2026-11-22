@@ -1,9 +1,9 @@
 @font-face {
   font-family: 'Karla';
   font-style: normal;
-  font-weight: 400 700;
+  font-weight: 200 800;
   font-display: optional;
-  src: url(/fonts/karla-latin.woff2) format('woff2');
+  src: url(/fonts/karla-latin-200-800.woff2) format('woff2');
 }
 
 /* Local fonts adjusted to Karla's widths and line metrics, so the text

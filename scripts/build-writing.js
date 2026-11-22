@@ -210,24 +210,26 @@ const renderPage = ({ title, date, description }, body) => `<!doctype html>
     <meta name="theme-color" content="#1d2122" />
     <title>${escapeHtml(title)} • Brian Wm. McAllister</title>
     <link rel="icon" href="/favicon.ico" />
-    <link rel="preload" href="/fonts/karla-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/karla-latin-200-800.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="/base.css" />
     <link rel="stylesheet" href="/writing.css" />
   </head>
   <body>
-    <a class="home-link" href="/" aria-label="Brian Wm. McAllister, home">
-      ${logo.replace(/\n/g, '\n  ')}
-    </a>
+    <div class="page">
+      <a class="home-link" href="/" aria-label="Brian Wm. McAllister, home">
+        ${logo.replace(/\n/g, '\n    ')}
+      </a>
 
-    <main class="post">
-      <article>
-        <h1 class="post__title">${escapeHtml(title)}</h1>
-        <p class="post__date"><time datetime="${date}">${formatDate(date)}</time></p>
-        <div class="post__body">
+      <main class="post">
+        <article>
+          <h1 class="post__title">${escapeHtml(title)}</h1>
+          <p class="post__date"><time datetime="${date}">${formatDate(date)}</time></p>
+          <div class="post__body">
 ${renderMarkdown(body)}
-        </div>
-      </article>
-    </main>
+          </div>
+        </article>
+      </main>
+    </div>
   </body>
 </html>
 `;

@@ -1,11 +1,9 @@
 ---
-title: An example post
+title: Thinking in Artifacts
 date: 2026-11-22
-description: A draft that shows what a post can contain.
+description: Why ending each AI session with a file beats living in the chat, and how that habit leads to handing real work to agents.
 draft: true
 ---
-
-# Thinking in artifacts
 
 *Draft 1, 2026-11-22. Written from the "Thinking In Artifacts" talk. Image placeholders are marked in bold brackets and name the slide each one should come from.*
 

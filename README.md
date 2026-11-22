@@ -1,14 +1,44 @@
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset=".github/logo-dark.svg" />
+  <img src=".github/logo.svg" alt="Brian Wm. McAllister" height="200" />
+</picture>
+
 # www.brianmcallister.com
 
-My personal site. It's a static page plus one serverless function on Vercel, with no framework, build step or dependencies.
+My personal site. It's static pages plus one serverless function on Vercel, with no framework or dependencies. A small build script turns the posts in `writing/` into pages.
 
 ```
-public/              the site: index.html, style.css, now-playing.js, images
-api/now-playing.js   returns the track currently playing on Spotify
-api/spotify-auth.js  gets a Spotify refresh token, all in the browser
+public/                   the site: pages, styles, scripts and images
+writing/                  posts, as Markdown files
+scripts/build-writing.js  builds the posts into public/writing/
+api/now-playing.js        returns the track currently playing on Spotify
+api/spotify-auth.js       gets a Spotify refresh token, all in the browser
 ```
 
-To change the content, edit `public/index.html`.
+To change the home page, edit `public/index.html`.
+
+## Writing
+
+Each post is a Markdown file in `writing/`, and its file name becomes its URL, so `writing/my-post.md` is served at `/writing/my-post`. It starts with a short header:
+
+```
+---
+title: My post
+date: 2026-11-22
+description: Optional, for search results and link previews.
+draft: true
+---
+```
+
+Drafts are built locally and in preview deployments, but never in production. Remove the `draft` line to publish. `writing/example.md` shows the Markdown the build script supports.
+
+Posts aren't listed automatically. To link one from the home page, add it under Writing in `public/index.html` with a path like `/writing/my-post`. In browsers that support cross-document view transitions, the link then animates into the post's title, and back again.
+
+To build the posts locally:
+
+```bash
+npm run build
+```
 
 ## Now playing
 

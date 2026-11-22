@@ -1,0 +1,102 @@
+@font-face {
+  font-family: 'Karla';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: optional;
+  src: url(/fonts/karla-latin.woff2) format('woff2');
+}
+
+/* Local fonts adjusted to Karla's widths and line metrics, so the text
+   doesn't rewrap and shift the layout when Karla finishes loading. */
+@font-face {
+  font-family: 'Karla fallback';
+  font-weight: 400;
+  src: local('Arial'), local('ArialMT'), local('Liberation Sans'), local('Helvetica');
+  size-adjust: 102.24%;
+  ascent-override: 89.69%;
+  descent-override: 24.65%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Karla fallback';
+  font-weight: 700;
+  src: local('Arial Bold'), local('Arial-BoldMT'), local('Liberation Sans Bold'), local('Helvetica Bold');
+  size-adjust: 99.78%;
+  ascent-override: 91.90%;
+  descent-override: 25.26%;
+  line-gap-override: 0%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --main-color: #dedede;
+  --bg-color: #211f1e;
+}
+
+/* Some mobile browsers show the page past the bottom of the body, behind
+   their toolbars. Painting the page in the frame color makes that area
+   read as part of the frame. It also keeps the body's photo on the body
+   rather than spreading to the whole page. */
+html {
+  background: var(--bg-color);
+}
+
+/* Animate between pages, in browsers that support cross-document view
+   transitions. Each page's own stylesheet decides how it animates in. */
+@view-transition {
+  navigation: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+}
+
+@keyframes vt-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes vt-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes vt-blur-out {
+  to {
+    filter: blur(16px) brightness(0.5);
+    opacity: 0;
+    transform: scale(1.04);
+  }
+}
+
+@keyframes vt-blur-in {
+  from {
+    filter: blur(16px) brightness(0.5);
+    opacity: 0;
+    transform: scale(1.04);
+  }
+}
+
+::view-transition-group(*) {
+  animation-duration: 450ms;
+  animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* A post's title and the link to it on the home page morph into each
+   other. Fading the outgoing text out quickly, before the incoming text
+   fades in, keeps the two from showing as a doubled ghost mid-flight. */
+::view-transition-old(post-title) {
+  animation: 150ms ease-out both vt-fade-out;
+}
+
+::view-transition-new(post-title) {
+  animation: 250ms ease-in 100ms both vt-fade-in;
+}

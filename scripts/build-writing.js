@@ -214,7 +214,7 @@ const squircle = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 612 792" 
 const formatDate = (date) =>
   new Date(`${date}T00:00:00Z`).toLocaleDateString('en-US', {
     day: 'numeric',
-    month: 'long',
+    month: 'short',
     timeZone: 'UTC',
     year: 'numeric',
   });

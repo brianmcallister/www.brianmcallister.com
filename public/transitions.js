@@ -1,9 +1,8 @@
 // Pairs a writing link on the home page with the title of the post it
-// opens, so the browser's page transition animates one into the other.
-// The post's title carries the name in CSS. This script gives the same
-// name to the matching link: on the way out to a post, and on the way
-// back from one. It loads without defer, because pagereveal fires before
-// the first render.
+// opens, so the browser's page transition animates the link into the
+// title. The post's title carries the name in CSS, and this script gives
+// the same name to the clicked link as the home page is left. Coming
+// back, nothing is paired, so the title simply fades with the page.
 
 const TITLE = 'post-title';
 
@@ -33,21 +32,6 @@ window.addEventListener('pageswap', (event) => {
   }
 
   const link = linkTo(to);
-
-  if (link) {
-    nameUntilDone(link, event.viewTransition);
-  }
-});
-
-// Arriving back on the home page from a post.
-window.addEventListener('pagereveal', (event) => {
-  const from = window.navigation?.activation?.from?.url;
-
-  if (!event.viewTransition || !from || !isPost(from)) {
-    return;
-  }
-
-  const link = linkTo(from);
 
   if (link) {
     nameUntilDone(link, event.viewTransition);

@@ -12,8 +12,7 @@
     <link rel="preload" href="/fonts/karla-latin-200-800.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="/base.css" />
     <link rel="stylesheet" href="/style.css" />
-    <link rel="expect" href="#content" blocking="render" />
-    <script src="/transitions.js"></script>
+    <script src="/transitions.js" defer></script>
     <script src="/now-playing.js" defer></script>
   </head>
   <body>
@@ -25,7 +24,7 @@
       </svg>
     </a>
 
-    <main class="content" id="content">
+    <main class="content">
       <div class="group">
         <strong>Talks</strong>
         <a href="https://finjs.io/new-york-2/">Streaming prices (and more!) with redux-websocket</a>,

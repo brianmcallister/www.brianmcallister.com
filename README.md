@@ -11,6 +11,7 @@ My personal site. It's static pages plus one serverless function on Vercel, with
 public/                   the site: pages, styles, scripts and images
 writing/                  posts, as Markdown files
 scripts/build-writing.js  builds the posts into public/writing/
+scripts/make-texture.py   makes the patchwork texture behind posts
 api/now-playing.js        returns the track currently playing on Spotify
 api/spotify-auth.js       gets a Spotify refresh token, all in the browser
 ```
@@ -33,6 +34,8 @@ draft: true
 Drafts are built locally and in preview deployments, but never in production. Remove the `draft` line to publish. The build script supports headings, emphasis, links, images, inline and fenced code, lists, block quotes and rules, and a block that starts with an HTML tag is passed through as is.
 
 Posts aren't listed automatically. To link one from the home page, add it under Writing in `public/index.html` with a path like `/writing/my-post`. In browsers that support cross-document view transitions, the link then animates into the post's title, and back again.
+
+The patchwork texture behind posts is made from squares of sky in the home page's photo. To make a new arrangement, run `python3 scripts/make-texture.py` with a different number, which needs Pillow and NumPy.
 
 To build the posts locally:
 

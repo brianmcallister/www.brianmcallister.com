@@ -31,7 +31,7 @@ draft: true
 ---
 ```
 
-Drafts are built locally and in preview deployments, but never in production. Remove the `draft` line to publish. The build script supports headings, emphasis, links, images, inline and fenced code, lists, block quotes and rules, and a block that starts with an HTML tag is passed through as is. A paragraph that is only a bold note like `**[Image: the first slide]**` shows as a 16:9 placeholder box until the note is replaced with an image.
+Drafts are built locally and in preview deployments, but never in production. Remove the `draft` line to publish. The build script supports headings, emphasis, links, images, inline and fenced code, lists, block quotes and rules, and a block that starts with an HTML tag is passed through as is. Straight quotes and apostrophes become curly ones, except in code. A paragraph that is only a bold note like `**[Image: the first slide]**` shows as a 16:9 placeholder box until the note is replaced with an image.
 
 To embed a YouTube video, add it as an HTML block using the privacy-enhanced `youtube-nocookie.com` address, which is the only video host the post pages' Content-Security-Policy in `vercel.json` allows:
 

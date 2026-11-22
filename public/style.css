@@ -12,22 +12,34 @@ body {
   box-shadow:
     inset 0 0 0 16px var(--bg-color),
     inset 0 calc(16px + env(safe-area-inset-top, 0px)) 0 0 var(--bg-color);
-  height: 100vh;
+  /* One screen tall, with the text at the bottom. If larger text or zoom
+     makes the content taller than the screen, the page grows and scrolls
+     instead of cutting off the top. */
+  display: flex;
+  flex-direction: column;
   margin: 0;
-  overflow: hidden;
+  min-height: 100vh;
   padding: 0;
   position: relative;
   text-rendering: optimizeLegibility;
   text-shadow: 0 1px 4px var(--bg-color);
-  width: 100vw;
+}
+
+/* The logo sits in its own row at the top, so with large text or zoom
+   the content flows below it instead of underneath. */
+body > header {
+  display: flex;
+  justify-content: flex-end;
+  /* The content may tuck under the bottom of this row: the logo's box is
+     empty below the mark, and the content starts with padding. */
+  margin-bottom: -56px;
+  padding: calc(16px + env(safe-area-inset-top, 0px)) calc(16px + env(safe-area-inset-right, 0px)) 0 0;
 }
 
 .logo {
   display: block;
   height: 200px;
-  position: absolute;
-  right: calc(16px + env(safe-area-inset-right, 0px));
-  top: calc(16px + env(safe-area-inset-top, 0px));
+  position: relative;
   width: 200px;
   z-index: 2;
 }
@@ -47,10 +59,9 @@ body {
 }
 
 .content {
-  bottom: 0;
   color: var(--main-color);
   font-family: 'Karla', 'Karla fallback', sans-serif;
-  font-size: 30px;
+  font-size: 1.875rem;
   font-weight: 400;
   padding: 40px;
   padding-left: calc(40px + env(safe-area-inset-left, 0px));
@@ -59,8 +70,8 @@ body {
      indicator. The extra padding keeps the text above them while the
      photo and shade still reach the bottom of the screen. */
   padding-bottom: calc(40px + 100vh - 100svh + env(safe-area-inset-bottom, 0px));
-  position: absolute;
-  width: 100vw;
+  margin-top: auto;
+  position: relative;
   z-index: 0;
 }
 
@@ -171,7 +182,7 @@ body {
   }
 
   .content {
-    font-size: 14px;
+    font-size: 0.875rem;
   }
 
   .now-playing {

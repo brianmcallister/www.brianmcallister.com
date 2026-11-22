@@ -62,6 +62,16 @@ const parseFrontMatter = (file, text) => {
 // block quotes and rules. A block that starts with an HTML tag is passed
 // through as is, for anything else.
 
+// Straight quotes and apostrophes become curly ones. Code and URLs are
+// set aside before this runs, so they keep their straight quotes.
+const smartQuotes = (text) =>
+  text
+    .replace(/'(?=\d{2}s\b)/g, '’')
+    .replace(/(^|[\s([{*_\u0000“-])'/g, '$1‘')
+    .replace(/'/g, '’')
+    .replace(/(^|[\s([{*_\u0000‘-])"/g, '$1“')
+    .replace(/"/g, '”');
+
 const renderInline = (text) => {
   // Code spans, images and links are set aside first, so emphasis rules
   // never reach inside code or URLs. They go back in at the end.
@@ -69,16 +79,18 @@ const renderInline = (text) => {
   const keep = (html) => `\u0000${kept.push(html) - 1}\u0000`;
 
   const html = escapeHtml(
-    text
-      .replace(/`([^`]+)`/g, (_, code) => keep(`<code>${escapeHtml(code)}</code>`))
-      .replace(/!\[([^\]]*)\]\(([^)\s]+)(?:\s+"(.*?)")?\)/g, (_, alt, src, title) =>
-        keep(
-          `<img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}"${title ? ` title="${escapeHtml(title)}"` : ''} loading="lazy" />`,
+    smartQuotes(
+      text
+        .replace(/`([^`]+)`/g, (_, code) => keep(`<code>${escapeHtml(code)}</code>`))
+        .replace(/!\[([^\]]*)\]\(([^)\s]+)(?:\s+"(.*?)")?\)/g, (_, alt, src, title) =>
+          keep(
+            `<img src="${escapeHtml(src)}" alt="${escapeHtml(smartQuotes(alt))}"${title ? ` title="${escapeHtml(title)}"` : ''} loading="lazy" />`,
+          ),
+        )
+        .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, label, href) =>
+          keep(`<a href="${escapeHtml(href)}">${renderInline(label)}</a>`),
         ),
-      )
-      .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, label, href) =>
-        keep(`<a href="${escapeHtml(href)}">${renderInline(label)}</a>`),
-      ),
+    ),
   )
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
     .replace(/(^|[^*\w])\*(?!\s)(.+?)\*(?!\w)/g, '$1<em>$2</em>')
@@ -110,7 +122,7 @@ const renderMarkdown = (markdown) => {
 
     html.push(
       placeholder
-        ? `<figure class="placeholder"><span>${escapeHtml(placeholder[1])}</span></figure>`
+        ? `<figure class="placeholder"><span>${escapeHtml(smartQuotes(placeholder[1]))}</span></figure>`
         : `<p>${renderInline(text)}</p>`,
     );
     paragraph = [];
@@ -225,9 +237,9 @@ const renderPage = ({ title, date, description }, body) => `<!doctype html>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
     <meta name="author" content="Brian Wm. McAllister" />
-    <meta name="description" content="${escapeHtml(description || title)}" />
+    <meta name="description" content="${escapeHtml(smartQuotes(description || title))}" />
     <meta name="theme-color" content="#1d2122" />
-    <title>${escapeHtml(title)} • Brian Wm. McAllister</title>
+    <title>${escapeHtml(smartQuotes(title))} • Brian Wm. McAllister</title>
     <link rel="icon" href="/favicon.ico" />
     <link rel="preload" href="/fonts/karla-latin-200-800.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="/base.css" />
@@ -235,13 +247,15 @@ const renderPage = ({ title, date, description }, body) => `<!doctype html>
   </head>
   <body>
     <div class="page">
-      <a class="home-link" href="/" aria-label="Brian Wm. McAllister, home">
-        ${squircle.replace(/\n/g, '\n        ')}
-      </a>
+      <header>
+        <a class="home-link" href="/" aria-label="Brian Wm. McAllister, home">
+          ${squircle.replace(/\n/g, '\n          ')}
+        </a>
+      </header>
 
       <main class="post">
         <article>
-          <h1 class="post__title">${escapeHtml(title)}</h1>
+          <h1 class="post__title">${escapeHtml(smartQuotes(title))}</h1>
           <p class="post__date"><time datetime="${date}">${formatDate(date)}</time></p>
           <div class="post__body">
 ${renderMarkdown(body)}

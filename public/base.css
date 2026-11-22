@@ -45,6 +45,16 @@ html {
   background: var(--bg-color);
 }
 
+/* Hidden visually but still read by screen readers. */
+.visually-hidden {
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
 /* Animate between pages, in browsers that support cross-document view
    transitions. Each page's own stylesheet decides how it animates in. */
 @view-transition {

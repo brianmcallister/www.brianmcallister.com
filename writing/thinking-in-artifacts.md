@@ -9,10 +9,6 @@ draft: true
   <iframe src="https://www.youtube-nocookie.com/embed/EorCEnMMxWY" title="Thinking In Artifacts" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 </figure>
 
-*Draft 1, 2026-11-22. Written from the "Thinking In Artifacts" talk. Image placeholders are marked in bold brackets and name the slide each one should come from.*
-
----
-
 Most of us started using AI the same way. Open a chat, ask a question, keep going. For a while that works. Then the answers get worse, the conversation drifts, and when the tab closes everything you built up inside it is gone. This post is about a habit that fixes that, and about why it is also the first step toward agents doing work without you in the room.
 
 ## Who this is for

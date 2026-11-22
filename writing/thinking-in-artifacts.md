@@ -5,6 +5,10 @@ description: Why ending each AI session with a file beats living in the chat, an
 draft: true
 ---
 
+<figure class="video">
+  <iframe src="https://www.youtube-nocookie.com/embed/EorCEnMMxWY" title="Thinking In Artifacts" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</figure>
+
 *Draft 1, 2026-11-22. Written from the "Thinking In Artifacts" talk. Image placeholders are marked in bold brackets and name the slide each one should come from.*
 
 ---

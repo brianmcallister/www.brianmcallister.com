@@ -190,7 +190,12 @@ const renderMarkdown = (markdown) => {
 
 // Page
 
-const logo = (await readFile(join(root, 'public', 'index.html'), 'utf8')).match(/<svg[\s\S]*?<\/svg>/)[0];
+// The logo's rotated squircle without the initials, as the link home. It
+// uses the full logo's frame, so it sits where the full logo would. Each
+// side is one curve, traced from the full logo's own outline.
+const squircle = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 612 792" aria-hidden="true">
+  <path d="M305 239.4C348.3 239.4 461.6 352.7 461.6 396C461.6 439.3 348.3 552.6 305 552.6C261.7 552.6 148.4 439.3 148.4 396C148.4 352.7 261.7 239.4 305 239.4Z" />
+</svg>`;
 
 const formatDate = (date) =>
   new Date(`${date}T00:00:00Z`).toLocaleDateString('en-US', {
@@ -217,7 +222,7 @@ const renderPage = ({ title, date, description }, body) => `<!doctype html>
   <body>
     <div class="page">
       <a class="home-link" href="/" aria-label="Brian Wm. McAllister, home">
-        ${logo.replace(/\n/g, '\n    ')}
+        ${squircle.replace(/\n/g, '\n        ')}
       </a>
 
       <main class="post">

@@ -1,9 +1,9 @@
 """Makes the patchwork texture behind posts from the home page's photo.
 
-Splits a square into patches of random sizes, fills each with a crop of
-clean, light sky from public/background.jpg, then evens out the colors
-so the patchwork stays quiet behind text. The square's edges fall on
-patch edges, so the texture repeats without a visible join.
+Fills a grid of square patches with crops of clean, light sky from
+public/background.jpg, picked and turned at random, then evens out the
+colors so the patchwork stays quiet behind text. The texture's edges
+fall on patch edges, so it repeats without a visible join.
 
     python3 scripts/make-texture.py [seed]
 
@@ -20,9 +20,7 @@ from PIL import Image, ImageFilter
 
 ROOT = Path(__file__).resolve().parent.parent
 SIZE = 1200  # The texture's width and height, in pixels.
-UNIT = 50  # Patch edges fall on multiples of this.
-MIN_PATCH = 100
-MAX_PATCH = 400
+PATCH = 200  # Each patch's width and height, in pixels.
 COLOR_EVENING = 0.55  # How far each patch's color moves toward the average.
 GRADIENT_SOFTENING = 0.75  # How much of each patch's internal shading is kept.
 
@@ -35,28 +33,6 @@ def sky_mask(photo):
     fine = np.asarray(gray.filter(ImageFilter.GaussianBlur(4)), dtype=float)
     coarse = np.asarray(gray.filter(ImageFilter.GaussianBlur(30)), dtype=float)
     return (lum > 192) & (np.abs(fine - coarse) < 1.6)
-
-
-def split(x, y, w, h, rng, out):
-    """Cuts a rectangle into patches of random sizes."""
-    can_cut_w = w >= 2 * MIN_PATCH
-    can_cut_h = h >= 2 * MIN_PATCH
-    small_enough = w <= MAX_PATCH and h <= MAX_PATCH
-
-    if small_enough and (rng.random() < 0.35 or not (can_cut_w or can_cut_h)):
-        out.append((x, y, w, h))
-        return
-
-    cut_w = can_cut_w and (w >= h or not can_cut_h)
-    length = w if cut_w else h
-    at = rng.randrange(MIN_PATCH, length - MIN_PATCH + 1, UNIT)
-
-    if cut_w:
-        split(x, y, at, h, rng, out)
-        split(x + at, y, w - at, h, rng, out)
-    else:
-        split(x, y, w, at, rng, out)
-        split(x, y + at, w, h - at, rng, out)
 
 
 def main():
@@ -73,15 +49,13 @@ def main():
     def is_clean(x, y, w, h):
         return bad[y + h, x + w] - bad[y, x + w] - bad[y + h, x] + bad[y, x] == 0
 
-    patches = []
-    split(0, 0, SIZE, SIZE, rng, patches)
+    patches = [(x, y, PATCH, PATCH) for y in range(0, SIZE, PATCH) for x in range(0, SIZE, PATCH)]
 
     height, width = mask.shape
     crops = []
     for _, _, w, h in patches:
-        # Few large areas of the sky are completely clean, so a big patch
-        # may come from a smaller crop, scaled up. The sky is smooth enough
-        # that this doesn't show.
+        # If no area of the sky is clean at full size, a smaller crop is
+        # scaled up. The sky is smooth enough that this doesn't show.
         for scale in (1, 1.25, 1.5, 2):
             cw, ch = round(w / scale), round(h / scale)
             found = None
@@ -107,6 +81,7 @@ def main():
             crop = crop[:, ::-1]
         if rng.random() < 0.5:
             crop = crop[::-1, :]
+        crop = np.rot90(crop, rng.randrange(4))
         crops.append(crop)
 
     average = np.concatenate([c.reshape(-1, 3) for c in crops]).mean(0)

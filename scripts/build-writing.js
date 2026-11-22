@@ -88,6 +88,11 @@ const renderInline = (text) => {
   return html.replace(/\u0000(\d+)\u0000/g, (_, index) => kept[index]);
 };
 
+// A paragraph that is only a bold note like **[Image: the first slide]**
+// marks where an image will go. It shows as a 16:9 box with the note
+// inside, until the note is replaced with the image.
+const IMAGE_PLACEHOLDER = /^\*\*\[(Image:[\s\S]*)\]\*\*$/;
+
 const LIST_ITEM = /^(\s*)([-*+]|\d+\.)\s+(.*)$/;
 
 const renderMarkdown = (markdown) => {
@@ -96,10 +101,19 @@ const renderMarkdown = (markdown) => {
   let paragraph = [];
 
   const flushParagraph = () => {
-    if (paragraph.length) {
-      html.push(`<p>${renderInline(paragraph.join('\n'))}</p>`);
-      paragraph = [];
+    if (!paragraph.length) {
+      return;
     }
+
+    const text = paragraph.join('\n');
+    const placeholder = text.match(IMAGE_PLACEHOLDER);
+
+    html.push(
+      placeholder
+        ? `<figure class="placeholder"><span>${escapeHtml(placeholder[1])}</span></figure>`
+        : `<p>${renderInline(text)}</p>`,
+    );
+    paragraph = [];
   };
 
   for (let i = 0; i < lines.length; i++) {

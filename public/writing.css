@@ -2,7 +2,7 @@
 
 :root {
   --text-color: #2a2623;
-  --muted-color: #6e655e;
+  --muted-color: #574f49;
   --paper-color: #d8cabe;
 }
 
@@ -13,8 +13,8 @@ body {
   background: var(--bg-color);
   color: var(--text-color);
   font-family: 'Karla', 'Karla fallback', sans-serif;
-  font-size: 20px;
-  line-height: 1.65;
+  font-size: 21px;
+  line-height: 1.5;
   margin: 0;
   padding: calc(16px + env(safe-area-inset-top, 0px)) 16px 16px;
   text-rendering: optimizeLegibility;
@@ -59,12 +59,12 @@ body {
 
 .post {
   margin: 0 auto;
-  max-width: 38rem;
+  max-width: 44rem;
 }
 
 .post__title {
   color: #1d1a18;
-  font-size: 3.5rem;
+  font-size: 4rem;
   font-weight: 300;
   letter-spacing: -0.02em;
   line-height: 1.08;
@@ -74,7 +74,7 @@ body {
 
 .post__date {
   color: var(--muted-color);
-  font-size: 1.15rem;
+  font-size: 1.35rem;
   margin: 0 0 48px;
 }
 
@@ -165,9 +165,30 @@ body {
   margin: 2.5em 0;
 }
 
+/* Marks where an image will go, at the 16:9 shape of a slide. */
+.post__body .placeholder {
+  align-items: center;
+  aspect-ratio: 16 / 9;
+  background: rgb(255 255 255 / 35%);
+  border: 1px dashed rgb(0 0 0 / 25%);
+  border-radius: 4px;
+  color: var(--muted-color);
+  display: flex;
+  font-size: 0.875rem;
+  justify-content: center;
+  line-height: 1.4;
+  margin: 1.5rem 0 1.75rem;
+  padding: 1.5em 2em;
+  text-align: center;
+}
+
+.post__body .placeholder span {
+  max-width: 28rem;
+}
+
 @media screen and (max-width: 500px) {
   body {
-    font-size: 18px;
+    font-size: 19px;
   }
 
   .page {
@@ -182,11 +203,11 @@ body {
   }
 
   .post__title {
-    font-size: 2.6rem;
+    font-size: 2.9rem;
   }
 
   .post__date {
-    font-size: 1.05rem;
+    font-size: 1.2rem;
   }
 }
 

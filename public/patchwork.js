@@ -4,7 +4,9 @@
 // over two-fifths of the way down the screen, turning grayer and then darker toward
 // their bottoms, and the bottom edge frays into stray squares and gaps.
 // The squares appear one by one, roughly row by row from the top, each
-// at its final color in a single step.
+// at its final color in a single step. Afterwards, they drift slightly
+// away from a nearby mouse pointer on springs, opening small gaps around
+// it, and settle back when it leaves.
 //
 // The layout is seeded from the post's address, so a post looks the same
 // on every visit. The tiles come from /patchwork.webp, which
@@ -20,6 +22,17 @@ const JITTER = 160; // Up to this much extra delay per square, at random.
 // A very short fade softens each square's arrival. Longer fades show a
 // square lighter, while it's partly see-through, before its true color.
 const FADE = 70;
+
+// The pointer's push. Squares within REACH pixels of the pointer move
+// away from it, up to PUSH pixels for the nearest. Each square rides a
+// spring back to its place: STIFFNESS sets how firmly, DAMPING how fast
+// any wobble dies away. All per frame at 60 frames a second.
+const REACH = 150;
+const PUSH = 9;
+const STIFFNESS = 0.08;
+const DAMPING = 0.25;
+// Room below the patchwork for squares pushed downward.
+const SPARE = PUSH + 4;
 
 const canvas = document.querySelector('.patchwork');
 const page = canvas?.parentElement;
@@ -127,6 +140,11 @@ const layout = () => {
         size,
         tile: pick(random, GROUPS[group]),
         delay: row * ROW_DELAY + random() * JITTER,
+        // Offset from its place, and velocity, for the pointer's push.
+        dx: 0,
+        dy: 0,
+        vx: 0,
+        vy: 0,
       });
     }
   }
@@ -136,7 +154,7 @@ const layout = () => {
 
 const draw = (sheet, squares, elapsed) => {
   const ratio = window.devicePixelRatio || 1;
-  const height = Math.max(...squares.map((s) => s.y + s.size));
+  const height = Math.max(...squares.map((s) => s.y + s.size)) + SPARE;
   const width = page.clientWidth;
 
   if (canvas.width !== Math.round(width * ratio) || canvas.height !== Math.round(height * ratio)) {
@@ -159,10 +177,12 @@ const draw = (sheet, squares, elapsed) => {
     }
     // Snap to whole device pixels so neighboring squares meet without
     // hairline gaps.
-    const left = Math.round(square.x * ratio);
-    const top = Math.round(square.y * ratio);
-    const right = Math.round((square.x + square.size) * ratio);
-    const bottom = Math.round((square.y + square.size) * ratio);
+    const x = square.x + square.dx;
+    const y = square.y + square.dy;
+    const left = Math.round(x * ratio);
+    const top = Math.round(y * ratio);
+    const right = Math.round((x + square.size) * ratio);
+    const bottom = Math.round((y + square.size) * ratio);
     const column = square.tile % SHEET_COLUMNS;
     const row = Math.floor(square.tile / SHEET_COLUMNS);
 
@@ -183,37 +203,135 @@ const draw = (sheet, squares, elapsed) => {
   return done;
 };
 
+// Moves each square toward its target offset: away from the pointer if
+// it's within reach, otherwise back to its place. Returns whether anything
+// is still moving.
+const step = (squares, pointer, frames) => {
+  let moving = false;
+
+  for (const square of squares) {
+    let targetX = 0;
+    let targetY = 0;
+
+    if (pointer) {
+      const awayX = square.x + square.size / 2 - pointer.x;
+      const awayY = square.y + square.size / 2 - pointer.y;
+      const distance = Math.hypot(awayX, awayY);
+      if (distance > 0.5 && distance < REACH) {
+        const push = PUSH * (1 - distance / REACH) ** 2;
+        targetX = (awayX / distance) * push;
+        targetY = (awayY / distance) * push;
+      }
+    }
+
+    square.vx += ((targetX - square.dx) * STIFFNESS - square.vx * DAMPING) * frames;
+    square.vy += ((targetY - square.dy) * STIFFNESS - square.vy * DAMPING) * frames;
+    square.dx += square.vx * frames;
+    square.dy += square.vy * frames;
+
+    if (
+      Math.abs(square.vx) > 0.01 ||
+      Math.abs(square.vy) > 0.01 ||
+      Math.abs(square.dx - targetX) > 0.05 ||
+      Math.abs(square.dy - targetY) > 0.05
+    ) {
+      moving = true;
+    } else {
+      square.vx = 0;
+      square.vy = 0;
+      square.dx = targetX;
+      square.dy = targetY;
+    }
+  }
+
+  return moving;
+};
+
 const start = async () => {
   const sheet = new Image();
   sheet.src = SHEET;
   await sheet.decode();
 
   let squares = layout();
-  let animating = !reduceMotion.matches;
+  const began = performance.now();
+  let appearing = !reduceMotion.matches;
+  let running = false;
+  let last = began;
+  // The pointer, in the page's viewport coordinates, while it's a mouse or
+  // pen over the page.
+  let client = null;
 
-  if (animating) {
-    const began = performance.now();
-    const frame = (now) => {
-      if (draw(sheet, squares, now - began)) {
-        animating = false;
-      } else {
-        requestAnimationFrame(frame);
-      }
-    };
-    requestAnimationFrame(frame);
+  // The pointer in the patchwork's own coordinates, if it's near enough to
+  // push anything.
+  const pointer = () => {
+    if (!client || reduceMotion.matches) {
+      return null;
+    }
+    const box = canvas.getBoundingClientRect();
+    const x = client.x - box.left;
+    const y = client.y - box.top;
+    return y > -REACH && y < box.height + REACH ? { x, y } : null;
+  };
+
+  // One loop drives both the squares appearing and the pointer's push, and
+  // stops whenever nothing is moving.
+  const frame = (now) => {
+    const frames = Math.min(3, (now - last) / (1000 / 60));
+    last = now;
+    const moving = step(squares, pointer(), frames);
+    const appeared = draw(sheet, squares, appearing ? now - began : Infinity);
+    if (appeared) {
+      appearing = false;
+    }
+    running = moving || appearing;
+    if (running) {
+      requestAnimationFrame(frame);
+    }
+  };
+
+  const wake = () => {
+    if (!running) {
+      running = true;
+      last = performance.now();
+      requestAnimationFrame(frame);
+    }
+  };
+
+  if (appearing) {
+    wake();
   } else {
     draw(sheet, squares, Infinity);
   }
 
-  // When the page's width changes, lay the squares out again. During the
-  // animation, the next frame picks up the new layout, so nothing is drawn
-  // twice; afterwards, it's redrawn at once.
+  window.addEventListener('pointermove', (event) => {
+    if (event.pointerType === 'touch') {
+      return;
+    }
+    client = { x: event.clientX, y: event.clientY };
+    if (pointer()) {
+      wake();
+    }
+  });
+  // Scrolling moves the patchwork under a still pointer.
+  window.addEventListener('scroll', () => client && wake(), { passive: true });
+  document.documentElement.addEventListener('pointerleave', () => {
+    client = null;
+    wake();
+  });
+  window.addEventListener('blur', () => {
+    client = null;
+    wake();
+  });
+
+  // When the page's width changes, lay the squares out again. The running
+  // loop picks up the new layout on its next frame, so nothing is drawn
+  // twice; otherwise it's redrawn at once.
   let lastWidth = page.clientWidth;
   new ResizeObserver(() => {
     if (page.clientWidth !== lastWidth) {
       lastWidth = page.clientWidth;
       squares = layout();
-      if (!animating) {
+      if (!running) {
         draw(sheet, squares, Infinity);
       }
     }

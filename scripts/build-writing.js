@@ -105,6 +105,23 @@ const renderInline = (text) => {
 // inside, until the note is replaced with the image.
 const IMAGE_PLACEHOLDER = /^\*\*\[(Image:[\s\S]*)\]\*\*$/;
 
+// A paragraph that is only a link to a YouTube video, like
+// [Title](https://www.youtube.com/watch?v=ID), becomes the video. The page
+// shows the video's still with a play button, and /video.js swaps in
+// YouTube's player when it's pressed, so the player only loads when
+// wanted and doesn't flash into place. Without JavaScript, the still is
+// a link to the video on YouTube.
+const YOUTUBE_LINK =
+  /^\[([^\]]+)\]\(https?:\/\/(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]{11})[^)\s]*\)$/;
+
+const renderVideo = (title, id) => `<figure class="video">
+  <a class="video__poster" href="https://www.youtube.com/watch?v=${id}" data-video-id="${id}" data-video-title="${escapeHtml(title)}">
+    <img src="https://i.ytimg.com/vi/${id}/maxresdefault.jpg" alt="" width="1280" height="720" decoding="async" />
+    <span class="video__play" aria-hidden="true"></span>
+    <span class="visually-hidden">Play video: ${escapeHtml(title)}</span>
+  </a>
+</figure>`;
+
 const LIST_ITEM = /^(\s*)([-*+]|\d+\.)\s+(.*)$/;
 
 const renderMarkdown = (markdown) => {
@@ -119,12 +136,15 @@ const renderMarkdown = (markdown) => {
 
     const text = paragraph.join('\n');
     const placeholder = text.match(IMAGE_PLACEHOLDER);
+    const video = text.match(YOUTUBE_LINK);
 
-    html.push(
-      placeholder
-        ? `<figure class="placeholder"><span>${escapeHtml(smartQuotes(placeholder[1]))}</span></figure>`
-        : `<p>${renderInline(text)}</p>`,
-    );
+    if (placeholder) {
+      html.push(`<figure class="placeholder"><span>${escapeHtml(smartQuotes(placeholder[1]))}</span></figure>`);
+    } else if (video) {
+      html.push(renderVideo(smartQuotes(video[1]), video[2]));
+    } else {
+      html.push(`<p>${renderInline(text)}</p>`);
+    }
     paragraph = [];
   };
 
@@ -231,7 +251,13 @@ const formatDate = (date) =>
     year: 'numeric',
   });
 
-const renderPage = ({ title, date, description }, body) => `<!doctype html>
+const renderPage = ({ title, date, description }, body) => {
+  const content = renderMarkdown(body);
+  const videoScript = content.includes('class="video__poster"')
+    ? '\n    <script src="/video.js" defer></script>'
+    : '';
+
+  return `<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -244,7 +270,7 @@ const renderPage = ({ title, date, description }, body) => `<!doctype html>
     <link rel="preload" href="/fonts/karla-latin-200-800.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/ibm-plex-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="/base.css" />
-    <link rel="stylesheet" href="/writing.css" />
+    <link rel="stylesheet" href="/writing.css" />${videoScript}
   </head>
   <body>
     <div class="page">
@@ -259,7 +285,7 @@ const renderPage = ({ title, date, description }, body) => `<!doctype html>
           <h1 class="post__title">${escapeHtml(smartQuotes(title))}</h1>
           <p class="post__date"><time datetime="${date}">${formatDate(date)}</time></p>
           <div class="post__body">
-${renderMarkdown(body)}
+${content}
           </div>
         </article>
       </main>
@@ -267,6 +293,7 @@ ${renderMarkdown(body)}
   </body>
 </html>
 `;
+};
 
 // Build
 

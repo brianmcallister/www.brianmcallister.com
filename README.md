@@ -32,15 +32,9 @@ draft: true
 
 Drafts are built locally and in preview deployments, but never in production. Remove the `draft` line to publish. The build script supports headings, emphasis, links, images, inline and fenced code, lists, block quotes and rules, and a block that starts with an HTML tag is passed through as is. Straight quotes and apostrophes become curly ones, except in code. A paragraph that is only a bold note like `**[Image: the first slide]**` shows as a 16:9 placeholder box until the note is replaced with an image.
 
-To embed a YouTube video, add it as an HTML block using the privacy-enhanced `youtube-nocookie.com` address, which is the only video host the post pages' Content-Security-Policy in `vercel.json` allows:
+To embed a YouTube video, put a link to it in a paragraph of its own, like `[Video title](https://www.youtube.com/watch?v=VIDEO_ID)`. The post shows the video's still with a play button, and YouTube's player only loads when it's pressed. The post pages' Content-Security-Policy in `vercel.json` allows YouTube's image host and its privacy-enhanced `youtube-nocookie.com` player.
 
-```html
-<figure class="video">
-  <iframe src="https://www.youtube-nocookie.com/embed/VIDEO_ID" title="Video title" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-</figure>
-```
-
-Posts aren't listed automatically. To link one from the home page, add it under Writing in `public/index.html` with a path like `/writing/my-post`. In browsers that support cross-document view transitions, the link then animates into the post's title, and back again.
+Posts aren't listed automatically. To link one from the home page, add it under Writing in `public/index.html` with a path like `/writing/my-post`. In browsers that support cross-document view transitions, the link then animates into the post's title.
 
 To build the posts locally:
 

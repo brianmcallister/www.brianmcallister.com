@@ -5,9 +5,7 @@ description: Why ending each AI session with a file beats living in the chat, an
 draft: true
 ---
 
-<figure class="video">
-  <iframe src="https://www.youtube-nocookie.com/embed/EorCEnMMxWY" title="Thinking In Artifacts" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-</figure>
+[Thinking In Artifacts](https://www.youtube.com/watch?v=EorCEnMMxWY)
 
 Most of us started using AI the same way. Open a chat, ask a question, keep going. For a while that works. Then the answers get worse, the conversation drifts, and when the tab closes everything you built up inside it is gone. This post is about a habit that fixes that, and about why it is also the first step toward agents doing work without you in the room.
 

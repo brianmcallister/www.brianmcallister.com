@@ -242,6 +242,7 @@ const renderPage = ({ title, date, description }, body) => `<!doctype html>
     <title>${escapeHtml(smartQuotes(title))} • Brian Wm. McAllister</title>
     <link rel="icon" href="/favicon.ico" />
     <link rel="preload" href="/fonts/karla-latin-200-800.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/ibm-plex-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="/base.css" />
     <link rel="stylesheet" href="/writing.css" />
   </head>

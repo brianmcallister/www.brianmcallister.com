@@ -1,8 +1,9 @@
 // Lays a patchwork of squares, cut from the home page's photo, across the
-// top of a post. Columns behind the text stay shallow and light. Columns
-// out toward the page's edges run deeper, with grayer and then darker
-// squares, and the bottom edge frays into stray squares and gaps. The
-// squares fade in one by one, roughly row by row from the top.
+// top of a post, reaching about a third of the way down the screen.
+// Columns behind the text stay shallow and light. Columns out toward the
+// page's edges run a little deeper, turning grayer and then darker toward
+// their bottoms, and the bottom edge frays into stray squares and gaps.
+// The squares fade in one by one, roughly row by row from the top.
 //
 // The layout is seeded from the post's address, so a post looks the same
 // on every visit. The tiles come from /patchwork.webp, which
@@ -39,13 +40,15 @@ const pick = (random, [first, count]) => first + Math.floor(random() * count);
 const layout = () => {
   const random = seededRandom(hash(location.pathname));
   const width = page.clientWidth;
-  const size = width < 600 ? 40 : 56;
+  const size = width < 600 ? 28 : 40;
   const pageBox = page.getBoundingClientRect();
   const textBox = text.getBoundingClientRect();
   const textLeft = textBox.left - pageBox.left - 12;
   const textRight = textBox.right - pageBox.left + 12;
   const sideWidth = Math.max(1, textLeft);
   const screen = window.innerHeight;
+  // Nothing goes lower than about a third of the way down the screen.
+  const lastRow = Math.max(2, Math.floor((screen * 0.33) / size) - 1);
 
   // Columns are laid out from the page's center, so the grid is symmetric.
   const columns = Math.ceil(width / size / 2) * 2 + 2;
@@ -61,12 +64,14 @@ const layout = () => {
       ? 0
       : Math.min(1, (x + size <= textLeft ? textLeft - (x + size) : x - textRight) / sideWidth);
 
+    // Depth rises gently from behind the text out to the edges, to about
+    // a third of the screen.
     let depth;
     if (behindText) {
       depth = 2 + Math.floor(random() * 3);
     } else {
-      const reach = (0.25 + 0.45 * out ** 0.7) * screen * (0.75 + random() * 0.5);
-      depth = Math.max(2, Math.round(reach / size));
+      const reach = (0.12 + 0.08 * out) * screen * (0.8 + random() * 0.4);
+      depth = Math.max(3, Math.round(reach / size));
     }
 
     const rows = new Set();
@@ -76,7 +81,7 @@ const layout = () => {
 
     // A ragged edge: stray squares below, each less likely than the last,
     // and the odd gap just above the edge.
-    const strays = behindText ? 1 : 4;
+    const strays = behindText ? 1 : 2;
     for (let k = 0, chance = behindText ? 0.3 : 0.6; k < strays; k++, chance *= 0.55) {
       if (random() < chance) {
         rows.add(depth + k + (random() < 0.3 ? 1 : 0));
@@ -91,8 +96,14 @@ const layout = () => {
     }
 
     for (const row of rows) {
-      const dark = Math.max(0, out - 0.55) * 0.8;
-      const mid = Math.min(0.75, out * 0.9);
+      if (row > lastRow) {
+        continue;
+      }
+      // Grayer and darker squares gather toward the bottom of the side
+      // columns, darkest toward the page's edges. The top rows stay light.
+      const down = row / depth;
+      const dark = Math.min(0.6, Math.max(0, down - 0.5) * 1.4) * out;
+      const mid = Math.min(0.8, Math.max(0, down - 0.15) * 0.9 + out * 0.25);
       const roll = random();
       const group = behindText ? 'light' : roll < dark ? 'dark' : roll < dark + mid ? 'mid' : 'light';
 

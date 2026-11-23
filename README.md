@@ -11,6 +11,7 @@ My personal site. It's static pages plus one serverless function on Vercel, with
 public/                   the site: pages, styles, scripts and images
 writing/                  posts, as Markdown files
 scripts/build-writing.js  builds the posts into public/writing/
+scripts/make-patchwork.py makes the tile sheet for the patchwork at the top of posts
 api/now-playing.js        returns the track currently playing on Spotify
 api/spotify-auth.js       gets a Spotify refresh token, all in the browser
 ```
@@ -35,6 +36,8 @@ Drafts are built locally and in preview deployments, but never in production. Re
 To embed a YouTube video, put a link to it in a paragraph of its own, like `[Video title](https://www.youtube.com/watch?v=VIDEO_ID)`. The post shows the video's still with a play button, and YouTube's player only loads when it's pressed. The post pages' Content-Security-Policy in `vercel.json` allows YouTube's image host and its privacy-enhanced `youtube-nocookie.com` player.
 
 Posts aren't listed automatically. To link one from the home page, add it under Writing in `public/index.html` with a path like `/writing/my-post`. In browsers that support cross-document view transitions, the link then animates into the post's title.
+
+The patchwork at the top of each post is drawn by `public/patchwork.js` from tiles of the home page's photo in `public/patchwork.webp`: light sky near the text, grayer sky further out and the island's rock near the edges. The squares fade in from the top, and the layout is seeded from the post's address, so it stays the same between visits. To cut a new set of tiles, run `python3 scripts/make-patchwork.py` with a different number, which needs Pillow and NumPy.
 
 To build the posts locally:
 

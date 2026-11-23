@@ -75,9 +75,26 @@ body {
 /* The off-white paper inside the frame. */
 .page {
   background: var(--paper-color);
+  position: relative;
   min-height: calc(100vh - 32px - env(safe-area-inset-top, 0px));
   padding: 24px calc(40px + env(safe-area-inset-right, 0px)) calc(72px + env(safe-area-inset-bottom, 0px))
     calc(40px + env(safe-area-inset-left, 0px));
+}
+
+/* A patchwork of squares from the home page's photo across the top of
+   the page, drawn by /patchwork.js behind everything else. */
+.patchwork {
+  display: block;
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.page > header,
+.page > main {
+  position: relative;
 }
 
 /* The logo, small, as the link home. */

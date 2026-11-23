@@ -270,10 +270,13 @@ const renderPage = ({ title, date, description }, body) => {
     <link rel="preload" href="/fonts/karla-latin-200-800.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/ibm-plex-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="/base.css" />
-    <link rel="stylesheet" href="/writing.css" />${videoScript}
+    <link rel="stylesheet" href="/writing.css" />
+    <link rel="preload" href="/patchwork.webp" as="image" type="image/webp" />
+    <script src="/patchwork.js" defer></script>${videoScript}
   </head>
   <body>
     <div class="page">
+      <canvas class="patchwork" aria-hidden="true"></canvas>
       <header>
         <a class="home-link" href="/" aria-label="Brian Wm. McAllister, home">
           ${squircle.replace(/\n/g, '\n          ')}

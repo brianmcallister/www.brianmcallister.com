@@ -55,7 +55,8 @@
 :root {
   --text-color: #2a2623;
   --muted-color: #574f49;
-  --paper-color: #d8cabe;
+  /* Matches PAPER in scripts/make-texture.py. */
+  --paper-color: #f7f4f0;
 }
 
 /* The body is the dark frame. Safari tints its toolbars from the body's
@@ -72,17 +73,18 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* The paper inside the frame: a patchwork of squares sampled from the
-   sky in the home page's photo. */
+/* The paper inside the frame, off-white, with a patchwork of squares
+   sampled from the sky in the home page's photo hanging from the top.
+   The patchwork is centered so its shallow middle sits behind the text. */
 .page {
-  background: var(--paper-color) repeat;
+  background: var(--paper-color) top center no-repeat;
   background-image: url(/texture.jpg);
   background-image: image-set(
     url(/texture.avif) type('image/avif'),
     url(/texture.webp) type('image/webp'),
     url(/texture.jpg) type('image/jpeg')
   );
-  background-size: 1200px 1200px;
+  background-size: 3000px auto;
   min-height: calc(100vh - 32px - env(safe-area-inset-top, 0px));
   padding: 24px calc(40px + env(safe-area-inset-right, 0px)) calc(72px + env(safe-area-inset-bottom, 0px))
     calc(40px + env(safe-area-inset-left, 0px));
@@ -199,7 +201,7 @@ body {
 }
 
 .post__body code {
-  background: rgb(255 255 255 / 40%);
+  background: rgb(0 0 0 / 5%);
   border-radius: 4px;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 0.85em;
@@ -207,7 +209,7 @@ body {
 }
 
 .post__body pre {
-  background: rgb(255 255 255 / 40%);
+  background: rgb(0 0 0 / 5%);
   border-radius: 6px;
   line-height: 1.5;
   overflow-x: auto;
@@ -250,7 +252,7 @@ body {
 .post__body .placeholder {
   align-items: center;
   aspect-ratio: 16 / 9;
-  background: rgb(255 255 255 / 35%);
+  background: rgb(0 0 0 / 4%);
   border: 1px dashed rgb(0 0 0 / 25%);
   border-radius: 4px;
   color: var(--muted-color);
@@ -272,7 +274,10 @@ body {
     font-size: 1.25rem;
   }
 
+  /* Half-size squares on phones, where the text spans the whole width,
+     so the patchwork stops behind the title. */
   .page {
+    background-size: 1500px auto;
     padding-left: calc(20px + env(safe-area-inset-left, 0px));
     padding-right: calc(20px + env(safe-area-inset-right, 0px));
   }

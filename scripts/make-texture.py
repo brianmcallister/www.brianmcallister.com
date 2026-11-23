@@ -1,9 +1,14 @@
 """Makes the patchwork texture behind posts from the home page's photo.
 
-Fills a grid of square patches with crops of clean, light sky from
-public/background.jpg, picked and turned at random, then evens out the
-colors so the patchwork stays quiet behind text. The texture's edges
-fall on patch edges, so it repeats without a visible join.
+Lays square patches of clean, light sky from public/background.jpg,
+picked and turned at random, across the top of a wide image, and evens
+out their colors so the patchwork stays quiet behind text. Columns stop
+at random depths with a few stray squares below, so the bottom edge is
+ragged. Columns behind the text column stop early and columns out to
+the sides run deeper. Empty cells are the page's off-white.
+
+The image is centered at the top of each post, so its middle sits
+behind the text.
 
     python3 scripts/make-texture.py [seed]
 
@@ -19,8 +24,14 @@ import numpy as np
 from PIL import Image, ImageFilter
 
 ROOT = Path(__file__).resolve().parent.parent
-SIZE = 1200  # The texture's width and height, in pixels.
 PATCH = 200  # Each patch's width and height, in pixels.
+COLUMNS = 15  # Patches across. 15 make 3000px, wider than most screens.
+ROWS = 7  # The deepest a column can run.
+TEXT_HALF_WIDTH = 380  # Half the text column's width, plus a little room.
+DEPTH_BEHIND_TEXT = (2, 3)  # Rows for columns behind the text: fewest, most.
+DEPTH_AT_SIDES = (4, 7)  # Rows for columns out to the sides.
+STRAY_CHANCE = 0.35  # Chance of a stray square in the row below a column.
+PAPER = (247, 244, 240)  # The page color, #f7f4f0 in public/writing.css.
 COLOR_EVENING = 0.55  # How far each patch's color moves toward the average.
 GRADIENT_SOFTENING = 0.75  # How much of each patch's internal shading is kept.
 
@@ -49,7 +60,25 @@ def main():
     def is_clean(x, y, w, h):
         return bad[y + h, x + w] - bad[y, x + w] - bad[y + h, x] + bad[y, x] == 0
 
-    patches = [(x, y, PATCH, PATCH) for y in range(0, SIZE, PATCH) for x in range(0, SIZE, PATCH)]
+    width_px, height_px = COLUMNS * PATCH, ROWS * PATCH
+    center = width_px / 2
+
+    patches = []
+    for col in range(COLUMNS):
+        left = col * PATCH
+        behind_text = left < center + TEXT_HALF_WIDTH and left + PATCH > center - TEXT_HALF_WIDTH
+        depth = rng.randint(*(DEPTH_BEHIND_TEXT if behind_text else DEPTH_AT_SIDES))
+        rows = list(range(depth))
+        # Out to the sides, a stray square or two below the edge makes it
+        # fray, and now and then a square at the edge goes missing. Behind
+        # the text, columns stop cleanly so nothing reaches the reading.
+        if not behind_text:
+            for extra in (depth, depth + 1):
+                if extra < ROWS and rng.random() < STRAY_CHANCE:
+                    rows.append(extra)
+            if rng.random() < 0.25:
+                rows.remove(depth - 1)
+        patches += [(left, row * PATCH, PATCH, PATCH) for row in rows]
 
     height, width = mask.shape
     crops = []
@@ -85,7 +114,7 @@ def main():
         crops.append(crop)
 
     average = np.concatenate([c.reshape(-1, 3) for c in crops]).mean(0)
-    texture = np.zeros((SIZE, SIZE, 3))
+    texture = np.zeros((height_px, width_px, 3)) + PAPER
 
     for (x, y, w, h), crop in zip(patches, crops):
         mean = crop.reshape(-1, 3).mean(0)
@@ -98,7 +127,7 @@ def main():
     image.save(out / 'texture.webp', quality=78, method=6)
     image.save(out / 'texture.avif', quality=60)
 
-    print(f'{len(patches)} patches, seed {seed}, average color {average.round().astype(int).tolist()}')
+    print(f'{len(patches)} patches, {width_px}x{height_px}, seed {seed}')
 
 
 if __name__ == '__main__':

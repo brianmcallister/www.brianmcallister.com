@@ -43,7 +43,7 @@ To embed a YouTube video, add it as an HTML block using the privacy-enhanced `yo
 
 Posts aren't listed automatically. To link one from the home page, add it under Writing in `public/index.html` with a path like `/writing/my-post`. In browsers that support cross-document view transitions, the link then animates into the post's title, and back again.
 
-The patchwork texture behind posts is made from squares of sky in the home page's photo. To make a new arrangement, run `python3 scripts/make-texture.py` with a different number, which needs Pillow and NumPy.
+The patchwork at the top of posts is made from squares of sky in the home page's photo. It hangs from the top with a ragged bottom edge, shallow behind the text and deeper at the sides. To make a new arrangement, run `python3 scripts/make-texture.py` with a different number, which needs Pillow and NumPy.
 
 To build the posts locally:
 

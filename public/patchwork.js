@@ -61,6 +61,9 @@ const layout = () => {
 
   for (let column = 0; column < columns; column++) {
     const x = firstX + column * size;
+    if (x + size <= 0 || x >= width) {
+      continue;
+    }
     const behindText = x + size > textLeft && x < textRight;
     // How far out toward the page's edge this column sits, from 0 at the
     // text to 1 at the edge.
@@ -68,13 +71,14 @@ const layout = () => {
       ? 0
       : Math.min(1, (x + size <= textLeft ? textLeft - (x + size) : x - textRight) / sideWidth);
 
-    // Depth rises gently from behind the text out toward the edges.
+    // The depth stays level across the middle, so the text doesn't look
+    // fenced off, and only drops away near the page's edges.
     let depth;
     if (behindText) {
-      depth = 2 + Math.floor(random() * 3);
+      depth = 1 + Math.floor(random() * 3);
     } else {
-      const reach = (0.12 + 0.18 * out) * screen * (0.8 + random() * 0.4);
-      depth = Math.max(3, Math.round(reach / size));
+      const reach = (0.1 + 0.2 * out ** 2) * screen * (0.8 + random() * 0.4);
+      depth = Math.max(2, Math.round(reach / size));
     }
 
     const rows = new Set();

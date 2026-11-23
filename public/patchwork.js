@@ -3,7 +3,8 @@
 // the title. Columns out toward the page's edges run deeper, to a little
 // over two-fifths of the way down the screen, turning grayer and then darker toward
 // their bottoms, and the bottom edge frays into stray squares and gaps.
-// The squares fade in one by one, roughly row by row from the top.
+// The squares appear one by one, roughly row by row from the top, each
+// at its final color in a single step.
 //
 // The layout is seeded from the post's address, so a post looks the same
 // on every visit. The tiles come from /patchwork.webp, which
@@ -14,9 +15,11 @@ const SHEET_COLUMNS = 12;
 const SHEET_TILE = 128;
 const GROUPS = { light: [0, 48], mid: [48, 24], dark: [72, 12] }; // First tile, count.
 
-const ROW_DELAY = 40; // Milliseconds between rows starting to fade in.
+const ROW_DELAY = 40; // Milliseconds between rows starting to appear.
 const JITTER = 160; // Up to this much extra delay per square, at random.
-const FADE = 260; // Milliseconds for each square to fade in.
+// A very short fade softens each square's arrival. Longer fades show a
+// square lighter, while it's partly see-through, before its true color.
+const FADE = 70;
 
 const canvas = document.querySelector('.patchwork');
 const page = canvas?.parentElement;
@@ -39,7 +42,7 @@ const pick = (random, [first, count]) => first + Math.floor(random() * count);
 // Works out every square's place, tile and fade-in delay for the page's
 // current width.
 const layout = () => {
-  const random = seededRandom(hash(location.pathname));
+  const seed = hash(location.pathname);
   const width = page.clientWidth;
   const size = width < 600 ? 28 : 40;
   const pageBox = page.getBoundingClientRect();
@@ -60,6 +63,10 @@ const layout = () => {
   const squares = [];
 
   for (let column = 0; column < columns; column++) {
+    // Each column draws from its own sequence, keyed to its place relative
+    // to the page's center, so a small change in width only nudges the
+    // patchwork instead of reshuffling it.
+    const random = seededRandom(seed + Math.imul(column - columns / 2, 2654435761));
     const x = firstX + column * size;
     if (x + size <= 0 || x >= width) {
       continue;
@@ -182,26 +189,33 @@ const start = async () => {
   await sheet.decode();
 
   let squares = layout();
+  let animating = !reduceMotion.matches;
 
-  if (reduceMotion.matches) {
-    draw(sheet, squares, Infinity);
-  } else {
+  if (animating) {
     const began = performance.now();
     const frame = (now) => {
-      if (!draw(sheet, squares, now - began)) {
+      if (draw(sheet, squares, now - began)) {
+        animating = false;
+      } else {
         requestAnimationFrame(frame);
       }
     };
     requestAnimationFrame(frame);
+  } else {
+    draw(sheet, squares, Infinity);
   }
 
-  // Redraw, without animating, when the page's width changes.
+  // When the page's width changes, lay the squares out again. During the
+  // animation, the next frame picks up the new layout, so nothing is drawn
+  // twice; afterwards, it's redrawn at once.
   let lastWidth = page.clientWidth;
   new ResizeObserver(() => {
     if (page.clientWidth !== lastWidth) {
       lastWidth = page.clientWidth;
       squares = layout();
-      draw(sheet, squares, Infinity);
+      if (!animating) {
+        draw(sheet, squares, Infinity);
+      }
     }
   }).observe(page);
 };

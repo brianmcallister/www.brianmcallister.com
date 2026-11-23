@@ -55,7 +55,6 @@
 :root {
   --text-color: #2a2623;
   --muted-color: #574f49;
-  /* Matches PAPER in scripts/make-texture.py. */
   --paper-color: #f7f4f0;
 }
 
@@ -73,18 +72,9 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* The paper inside the frame, off-white, with a patchwork of squares
-   sampled from the sky in the home page's photo hanging from the top.
-   The patchwork is centered so its shallow middle sits behind the text. */
+/* The off-white paper inside the frame. */
 .page {
-  background: var(--paper-color) top center no-repeat;
-  background-image: url(/texture.jpg);
-  background-image: image-set(
-    url(/texture.avif) type('image/avif'),
-    url(/texture.webp) type('image/webp'),
-    url(/texture.jpg) type('image/jpeg')
-  );
-  background-size: 3000px auto;
+  background: var(--paper-color);
   min-height: calc(100vh - 32px - env(safe-area-inset-top, 0px));
   padding: 24px calc(40px + env(safe-area-inset-right, 0px)) calc(72px + env(safe-area-inset-bottom, 0px))
     calc(40px + env(safe-area-inset-left, 0px));
@@ -274,10 +264,7 @@ body {
     font-size: 1.25rem;
   }
 
-  /* Half-size squares on phones, where the text spans the whole width,
-     so the patchwork stops behind the title. */
   .page {
-    background-size: 1500px auto;
     padding-left: calc(20px + env(safe-area-inset-left, 0px));
     padding-right: calc(20px + env(safe-area-inset-right, 0px));
   }

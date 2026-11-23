@@ -11,7 +11,6 @@ My personal site. It's static pages plus one serverless function on Vercel, with
 public/                   the site: pages, styles, scripts and images
 writing/                  posts, as Markdown files
 scripts/build-writing.js  builds the posts into public/writing/
-scripts/make-texture.py   makes the patchwork texture behind posts
 api/now-playing.js        returns the track currently playing on Spotify
 api/spotify-auth.js       gets a Spotify refresh token, all in the browser
 ```
@@ -42,8 +41,6 @@ To embed a YouTube video, add it as an HTML block using the privacy-enhanced `yo
 ```
 
 Posts aren't listed automatically. To link one from the home page, add it under Writing in `public/index.html` with a path like `/writing/my-post`. In browsers that support cross-document view transitions, the link then animates into the post's title, and back again.
-
-The patchwork at the top of posts is made from squares of sky in the home page's photo. It hangs from the top with a ragged bottom edge, shallow behind the text and deeper at the sides. To make a new arrangement, run `python3 scripts/make-texture.py` with a different number, which needs Pillow and NumPy.
 
 To build the posts locally:
 

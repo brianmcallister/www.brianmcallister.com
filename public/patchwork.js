@@ -1,7 +1,7 @@
 // Lays a patchwork of squares, cut from the home page's photo, across the
-// top of a post, reaching about a third of the way down the screen.
-// Columns behind the text stay shallow and light. Columns out toward the
-// page's edges run a little deeper, turning grayer and then darker toward
+// top of a post. Columns behind the text stay light and always stop above
+// the title. Columns out toward the page's edges run deeper, to a little
+// over two-fifths of the way down the screen, turning grayer and then darker toward
 // their bottoms, and the bottom edge frays into stray squares and gaps.
 // The squares fade in one by one, roughly row by row from the top.
 //
@@ -21,6 +21,7 @@ const FADE = 260; // Milliseconds for each square to fade in.
 const canvas = document.querySelector('.patchwork');
 const page = canvas?.parentElement;
 const text = document.querySelector('.post');
+const title = document.querySelector('.post__title');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 // A small seeded random number generator, so layouts are repeatable.
@@ -47,8 +48,11 @@ const layout = () => {
   const textRight = textBox.right - pageBox.left + 12;
   const sideWidth = Math.max(1, textLeft);
   const screen = window.innerHeight;
-  // Nothing goes lower than about a third of the way down the screen.
-  const lastRow = Math.max(2, Math.floor((screen * 0.33) / size) - 1);
+  // Behind the text, nothing reaches the title. At the sides, nothing goes
+  // lower than a little over two-fifths of the way down the screen.
+  const titleTop = title.getBoundingClientRect().top - pageBox.top;
+  const lastRowBehindText = Math.floor((titleTop - 8) / size) - 1;
+  const lastRowAtSides = Math.max(2, Math.floor((screen * 0.43) / size) - 1);
 
   // Columns are laid out from the page's center, so the grid is symmetric.
   const columns = Math.ceil(width / size / 2) * 2 + 2;
@@ -64,13 +68,12 @@ const layout = () => {
       ? 0
       : Math.min(1, (x + size <= textLeft ? textLeft - (x + size) : x - textRight) / sideWidth);
 
-    // Depth rises gently from behind the text out to the edges, to about
-    // a third of the screen.
+    // Depth rises gently from behind the text out toward the edges.
     let depth;
     if (behindText) {
       depth = 2 + Math.floor(random() * 3);
     } else {
-      const reach = (0.12 + 0.08 * out) * screen * (0.8 + random() * 0.4);
+      const reach = (0.12 + 0.18 * out) * screen * (0.8 + random() * 0.4);
       depth = Math.max(3, Math.round(reach / size));
     }
 
@@ -96,7 +99,7 @@ const layout = () => {
     }
 
     for (const row of rows) {
-      if (row > lastRow) {
+      if (row > (behindText ? lastRowBehindText : lastRowAtSides)) {
         continue;
       }
       // Grayer and darker squares gather toward the bottom of the side
@@ -199,7 +202,7 @@ const start = async () => {
   }).observe(page);
 };
 
-if (canvas && text) {
+if (canvas && text && title) {
   start().catch(() => {
     // Without the tiles, the page is simply plain.
   });

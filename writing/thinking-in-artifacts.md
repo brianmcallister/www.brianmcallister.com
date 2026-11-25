@@ -2,7 +2,6 @@
 title: Thinking in Artifacts
 date: 2026-11-22
 description: Why ending each AI session with a file beats living in the chat, and how that habit leads to handing real work to agents.
-draft: true
 ---
 
 Most people start using AI the same way: chat. It's so easy to get going started, and you see results immediately. It absolutely feels like magic. After a while, it starts to build an understanding of what you're trying to accomplish, almost like it knows you. This feeling is a bit addictive. It's very fun, and I certainly have found myself going late into the night thinking "just one more prompt...".

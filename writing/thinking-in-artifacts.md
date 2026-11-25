@@ -19,7 +19,7 @@ If you have used Copilot or ChatGPT mostly for one-off questions and quick answe
 
 ## Why living in the chat breaks down
 
-**[Image: slide "Living in the chat". A long chat transcript with the context window gauge at the bottom nearly full.]**
+![A long chat fills up, then falls apart: chat bubbles ending in "…what were we doing again?" above a context window gauge at 98% full.](/images/thinking-in-artifacts/01-living-in-the-chat@2x.png)
 
 This is the view everyone will recognize. A single long conversation where everything you discuss lives in the chat. There's three things going on here that are less than ideal.
 
@@ -33,7 +33,7 @@ Lastly, the conversation itself is fragile. If everything you've worked on with 
 
 ## Two mental models
 
-**[Image: slide "Chat-centric vs artifact-centric". Two columns side by side, the left a single long conversation, the right a chat producing files that fan out to people and agents.]**
+![Same chat window, different home for the work. Chat-centric: the work lives in one long conversation. Artifact-centric: a chat produces a file that goes to people and agents, so the work lives in files.](/images/thinking-in-artifacts/02-two-mental-models@2x.png)
 
 On the left is the chat-centric model I just described. You interact with a chat, you have a long-running conversation, and everything you talked about lives in that history.
 
@@ -43,7 +43,7 @@ Artifacts matter because they are durable. Durable things are shareable with the
 
 ## Let the artifact be the memory
 
-**[Image: slide "Where context lives". Context flowing from a chat session into files, with the chat-only path shown fading out.]**
+![Let the artifact be the memory. With chat only, context disappears with the session. With artifacts, a chat writes a file, and the context carries into the next session.](/images/thinking-in-artifacts/03-where-context-lives@2x.png)
 
 When you think in artifacts, context finds its way into files. The opposite is the chat-centric workflow, where context only lives in the long lived conversation.
 
@@ -53,7 +53,7 @@ Either way, you do not want to be the memory of the task or the workflow you are
 
 ## The loop
 
-**[Image: slide "The artifact loop". A cycle of four steps: create artifacts, iterate in chat, update the artifacts, start a new chat with the artifacts as context.]**
+![The artifact loop: create an artifact, iterate in the chat, update the artifact, start a new chat from the artifact, then go round again. The artifact carries the context forward, so the chat doesn't have to.](/images/thinking-in-artifacts/04-the-artifact-loop@2x.png)
 
 There is a simple loop to this.
 
@@ -67,7 +67,7 @@ A conversation that you see on screen is not just your questions and the model r
 
 ## The ladder to delegated work
 
-**[Image: slide "The ladder". Four rungs from bottom to top: one-on-one chat, context copied out of chat, chat creating artifacts, agents looping on artifacts.]**
+![The ladder to delegated work, rising from chat only, to copying out of the chat, to a chat that writes artifacts, marked "you are here", to agents looping on artifacts. You can't hand an agent a chat history. You can hand it a spec and a test.](/images/thinking-in-artifacts/05-the-ladder@2x.png)
 
 You can think of the journey as a ladder.
 
@@ -77,7 +77,7 @@ In order to achieve fully agentic processes, it's useful to realize that you can
 
 ## Session shapes
 
-**[Image: slide "Session shapes". Left, one long bar for a multi-hour session. Right, a row of short sessions of different lengths, each ending in a file: plan.md, spec, test.]**
+![Many small sessions beat one long one. One three-hour session drifts and leaves nothing durable. Many small sessions, such as Opus for 15 minutes and Sonnet for 10 and 8, each end in a file: plan.md, spec.md and test.js.](/images/thinking-in-artifacts/06-session-shapes@2x.png)
 
 The two models look different when you draw the sessions.
 
@@ -87,7 +87,7 @@ On the right, the same work divided into many small sessions. They have differen
 
 ## What artifacts look like in practice
 
-**[Image: slide "Artifacts in practice". A grid of artifact types: markdown spec or PRD, code change, generated tests, Jira issue, Confluence page.]**
+![You already make most of these: plans, meaning specs and PRDs; code changes, the diff itself; tests, unit and integration; tickets, stories in Jira; and docs, runbooks and notes. The agent writes them at the end of a session, and the next session starts from them.](/images/thinking-in-artifacts/07-artifacts-in-practice@2x.png)
 
 Artifacts come in many shapes. These are the ones we see engineering teams using most.
 

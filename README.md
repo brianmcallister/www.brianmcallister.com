@@ -33,6 +33,8 @@ draft: true
 
 Drafts are built locally and in preview deployments, but never in production. Remove the `draft` line to publish. The build script supports headings, emphasis, links, images, inline and fenced code, lists, block quotes and rules, and a block that starts with an HTML tag is passed through as is. Straight quotes and apostrophes become curly ones, except in code. A paragraph that is only a bold note like `**[Image: the first slide]**` shows as a 16:9 placeholder box until the note is replaced with an image.
 
+To add an image, put the file under `public/images/`, in a folder named after the post, like `public/images/my-post/chart.png`, and add it to the post in a paragraph of its own: `![A description of the image](/images/my-post/chart.png)`. The description is the alt text that screen readers announce. The build reads the image's size so the page doesn't jump while it loads, and stops with an error if the file is missing. Images uploaded through GitHub's web editor are stored on GitHub, not in the repository, so they won't work on the site.
+
 To embed a YouTube video, put a link to it in a paragraph of its own, like `[Video title](https://www.youtube.com/watch?v=VIDEO_ID)`. The post shows the video's still with a play button, and YouTube's player only loads when it's pressed. The post pages' Content-Security-Policy in `vercel.json` allows YouTube's image host and its privacy-enhanced `youtube-nocookie.com` player.
 
 Posts aren't listed automatically. To link one from the home page, add it under Writing in `public/index.html` with a path like `/writing/my-post`.

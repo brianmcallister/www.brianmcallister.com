@@ -14,6 +14,7 @@
 // Drafts are built locally and in preview deployments, never in
 // production. Vercel runs this before every deploy.
 
+import { readFileSync } from 'node:fs';
 import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
@@ -72,6 +73,64 @@ const smartQuotes = (text) =>
     .replace(/(^|[\s([{*_\u0000‘-])"/g, '$1“')
     .replace(/"/g, '”');
 
+// Images
+//
+// An image on the site, with a path like /images/my-post/chart.png, must
+// exist under public/, or the build stops. Its width and height are read
+// from the file and added to the page, so the text doesn't jump when the
+// image loads. PNG, JPEG and WebP are understood.
+
+const imageSize = (buffer) => {
+  // PNG: the size is in the first chunk.
+  if (buffer.readUInt32BE(0) === 0x89504e47) {
+    return [buffer.readUInt32BE(16), buffer.readUInt32BE(20)];
+  }
+  // JPEG: the size is in the first start-of-frame marker.
+  if (buffer[0] === 0xff && buffer[1] === 0xd8) {
+    for (let at = 2; at < buffer.length; ) {
+      const marker = buffer[at + 1];
+      if (marker >= 0xc0 && marker <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(marker)) {
+        return [buffer.readUInt16BE(at + 7), buffer.readUInt16BE(at + 5)];
+      }
+      at += 2 + buffer.readUInt16BE(at + 2);
+    }
+  }
+  // WebP: lossy, lossless or extended.
+  if (buffer.toString('ascii', 0, 4) === 'RIFF' && buffer.toString('ascii', 8, 12) === 'WEBP') {
+    const kind = buffer.toString('ascii', 12, 16);
+    if (kind === 'VP8 ') {
+      return [buffer.readUInt16LE(26) & 0x3fff, buffer.readUInt16LE(28) & 0x3fff];
+    }
+    if (kind === 'VP8L') {
+      const bits = buffer.readUInt32LE(21);
+      return [(bits & 0x3fff) + 1, ((bits >> 14) & 0x3fff) + 1];
+    }
+    if (kind === 'VP8X') {
+      return [buffer.readUIntLE(24, 3) + 1, buffer.readUIntLE(27, 3) + 1];
+    }
+  }
+  return null;
+};
+
+const renderImage = (alt, src, title) => {
+  let size = '';
+
+  if (src.startsWith('/')) {
+    let buffer;
+    try {
+      buffer = readFileSync(join(root, 'public', decodeURIComponent(src)));
+    } catch {
+      throw new Error(`Image ${src} not found. Put it in public${src}.`);
+    }
+    const dimensions = imageSize(buffer);
+    if (dimensions) {
+      size = ` width="${dimensions[0]}" height="${dimensions[1]}"`;
+    }
+  }
+
+  return `<img src="${escapeHtml(src)}" alt="${escapeHtml(smartQuotes(alt))}"${title ? ` title="${escapeHtml(title)}"` : ''}${size} loading="lazy" decoding="async" />`;
+};
+
 const renderInline = (text) => {
   // Code spans, images and links are set aside first, so emphasis rules
   // never reach inside code or URLs. They go back in at the end.
@@ -83,9 +142,7 @@ const renderInline = (text) => {
       text
         .replace(/`([^`]+)`/g, (_, code) => keep(`<code>${escapeHtml(code)}</code>`))
         .replace(/!\[([^\]]*)\]\(([^)\s]+)(?:\s+"(.*?)")?\)/g, (_, alt, src, title) =>
-          keep(
-            `<img src="${escapeHtml(src)}" alt="${escapeHtml(smartQuotes(alt))}"${title ? ` title="${escapeHtml(title)}"` : ''} loading="lazy" />`,
-          ),
+          keep(renderImage(alt, src, title)),
         )
         .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, label, href) =>
           keep(`<a href="${escapeHtml(href)}">${renderInline(label)}</a>`),
@@ -137,11 +194,15 @@ const renderMarkdown = (markdown) => {
     const text = paragraph.join('\n');
     const placeholder = text.match(IMAGE_PLACEHOLDER);
     const video = text.match(YOUTUBE_LINK);
+    // A paragraph that is only an image is a figure.
+    const image = /^!\[[^\]]*\]\([^)]+\)$/.test(text);
 
     if (placeholder) {
       html.push(`<figure class="placeholder"><span>${escapeHtml(smartQuotes(placeholder[1]))}</span></figure>`);
     } else if (video) {
       html.push(renderVideo(smartQuotes(video[1]), video[2]));
+    } else if (image) {
+      html.push(`<figure>${renderInline(text)}</figure>`);
     } else {
       html.push(`<p>${renderInline(text)}</p>`);
     }

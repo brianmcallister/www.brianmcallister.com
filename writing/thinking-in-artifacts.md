@@ -20,7 +20,6 @@ If you have used Copilot or ChatGPT mostly for one-off questions and quick answe
 ## Why living in the chat breaks down
 
 **[Image: slide "Living in the chat". A long chat transcript with the context window gauge at the bottom nearly full.]**
-<img width="1440" height="810" alt="01-living-in-the-chat@2x" src="https://github.com/user-attachments/assets/92f73127-4abc-4182-bedd-5b9c0240daef" />
 
 This is the view everyone will recognize. A single long conversation where everything you discuss lives in the chat. There's three things going on here that are less than ideal.
 
@@ -35,7 +34,6 @@ Lastly, the conversation itself is fragile. If everything you've worked on with 
 ## Two mental models
 
 **[Image: slide "Chat-centric vs artifact-centric". Two columns side by side, the left a single long conversation, the right a chat producing files that fan out to people and agents.]**
-<img width="1440" height="810" alt="02-two-mental-models@2x" src="https://github.com/user-attachments/assets/cb569daf-5149-48fc-b27c-29e2c1af02de" />
 
 On the left is the chat-centric model I just described. You interact with a chat, you have a long-running conversation, and everything you talked about lives in that history.
 
@@ -46,7 +44,6 @@ Artifacts matter because they are durable. Durable things are shareable with the
 ## Let the artifact be the memory
 
 **[Image: slide "Where context lives". Context flowing from a chat session into files, with the chat-only path shown fading out.]**
-<img width="1440" height="810" alt="03-where-context-lives@2x" src="https://github.com/user-attachments/assets/e7bc8eb8-79c4-449d-9d52-e088507869a5" />
 
 When you think in artifacts, context finds its way into files. The opposite is the chat-centric workflow, where context only lives in the long lived conversation.
 
@@ -57,7 +54,6 @@ Either way, you do not want to be the memory of the task or the workflow you are
 ## The loop
 
 **[Image: slide "The artifact loop". A cycle of four steps: create artifacts, iterate in chat, update the artifacts, start a new chat with the artifacts as context.]**
-<img width="1440" height="810" alt="04-the-artifact-loop@2x" src="https://github.com/user-attachments/assets/dbd88e45-4f71-4263-8091-53a25013a3a2" />
 
 There is a simple loop to this.
 
@@ -72,7 +68,6 @@ A conversation that you see on screen is not just your questions and the model r
 ## The ladder to delegated work
 
 **[Image: slide "The ladder". Four rungs from bottom to top: one-on-one chat, context copied out of chat, chat creating artifacts, agents looping on artifacts.]**
-<img width="1440" height="810" alt="05-the-ladder@2x" src="https://github.com/user-attachments/assets/ccdd97ed-9aeb-465a-8d8f-22afd57cba12" />
 
 You can think of the journey as a ladder.
 
@@ -83,7 +78,6 @@ In order to achieve fully agentic processes, it's useful to realize that you can
 ## Session shapes
 
 **[Image: slide "Session shapes". Left, one long bar for a multi-hour session. Right, a row of short sessions of different lengths, each ending in a file: plan.md, spec, test.]**
-<img width="1440" height="810" alt="06-session-shapes@2x" src="https://github.com/user-attachments/assets/7ae82042-8d03-48f3-a94d-ddcb49fe42cc" />
 
 The two models look different when you draw the sessions.
 
@@ -94,7 +88,6 @@ On the right, the same work divided into many small sessions. They have differen
 ## What artifacts look like in practice
 
 **[Image: slide "Artifacts in practice". A grid of artifact types: markdown spec or PRD, code change, generated tests, Jira issue, Confluence page.]**
-<img width="1440" height="810" alt="07-artifacts-in-practice@2x" src="https://github.com/user-attachments/assets/3f74a759-c5a4-4347-8189-292d4c6cb930" />
 
 Artifacts come in many shapes. These are the ones we see engineering teams using most.
 

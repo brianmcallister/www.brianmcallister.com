@@ -1,0 +1,383 @@
+/* Posts under /writing/. Shared fonts and colors are in base.css. */
+
+/* IBM Plex Sans for the body text. Karla stays for the title and date. */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: optional;
+  src: url(/fonts/ibm-plex-sans-latin.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: italic;
+  font-weight: 100 700;
+  font-display: optional;
+  src: url(/fonts/ibm-plex-sans-latin-italic.woff2) format('woff2');
+}
+
+/* Local fonts adjusted to Plex's widths and line metrics, so the text
+   doesn't rewrap if Plex isn't ready for the first render. */
+@font-face {
+  font-family: 'IBM Plex Sans fallback';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Arial'), local('ArialMT'), local('Liberation Sans'), local('Helvetica');
+  size-adjust: 100.88%;
+  ascent-override: 101.61%;
+  descent-override: 27.26%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans fallback';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Arial Bold'), local('Arial-BoldMT'), local('Liberation Sans Bold'), local('Helvetica Bold');
+  size-adjust: 98.11%;
+  ascent-override: 104.47%;
+  descent-override: 28.03%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans fallback';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Arial Italic'), local('Arial-ItalicMT'), local('Liberation Sans Italic'), local('Helvetica Oblique');
+  size-adjust: 99.17%;
+  ascent-override: 103.36%;
+  descent-override: 27.73%;
+  line-gap-override: 0%;
+}
+
+:root {
+  --text-color: #2a2623;
+  --muted-color: #574f49;
+  --paper-color: #f7f4f0;
+}
+
+/* The body is the dark frame. Safari tints its toolbars from the body's
+   background, so keeping it dark matches the frame, as on the home page. */
+body {
+  -webkit-font-smoothing: antialiased;
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'Karla', 'Karla fallback', sans-serif;
+  font-size: 1.375rem;
+  line-height: 1.5;
+  margin: 0;
+  padding: calc(16px + env(safe-area-inset-top, 0px)) 16px 16px;
+  text-rendering: optimizeLegibility;
+}
+
+/* The off-white paper inside the frame. */
+.page {
+  background: var(--paper-color);
+  position: relative;
+  min-height: calc(100vh - 32px - env(safe-area-inset-top, 0px));
+  padding: 24px calc(40px + env(safe-area-inset-right, 0px)) calc(72px + env(safe-area-inset-bottom, 0px))
+    calc(40px + env(safe-area-inset-left, 0px));
+}
+
+/* A patchwork of squares from the home page's photo across the top of
+   the page, drawn by /patchwork.js behind everything else. */
+.patchwork {
+  display: block;
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.page > header,
+.page > main {
+  position: relative;
+}
+
+/* The logo, small, as the link home. */
+.home-link {
+  display: block;
+  height: 96px;
+  margin-left: -24px;
+  width: 96px;
+}
+
+.home-link svg {
+  display: block;
+  fill: var(--text-color);
+  height: 100%;
+  transition: fill 0.15s ease;
+  width: 100%;
+}
+
+.home-link:hover svg,
+.home-link:focus-visible svg {
+  fill: #000;
+}
+
+.post {
+  margin: 0 auto;
+  max-width: 45rem;
+}
+
+.post__title {
+  color: #1d1a18;
+  font-size: 4rem;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+  margin: 24px 0 0;
+  text-wrap: balance;
+}
+
+.post__date {
+  color: var(--muted-color);
+  font-size: 4rem;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+  margin: 0 0 56px;
+}
+
+.post__body {
+  font-family: 'IBM Plex Sans', 'IBM Plex Sans fallback', sans-serif;
+}
+
+.post__body a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+}
+
+.post__body a:hover {
+  text-decoration-thickness: 2px;
+}
+
+.post__body h1,
+.post__body h2,
+.post__body h3,
+.post__body h4 {
+  color: #1d1a18;
+  line-height: 1.25;
+  margin: 2em 0 0.5em;
+  text-wrap: balance;
+}
+
+/* Section headings are the body text's size, set apart by weight and
+   space. */
+.post__body h1,
+.post__body h2,
+.post__body h3,
+.post__body h4 {
+  font-size: 1em;
+}
+
+/* Avoids a lone word on the last line of a paragraph, where supported. */
+.post__body p,
+.post__body li {
+  text-wrap: pretty;
+}
+
+.post__body p,
+.post__body ul,
+.post__body ol,
+.post__body blockquote,
+.post__body pre,
+.post__body figure {
+  margin: 0 0 1.25em;
+}
+
+.post__body ul,
+.post__body ol {
+  padding-left: 1.25em;
+}
+
+.post__body li + li {
+  margin-top: 0.3em;
+}
+
+.post__body blockquote {
+  border-left: 3px solid var(--muted-color);
+  color: var(--muted-color);
+  margin-left: 0;
+  padding-left: 1em;
+}
+
+.post__body code {
+  background: rgb(0 0 0 / 5%);
+  border-radius: 4px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.85em;
+  padding: 0.1em 0.3em;
+}
+
+.post__body pre {
+  background: rgb(0 0 0 / 5%);
+  border-radius: 6px;
+  line-height: 1.5;
+  overflow-x: auto;
+  padding: 1em 1.2em;
+}
+
+.post__body pre code {
+  background: none;
+  padding: 0;
+}
+
+.post__body img {
+  border-radius: 4px;
+  display: block;
+  height: auto;
+  max-width: 100%;
+}
+
+.post__body hr {
+  border: 0;
+  border-top: 1px solid rgb(0 0 0 / 15%);
+  margin: 2.5em 0;
+}
+
+/* A video, at full column width: its still with a play button, until
+   /video.js swaps in YouTube's player. The box holds its 16:9 shape from
+   the start, so nothing moves as the still and the player load. */
+.post__body .video {
+  aspect-ratio: 16 / 9;
+  background: #1d2026;
+  border-radius: 4px;
+  margin: 0 0 1.75rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.video__poster {
+  display: block;
+  height: 100%;
+}
+
+.video__poster:focus-visible {
+  outline: 3px solid var(--text-color);
+  outline-offset: -3px;
+}
+
+.post__body .video__poster img {
+  border-radius: 0;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.video__play {
+  background: rgb(0 0 0 / 65%);
+  border-radius: 50%;
+  height: 76px;
+  inset: 0;
+  margin: auto;
+  position: absolute;
+  transition:
+    background-color 0.15s ease,
+    opacity 0.2s ease,
+    transform 0.15s ease;
+  width: 76px;
+}
+
+/* The triangle, nudged right of center so it looks centered. */
+.video__play::after {
+  border-color: transparent transparent transparent #fff;
+  border-style: solid;
+  border-width: 15px 0 15px 25px;
+  content: '';
+  left: 29px;
+  position: absolute;
+  top: 23px;
+}
+
+.video__poster:hover .video__play,
+.video__poster:focus-visible .video__play {
+  background: rgb(0 0 0 / 85%);
+  transform: scale(1.06);
+}
+
+.video__poster--loading .video__play {
+  opacity: 0.4;
+}
+
+.video__player {
+  border: 0;
+  height: 100%;
+  inset: 0;
+  opacity: 0;
+  position: absolute;
+  transition: opacity 0.35s ease;
+  width: 100%;
+}
+
+.video__player--ready {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .video__play,
+  .video__player {
+    transition: none;
+  }
+}
+
+/* Marks where an image will go, at the 16:9 shape of a slide. */
+.post__body .placeholder {
+  align-items: center;
+  aspect-ratio: 16 / 9;
+  background: rgb(0 0 0 / 4%);
+  border: 1px dashed rgb(0 0 0 / 25%);
+  border-radius: 4px;
+  color: var(--muted-color);
+  display: flex;
+  font-size: 0.875rem;
+  justify-content: center;
+  line-height: 1.4;
+  margin: 1.5rem 0 1.75rem;
+  padding: 1.5em 2em;
+  text-align: center;
+}
+
+.post__body .placeholder span {
+  max-width: 28rem;
+}
+
+@media screen and (max-width: 500px) {
+  body {
+    font-size: 1.25rem;
+  }
+
+  .page {
+    padding-left: calc(20px + env(safe-area-inset-left, 0px));
+    padding-right: calc(20px + env(safe-area-inset-right, 0px));
+  }
+
+  .home-link {
+    height: 80px;
+    margin-left: -20px;
+    width: 80px;
+  }
+
+  .post__title {
+    font-size: 2.9rem;
+  }
+
+  .post__date {
+    font-size: 2.9rem;
+    margin-bottom: 40px;
+  }
+}
+
+/* Page transitions into a post, from the home page. The photo blurs and
+   darkens away while the post fades in behind the moving title. */
+::view-transition-old(root) {
+  animation: 450ms cubic-bezier(0.2, 0, 0, 1) both vt-blur-out;
+}
+
+::view-transition-new(root) {
+  animation: 300ms ease-out 150ms both vt-fade-in;
+}

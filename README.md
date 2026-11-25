@@ -1,14 +1,51 @@
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset=".github/logo-dark.svg" />
+  <img src=".github/logo.svg" alt="Brian Wm. McAllister" height="200" />
+</picture>
+
 # www.brianmcallister.com
 
-My personal site. It's a static page plus one serverless function on Vercel, with no framework, build step or dependencies.
+My personal site. It's static pages plus one serverless function on Vercel, with no framework or dependencies. A small build script turns the posts in `writing/` into pages.
 
 ```
-public/              the site: index.html, style.css, now-playing.js, images
-api/now-playing.js   returns the track currently playing on Spotify
-api/spotify-auth.js  gets a Spotify refresh token, all in the browser
+public/                   the site: pages, styles, scripts and images
+writing/                  posts, as Markdown files
+scripts/build-writing.js  builds the posts into public/writing/
+scripts/make-patchwork.py makes the tile sheet for the patchwork at the top of posts
+api/now-playing.js        returns the track currently playing on Spotify
+api/spotify-auth.js       gets a Spotify refresh token, all in the browser
 ```
 
-To change the content, edit `public/index.html`.
+To change the home page, edit `public/index.html`.
+
+## Writing
+
+Each post is a Markdown file in `writing/`, and its file name becomes its URL, so `writing/my-post.md` is served at `/writing/my-post`. It starts with a short header:
+
+```
+---
+title: My post
+date: 2026-11-22
+description: Optional, for search results and link previews.
+draft: true
+---
+```
+
+Drafts are built locally and in preview deployments, but never in production. Remove the `draft` line to publish. The build script supports headings, emphasis, links, images, inline and fenced code, lists, block quotes and rules, and a block that starts with an HTML tag is passed through as is. Straight quotes and apostrophes become curly ones, except in code. A paragraph that is only a bold note like `**[Image: the first slide]**` shows as a 16:9 placeholder box until the note is replaced with an image.
+
+To add an image, put the file under `public/images/`, in a folder named after the post, like `public/images/my-post/chart.png`, and add it to the post in a paragraph of its own: `![A description of the image](/images/my-post/chart.png)`. The description is the alt text that screen readers announce. The build reads the image's size so the page doesn't jump while it loads, and stops with an error if the file is missing. Images uploaded through GitHub's web editor are stored on GitHub, not in the repository, so they won't work on the site.
+
+To embed a YouTube video, put a link to it in a paragraph of its own, like `[Video title](https://www.youtube.com/watch?v=VIDEO_ID)`. The post shows the video's still with a play button, and YouTube's player only loads when it's pressed. The post pages' Content-Security-Policy in `vercel.json` allows YouTube's image host and its privacy-enhanced `youtube-nocookie.com` player.
+
+Posts aren't listed automatically. To link one from the home page, add it under Writing in `public/index.html` with a path like `/writing/my-post`.
+
+The patchwork at the top of each post is drawn by `public/patchwork.js` from tiles of the home page's photo in `public/patchwork.webp`: light sky near the text, grayer sky further out and the island's rock near the edges. Behind the text it always stops above the title, and toward the edges it reaches a little over two-fifths of the way down the screen, darkest toward the bottom of the side columns. The squares appear one by one from the top, then drift slightly away from a nearby mouse pointer on springs, and the layout is seeded from the post's address, so it stays the same between visits. To cut a new set of tiles, run `python3 scripts/make-patchwork.py` with a different number, which needs Pillow and NumPy.
+
+To build the posts locally:
+
+```bash
+npm run build
+```
 
 ## Now playing
 

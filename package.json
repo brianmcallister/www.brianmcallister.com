@@ -10,7 +10,8 @@
     "node": ">=20"
   },
   "scripts": {
-    "dev": "vercel dev"
+    "dev": "vercel dev",
+    "build": "node scripts/build-writing.js"
   },
   "repository": {
     "type": "git",

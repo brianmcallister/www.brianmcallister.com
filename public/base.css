@@ -99,14 +99,3 @@ html {
   animation-duration: 450ms;
   animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
 }
-
-/* A post's title and the link to it on the home page morph into each
-   other. Fading the outgoing text out quickly, before the incoming text
-   fades in, keeps the two from showing as a doubled ghost mid-flight. */
-::view-transition-old(post-title) {
-  animation: 150ms ease-out both vt-fade-out;
-}
-
-::view-transition-new(post-title) {
-  animation: 250ms ease-in 100ms both vt-fade-in;
-}

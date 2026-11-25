@@ -131,7 +131,6 @@ body {
   line-height: 1.08;
   margin: 24px 0 0;
   text-wrap: balance;
-  view-transition-name: post-title;
 }
 
 .post__date {

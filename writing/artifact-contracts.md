@@ -94,7 +94,7 @@ An artifact that follows this shape may look like this:
 
 The second part is enforcement. With a schema in place, deterministic code can check whether an artifact matches the intended schema. If you run eval pipelines, which is a topic for a later post, you can enforce this automatically, the same way tests run in a CI/CD pipeline.
 
-The third part is external validation. A schema can be satisfied by an artifact whose contents are wrong, so you still need to check the contents. In this example that means checking that `src/export.ts` and `src/export.test.ts` actually exist. In this example, this could be as simple as `git diff --stat`.
+The third part is external validation. A schema can be satisfied by an artifact whose contents are wrong, so you still need to check the contents. In this example that means checking that `src/export.ts` and `src/export.test.ts` actually exist. This could be as simple as `git diff --stat`.
 
 ## Artifacts may have multiple readers
 
@@ -116,7 +116,7 @@ If you want to start using this, it helps to think about adding it to your workf
 
 1. **Convention.** Your team, or your agent sessions, may already be writing plans. The structure of those plans isn't defined yet.
 2. **Template.** A template adds fixed structure to the artifact. Direct your agent to follow it, and check that it does.
-3. **Schema.** Required fields and value types, validated by a script after every write. This is the step the post has been describing.
+3. **Schema.** Required fields and value types, validated by a script after every write. This is the step this post has been describing.
 4. **Verified.** The schemas are integrated into an automated process that validates against ground truth. Usually that means automated eval pipelines that surface errors to people and agents to be fixed.
 
 ## Example: a software factory
@@ -173,8 +173,8 @@ If you want to do this yourself, here are five rules I would propose.
 2. **Define the contract once and enforce it with a script.** Simple, deterministic, and a solved problem.
 3. **Keep schemas in version control with your project**, versioned and reviewed like code.
 4. **Write failure conditions into artifacts**, and define them in the schema.
-5. **Validate artifacts, not just the schema.** Schema validation tells you artifacts are the right shape. Validation checks that content is correct.
+5. **Validate artifacts, not just the schema.** Schema validation tells you artifacts are the right shape. Content validation checks that content is correct.
 
 ## Where to start
 
-Find the rung you're already on. If your agents write plans by convention, give them a template. If they already follow a template, write the schema down and run a script against it after every write.
+Find the step you're already on. If your agents write plans by convention, give them a template. If they already follow a template, write the schema down and run a script against it after every write.

@@ -7,7 +7,7 @@ draft: true
 
 In [Thinking in Artifacts](/writing/thinking-in-artifacts) I wrote about how to set up a process to get your agents writing their outputs to files, artifacts, which can be used to carry context forward into new, fresh agent sessions. The primary reason for doing this is to ensure that the context window of sessions stays as small as possible, which gets you higher-quality responses from the model you're using. While I didn't go into depth, you can read all about "the dumb zone" online. Here's [a fun one from Matt Pocock](https://x.com/mattpocockuk/status/2071288332642812229). This is what we're trying to avoid by using this technique.
 
-**[Image: hero illustration. Two agent sessions with a file between them and a contract above the file. From slide 8, "Artifact contracts".]**
+![Artifact contracts: the shape of what agents hand each other. Session one passes a JSON artifact, with a verdict, a list of files and an ask, to session two.](/images/artifact-contracts/00-hero@2x.png)
 
 This post is about how to define and describe the shape of the artifacts themselves. Once you work out the basics of this flow, the shape of the artifacts really starts to matter, and a contract is how you define it. This is the step that makes fully end-to-end agentic processes possible.
 
@@ -17,7 +17,7 @@ This post is about how to define and describe the shape of the artifacts themsel
 
 A quick recap. When you design a workflow to be artifact-centric, you direct each session to produce artifacts, and those artifacts carry context forward into new, fresh sessions. It's a good way to manage how much sits in the context window before it becomes a problem.
 
-**[Image: a chain of agents and files. Plan agent, plan.md, Spec agent, spec.md, Implement agent, code, Validate agent, review.md. From slide 3, "Agents pass artifacts to each other".]**
+![Agents pass artifacts to each other: a plan agent writes plan.md, a spec agent reads it and writes spec.md, an implement agent writes code, and a validate agent writes review.md.](/images/artifact-contracts/01-agents-pass-artifacts@2x.png)
 
 Use agents this way and they end up passing artifacts between each other. A plan becomes a spec, a spec becomes code, code becomes a review. Each handoff is a file one agent writes and another reads.
 
@@ -27,7 +27,7 @@ The shape of those files influences three things you can optimize for: what the 
 
 I think there's a great analogy we can make here. We use APIs all the time to add structure to the messages we send between a client and server. Two agents talking to each other is a similar style of communication, and we can follow this pattern to help our agents send the right messages to each other.
 
-**[Image: a server and a client with a response between them, mirrored below by two agent sessions with artifact.md between them, and the three words structure, decoupling, testability. From slide 4, "A handoff is an API".]**
+![A handoff is an API. A server sends a response to a client, just as one agent session sends artifact.md to another. Both give you structure, decoupling and testability.](/images/artifact-contracts/02-a-handoff-is-an-api@2x.png)
 
 We use APIs for three reasons, and I'll keep coming back to these:
 
@@ -49,13 +49,13 @@ Your sessions may already be producing artifacts. Those artifacts can get large 
 
 ### Without decoupling
 
-**[Image: the chain of agents and files with one stage changed and everything downstream turning red. From slide 6, "Without decoupling".]**
+![Without decoupling: in a chain of plan, spec, implement and validate agents, pulling out the implement agent leaves its code with nowhere to go.](/images/artifact-contracts/04-without-decoupling@2x.png)
 
 Without decoupling you can't safely change one part of the system without changing the rest. Swap the design of a skill or an agent at one stage, and everything downstream has to be adjusted for the difference in behavior.
 
 ### Without testability
 
-**[Image: a coding agent hands free prose to a deploy agent, which cannot deploy it. From slide 7, "Without testability".]**
+![Without testability: a coding agent hands a deploy agent free prose that starts "Once upon a time", and the deploy agent says "I can't deploy this". Game over.](/images/artifact-contracts/05-without-testability@2x.png)
 
 Without testability you can't really be sure your agents are doing what you want. If you change the model any single agent uses, it may produce subtly different results that are hard to catch until a person reviews the output, and that doesn't scale.
 
@@ -67,7 +67,7 @@ The contract sits between two sessions and defines what the artifact actually is
 
 ## A contract has three parts
 
-**[Image: three columns. A JSON Schema, an artifact that conforms to it, and the output of git diff confirming the files it names. From slide 9, "A contract has three parts".]**
+![A contract has three parts: a JSON schema, a contract artifact that matches it, checked by jsonschema.validate, and validation against the real files with git diff --stat.](/images/artifact-contracts/06-three-parts@2x.png)
 
 The first part is a schema. It says which sections, keys and values must be in the file. This example uses JSON Schema.
 
@@ -98,7 +98,7 @@ The third part is external validation. A schema can be satisfied by an artifact 
 
 ## Artifacts may have multiple readers
 
-**[Image: session one writes review.md for human review and contract.json for session two. From slide 10, "Artifacts may have multiple readers".]**
+![Artifacts may have multiple readers: session one writes review.md for a human review and contract.json for session two.](/images/artifact-contracts/07-multiple-readers@2x.png)
 
 I do want to point out one thing that can be a bit unintuitive. Defining the shape of an artifact with a contract doesn't mean a session is only allowed to produce one artifact. A session can write many artifacts, for different readers and different reasons, and sometimes it should.
 
@@ -110,7 +110,7 @@ So you're not locked into one artifact per session. Produce as many as you need,
 
 ## How contracts mature
 
-**[Image: four rising steps. Convention, template, schema, verified. From slide 11, "How contracts mature".]**
+![How contracts mature, in four rising steps: convention, writing a plan.md; template, with fixed headings checked by eye; schema, with required keys and enums validated by a script; and verified, with content checked against ground truth.](/images/artifact-contracts/08-how-contracts-mature@2x.png)
 
 If you want to start using this, it helps to think about adding it to your workflows progressively. There are four steps.
 
@@ -121,7 +121,7 @@ If you want to start using this, it helps to think about adding it to your workf
 
 ## Example: a software factory
 
-**[Image: an issue goes in, a pull request comes out, and six stages sit between them with a file after each. Analyzer, Planner, Plan Validator, Implementer, Reviewer, Deployer. From slide 12, "A software factory".]**
+![A software factory: an issue goes in, six agents run in sequence, analyzer, planner, plan validator, implementer, reviewer and deployer, each writing a file, and a pull request comes out.](/images/artifact-contracts/09-a-software-factory@2x.png)
 
 Take the software factory pattern. An issue goes in one end and a reviewable pull request comes out the other. In between, six agents run in sequence, each as a fresh session: Analyzer, Planner, Plan Validator, Implementer, Reviewer and Deployer.
 
@@ -143,7 +143,7 @@ An error can still produce an artifact describing what went wrong, and that erro
 
 We can stick with the same example to show how you can achieve decoupling.
 
-**[Image: the same pipeline with a Risks section added to plan.md and every other stage and file unchanged. From slide 13, "Change one part, touch nothing else".]**
+![Change one part, touch nothing else: a Risks section is added to the planner's plan.md, and every other stage and file in the software factory stays the same.](/images/artifact-contracts/10-change-one-part@2x.png)
 
 Let's say we want to add a "risks" section to the Planner's output. We change the contract for the `plan.md` artifact. We may want to update the Plan Validator so it can make a decision or take an action with the new risks content, but nothing else changes. Everything downstream stays as it was with no changes.
 
@@ -151,7 +151,7 @@ Let's say we want to add a "risks" section to the Planner's output. We change th
 
 Here's a real example from my work at Lab49. Lab49 is a consulting company, and we maintain a consultant profile for every consultant on the team. You can think of it as a resume for our consultants, but very specific to Lab49. Every profile uses the same sections and standard language, so our clients can easily understand the profiles of the people we assign to their project. If you're a Lab49 client, you've certainly seen these.
 
-**[Image: many inputs on the left, a Profile agent writing profile.json in the middle, and deck, CV and Excel renderers on the right. From slide 15, "One schema in the middle".]**
+![One schema in the middle: CVs, existing profiles, completed project data and a profile spec go into a profile agent, which writes profile.json. Deck, CV and Excel renderers turn it into slides, a CV document and Excel data.](/images/artifact-contracts/11-one-schema-in-the-middle@2x.png)
 
 The problem here is that over time, profiles drift out of date, and project history lives somewhere else entirely. Turning all of that into one current profile per person was manual and tedious, and the results could vary quite a lot depending on who made the updates. Today, we've automated this end to end.
 
@@ -165,7 +165,7 @@ If we change the inputs, like adding a data source, or swap the model an agent u
 
 ## Five rules
 
-**[Image: the five rules as a checklist. From slide 16, "Five rules".]**
+![Five rules: write artifacts for their consumers, Markdown for people and JSON for the pipeline; define the contract once and enforce it with a script; keep schemas in version control, versioned and reviewed like code; write failure conditions into artifacts, and define them in the schema; validate artifacts, not just the schema.](/images/artifact-contracts/12-five-rules@2x.png)
 
 If you want to do this yourself, here are five rules I would propose.
 

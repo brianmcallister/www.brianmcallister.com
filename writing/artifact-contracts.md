@@ -5,7 +5,7 @@ description: Once agents pass files to each other, the shape of those files matt
 draft: true
 ---
 
-In [Thinking in Artifacts](/writing/thinking-in-artifacts) I wrote about how to set up a process to get your agents writing their outputs to files, artifacts, which can be used to carry context forward into new, fresh agent sessions. The primary reason for doing this is to ensure that the context window of sessions stays as small as possible, which gets you higher quality responses from the model you're using. While I didn't get in depth, you can read all about "the dumb zone" online. Here's a fun one from Matt Pocock: https://x.com/mattpocockuk/status/2071288332642812229. This is what we're trying to avoid by using this technique.
+In [Thinking in Artifacts](/writing/thinking-in-artifacts) I wrote about how to set up a process to get your agents writing their outputs to files, artifacts, which can be used to carry context forward into new, fresh agent sessions. The primary reason for doing this is to ensure that the context window of sessions stays as small as possible, which gets you higher-quality responses from the model you're using. While I didn't go into depth, you can read all about "the dumb zone" online. Here's [a fun one from Matt Pocock](https://x.com/mattpocockuk/status/2071288332642812229). This is what we're trying to avoid by using this technique.
 
 **[Image: hero illustration. Two agent sessions with a file between them and a contract above the file. From slide 8, "Artifact contracts".]**
 
@@ -31,7 +31,7 @@ I think there's a great analogy we can make here. We use APIs all the time to ad
 
 We use APIs for three reasons, and I'll keep coming back to these:
 
-First is structure. An API client reads only the fields it needs. You wouldn't send an entire database table as JSON to a web app, you send a subset in the exact shape the UI needs.
+First is structure. An API client reads only the fields it needs. You wouldn't send an entire database table as JSON to a web app; you send a subset in the exact shape the UI needs.
 
 Second is decoupling. Any individual agent doesn't have to know what sits upstream or downstream. You can swap the model like you would a database, the tools or the harness like you would infrastructure, and nothing downstream needs to care.
 
@@ -100,9 +100,9 @@ The third part is external validation. A schema can be satisfied by an artifact 
 
 **[Image: session one writes review.md for human review and contract.json for session two. From slide 10, "Artifacts may have multiple readers".]**
 
-I do want to point out one thing that can be bit unintuitive. Defining the shape of an artifact with a contract doesn't mean a session is only allowed to produce one artifact. A session can write many artifacts, for different readers and different reasons, and sometimes it should.
+I do want to point out one thing that can be a bit unintuitive. Defining the shape of an artifact with a contract doesn't mean a session is only allowed to produce one artifact. A session can write many artifacts, for different readers and different reasons, and sometimes it should.
 
-I find it very useful to direct agents to product content for people. It might be read during a review step in the workflow, but more often it gets used downstream, for example in a changelog that describes a collection of individual tasks.
+I find it very useful to direct agents to produce content for people. It might be read during a review step in the workflow, but more often it gets used downstream, for example in a changelog that describes a collection of individual tasks.
 
 Longer-form content is also useful to agents that analyze sessions later, when you want to know what happened and when as an input to a feedback loop (yet another future post!).
 
@@ -137,7 +137,7 @@ The error and the reason for it should be part of the output too, and enforced b
 }
 ```
 
-An error can still produce an artifacts that went wrong, and that error can follow a contract. Imagine what you can do with this structured information. Now you can surface agent problems up to agents and humans for fixing.
+An error can still produce an artifact describing what went wrong, and that error can follow a contract. Imagine what you can do with this structured information. Now you can surface agent problems up to agents and humans for fixing.
 
 ## Change one part, touch nothing else
 
@@ -149,15 +149,15 @@ Let's say we want to add a "risks" section to the Planner's output. We change th
 
 ## Example: consultant profiles
 
-Here's a real example from my work at Lab49. Lab49 is a consulting company, and we maintain a consultant profile for every consultant on the team. You can think of it as a resumes for our consultants, but very specific to Lab49. Every profile uses the same sections and standard language, so our clients can easily understand the profiles of the people we assign their project. If you're a Lab49 client, you've certainly seen these.
+Here's a real example from my work at Lab49. Lab49 is a consulting company, and we maintain a consultant profile for every consultant on the team. You can think of it as a resume for our consultants, but very specific to Lab49. Every profile uses the same sections and standard language, so our clients can easily understand the profiles of the people we assign to their project. If you're a Lab49 client, you've certainly seen these.
 
 **[Image: many inputs on the left, a Profile agent writing profile.json in the middle, and deck, CV and Excel renderers on the right. From slide 15, "One schema in the middle".]**
 
 The problem here is that over time, profiles drift out of date, and project history lives somewhere else entirely. Turning all of that into one current profile per person was manual and tedious, and the results could vary quite a lot depending on who made the updates. Today, we've automated this end to end.
 
-The inputs are messy and disparate: people's existing resumes are in all kinds of different formats and structures. Our library of existing profiles do quickly get out of date. Data from ongoing and completed projects are in multiple locations. Requirements from clients also come in many shapes and sizes.
+The inputs are messy and disparate: people's existing resumes are in all kinds of different formats and structures. Our library of existing profiles does quickly get out of date. Data from ongoing and completed projects are in multiple locations. Requirements from clients also come in many shapes and sizes.
 
-We've designed a system of agents process that reads all this content and writes an artifact. But that artifact isn't a profile. The agent generates the content, and instead of writing a consultant profile it writes a JSON file that matches the schema of the profile contract. We run a validator against it like any other artifact.
+We've designed a system of agents that reads all this content and writes an artifact. But that artifact isn't a profile. The agent generates the content, and instead of writing a consultant profile it writes a JSON file that matches the schema of the profile contract. We run a validator against it like any other artifact.
 
 Document renderers then consume that file and produce whatever format suits the client. It could be a slide for a pitch deck, a PDF, or an Excel sheet of structured data. This means that the agents that produce outputs only read the exact data they need to do so. A client RFP never makes its way into a profile rendering agent, and it doesn't have to.
 

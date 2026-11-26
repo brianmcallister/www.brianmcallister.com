@@ -41,7 +41,7 @@ To embed a YouTube video, put a link to it in a paragraph of its own, like `[Vid
 
 Posts aren't listed automatically. To link one from the home page, add it under Writing in `public/index.html` with a path like `/writing/my-post`.
 
-The patchwork at the top of each post is drawn by `public/patchwork.js` from tiles of the home page's photo in `public/patchwork.webp`: pale and mid blue-grays softened from the sea, and the island's rock near the edges. Behind the text it always stops above the title, and toward the edges it reaches a little over two-fifths of the way down the screen, darkest toward the bottom of the side columns. The squares appear one by one from the top, then drift slightly away from a nearby mouse pointer on springs, and the layout is seeded from the post's address, so it stays the same between visits. To cut a new set of tiles, run `python3 scripts/make-patchwork.py` with a different number, which needs Pillow and NumPy.
+The patchwork at the top of each post is drawn by `public/patchwork.js` from tiles of the home page's photo in `public/patchwork.webp`: light sky near the text, grayer sky further out and the island's rock near the edges. Behind the text it always stops above the title, and toward the edges it reaches a little over two-fifths of the way down the screen, darkest toward the bottom of the side columns. The squares appear one by one from the top, then drift slightly away from a nearby mouse pointer on springs, and the layout is seeded from the post's address, so it stays the same between visits. To cut a new set of tiles, run `python3 scripts/make-patchwork.py` with a different number, which needs Pillow and NumPy.
 
 To build the posts locally:
 

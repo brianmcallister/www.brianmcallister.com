@@ -3,10 +3,14 @@
 Cuts square tiles from the home page's photo, public/background.jpg, in
 three groups, and lays them out in rows in public/patchwork.webp:
 
-  - light: clean sky, for the squares nearest the text
-  - mid: the grayer sky near the photo's top and corners, for squares
-    further out
+  - light: the sea, softened and lightened to a pale blue-gray, for the
+    squares nearest the text
+  - mid: the sea, softened and only a little lighter, for squares further
+    out
   - dark: the island's rock, for squares near the page's edges
+
+The sea is blurred first, so its waves become soft shading rather than
+busy texture.
 
 Within each group, colors move partway toward the group's average and
 shading inside each tile is softened, so the patchwork stays quiet.
@@ -31,6 +35,11 @@ SHEET_COLUMNS = 12
 COUNTS = {'light': 48, 'mid': 24, 'dark': 12}  # Must match patchwork.js.
 COLOR_EVENING = 0.55  # How far each tile's color moves toward its group's average.
 GRADIENT_SOFTENING = 0.75  # How much of each tile's internal shading is kept.
+SEA_BLUR = 10  # Blur radius that softens the sea's waves, in pixels.
+# How far each group moves toward a pale blue: far for light, a touch for
+# mid. Lightening toward white instead would wash the blue out to gray.
+LIGHTEN = {'light': 0.8, 'mid': 0.3, 'dark': 0.0}
+PALE_BLUE = np.array([226, 236, 244])
 
 
 def main():
@@ -57,13 +66,22 @@ def main():
                     found.append((x, y))
         return found
 
-    horizon = int(height * 0.44)
+    horizon = int(height * 0.45)
+    surfers = (int(width * 0.32), int(height * 0.52), int(width * 0.68), int(height * 0.66))
 
+    def is_sea(x, y, t):
+        clear_of_surfers = x + TILE <= surfers[0] or x >= surfers[2] or y + TILE <= surfers[1] or y >= surfers[3]
+        mean = pixels[y : y + TILE, x : x + TILE].reshape(-1, 3).mean(0)
+        blue_enough = mean[2] - mean[0] > 22
+        return y > horizon and clear_of_surfers and blue_enough and 80 < t.mean() < 170 and t.max() < 235
+
+    sea_groups = candidates(lambda x, y, t, s: is_sea(x, y, t))
     groups = {
-        'light': candidates(lambda x, y, t, s: t.min() > 192 and s.max() < 1.6),
-        'mid': candidates(lambda x, y, t, s: y + TILE < horizon and 140 < t.mean() < 188 and t.std() < 8 and s.max() < 2.5),
+        'light': sea_groups,
+        'mid': sea_groups,
         'dark': candidates(lambda x, y, t, s: 30 < t.mean() < 80 and t.std() < 10 and t.max() < 110),
     }
+    soft_sea = np.asarray(photo.filter(ImageFilter.GaussianBlur(SEA_BLUR)), dtype=float)
 
     tiles = []
     for name, count in COUNTS.items():
@@ -71,8 +89,10 @@ def main():
         if len(pool) < count:
             raise SystemExit(f'Only {len(pool)} {name} areas found, {count} needed')
         crops = []
+        source = pixels if name == 'dark' else soft_sea
         for x, y in rng.sample(pool, count):
-            crop = pixels[y : y + TILE, x : x + TILE]
+            crop = source[y : y + TILE, x : x + TILE]
+            crop = crop + (PALE_BLUE - crop) * LIGHTEN[name]
             if rng.random() < 0.5:
                 crop = crop[:, ::-1]
             crops.append(np.rot90(crop, rng.randrange(4)))

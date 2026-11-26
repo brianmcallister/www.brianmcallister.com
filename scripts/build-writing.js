@@ -188,7 +188,7 @@ let codeBlocks = [];
 // one as finished HTML inside declarative shadow DOM. Browsers draw it
 // straight from the HTML, with no script, so nothing flashes or shifts.
 const CODE_CSS = `:host {
-  --diffs-bg: #edeae6;
+  --diffs-bg: #e6ecf0;
   --diffs-line-height: 1.65;
   --diffs-gap-block: 14px;
   --diffs-gap-inline: 16px;
@@ -196,7 +196,7 @@ const CODE_CSS = `:host {
   --diffs-header-font-family: 'IBM Plex Sans', 'IBM Plex Sans fallback', sans-serif;
 }`;
 
-const CODE_BACKGROUND = [0xed, 0xea, 0xe6]; // --diffs-bg above.
+const CODE_BACKGROUND = [0xe6, 0xec, 0xf0]; // --diffs-bg above.
 
 // The theme's token colors are made for white, and a few are too light for
 // small text on the code background. Each token color below 4.5:1, the

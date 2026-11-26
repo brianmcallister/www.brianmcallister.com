@@ -53,9 +53,11 @@
 }
 
 :root {
-  --text-color: #2a2623;
-  --muted-color: #574f49;
-  --paper-color: #f7f4f0;
+  /* Cool blue-grays, after the sea in the home page's photo. */
+  --text-color: #1f272e;
+  --heading-color: #141b21;
+  --muted-color: #4b5966;
+  --paper-color: #f3f6f8;
 }
 
 /* The body is the dark frame. Safari tints its toolbars from the body's
@@ -124,7 +126,7 @@ body {
 }
 
 .post__title {
-  color: #1d1a18;
+  color: var(--heading-color);
   font-size: 4rem;
   font-weight: 300;
   letter-spacing: -0.02em;
@@ -160,7 +162,7 @@ body {
 .post__body h2,
 .post__body h3,
 .post__body h4 {
-  color: #1d1a18;
+  color: var(--heading-color);
   line-height: 1.25;
   margin: 2em 0 0.5em;
   text-wrap: balance;

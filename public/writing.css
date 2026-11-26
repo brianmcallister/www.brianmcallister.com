@@ -217,13 +217,18 @@ body {
 .post__body pre {
   background: rgb(0 0 0 / 5%);
   border-radius: 6px;
-  line-height: 1.5;
+  /* Sized here rather than on the code inside, so the line height
+     follows the code's size, not the body text's. */
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.8em;
+  line-height: 1.55;
   overflow-x: auto;
   padding: 1em 1.2em;
 }
 
 .post__body pre code {
   background: none;
+  font-size: 1em;
   padding: 0;
 }
 

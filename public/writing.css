@@ -245,6 +245,15 @@ body {
   margin: 2.5em 0;
 }
 
+/* Code highlighted at build time, drawn from declarative shadow DOM. */
+.post__body .code-block {
+  border-radius: 6px;
+  display: block;
+  font-size: 0.8em;
+  margin: 0 0 1.25em;
+  overflow: hidden;
+}
+
 /* A video, at full column width: its still with a play button, until
    /video.js swaps in YouTube's player. The box holds its 16:9 shape from
    the start, so nothing moves as the still and the player load. */

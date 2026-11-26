@@ -43,7 +43,7 @@ Each of the three has a failure that shows up when it is missing.
 
 ### Without structure
 
-**[Image: an agent session hands a plan.md of three thousand lines to the next session, whose context bar fills. From slide 5, "Without structure".]**
+![Without structure: one agent session hands a 3,000-line plan.md to the next, whose context fills to 176k of 200k tokens, 88% full.](/images/artifact-contracts/03-without-structure@2x.png)
 
 Your sessions may already be producing artifacts. Those artifacts can get large and that's not an inherently bad thing. The issue is that if you pass an entire, large document to the next session, it reads the entire document to search for the three or four bits it really needs to do its job. You pay for those token writes and reads, even if your data is cached. If you're forcing the agent to consume three, five or ten thousand lines of Markdown, you're filling up the context window in the next session, which you just emptied from the last session.
 

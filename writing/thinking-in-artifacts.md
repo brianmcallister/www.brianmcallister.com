@@ -4,7 +4,7 @@ date: 2026-11-22
 description: Why ending each AI session with a file beats living in the chat, and how that habit leads to handing real work to agents.
 ---
 
-Most people start using AI the same way: chat. It's so easy to get going started, and you see results immediately. It absolutely feels like magic. After a while, it starts to build an understanding of what you're trying to accomplish, almost like it knows you. This feeling is a bit addictive. It's very fun, and I certainly have found myself going late into the night thinking "just one more prompt...".
+Most people start using AI the same way: chat. It's so easy to get started, and you see results immediately. It absolutely feels like magic. After a while, it starts to build an understanding of what you're trying to accomplish, almost like it knows you. This feeling is a bit addictive. It's very fun, and I certainly have found myself going late into the night thinking "just one more prompt...".
 
 However, after a few hours, you start to notice that your agent is making mistakes. You're having to backtrack more often; steer it more often. The quality starts to dip, and seems to stay there.
 
@@ -18,15 +18,15 @@ If you have used Copilot or ChatGPT mostly for one-off questions and quick answe
 
 ## Why living in the chat breaks down
 
-This is the view everyone will recognize. A single long conversation where everything you discuss lives in the chat. There's three things going on here that are less than ideal.
+This is the view everyone will recognize. A single long conversation where everything you discuss lives in the chat. There are three things going on here that are less than ideal.
 
 ![A long chat fills up, then falls apart: chat bubbles ending in "…what were we doing again?" above a context window gauge at 98% full.](/images/thinking-in-artifacts/01-living-in-the-chat@2x.png)
 
-First, the context window will fill up over time. The context window is everything in an agent conversation, it's all the content that the agent passes to the underlying model. Because AI models don't have a memory, the chat application needs to pass the entire conversation to the model on every message back and forth. The more messages you send, the bigger the context grows, and we call this the context window. Most chat applications show you how much context has been filled, expressed as a percentage.
+First, the context window will fill up over time. The context window is everything in an agent conversation; it's all the content that the agent passes to the underlying model. Because AI models don't have a memory, the chat application needs to pass the entire conversation to the model on every message back and forth. The more messages you send, the bigger the context grows, and we call this the context window. Most chat applications show you how much context has been filled, expressed as a percentage.
 
-What you may have noticed is that the quality of the answers tends to get worse the more the context window get closer to being full, sometimes even as low as 50% full. If we can keep the amount of context in a session as small as possible, the model will give you better answers.
+What you may have noticed is that the quality of the answers tends to get worse the more the context window gets closer to being full, sometimes even as low as 50% full. If we can keep the amount of context in a session as small as possible, the model will give you better answers.
 
-Second, managing long chats, especially multiple, is just plain difficult. The list of conversations grows, and it's very easy to forget what any one session was about. You can search for your older conversations, but this problem only gets worse over time. 
+Second, managing long chats, especially multiple, is just plain difficult. The list of conversations grows, and it's very easy to forget what any one session was about. You can search for your older conversations, but this problem only gets worse over time.
 
 Lastly, the conversation itself is fragile. If everything you've worked on with your agent lives in the conversation history, it's very easy to lose. Company policies change, subscriptions expire, and the chat applications themselves may change over time. This is getting better over time as tools become more mature and resilient, but it wasn't too long ago that chats would simply end, show you an error, and all your conversation history would disappear.
 
@@ -42,13 +42,13 @@ Artifacts matter because they are durable. Durable things are shareable with the
 
 ## Let the artifact be the memory
 
-Think in artifacts means intentionally placing context into these artifacts. The opposite is the chat-centric workflow, where context only lives in the long lived conversation.
+Thinking in artifacts means intentionally placing context into these artifacts. The opposite is the chat-centric workflow, where context only lives in the long-lived conversation.
 
 ![Let the artifact be the memory. With chat only, context disappears with the session. With artifacts, a chat writes a file, and the context carries into the next session.](/images/thinking-in-artifacts/03-where-context-lives@2x.png)
 
 So the pattern is to interact with your agent, and direct it to create artifacts that become the context for future sessions. Future sessions might be more chats you have yourself. As you get more comfortable with these tools and processes, sessions won't be chats but will be unattended agentic processes.
 
-Either way, you do not want to hold the memory of the task or the workflow in your head, let the artifacts can be that memory.
+Either way, you do not want to hold the memory of the task or the workflow in your head. Let the artifacts be that memory.
 
 ## The loop
 
@@ -60,9 +60,9 @@ Direct your agent to create artifacts, so the output of a session lands in durab
 
 The easiest way to get started is to simply ask: "Plan my ask, and write the results to plan.md".
 
-When you are ready, start a new chat and hand it the artifacts as its context. The artifacts carry the specific, needed context forward into every future session, and no single conversation has to hold all of it. 
+When you are ready, start a new chat and hand it the artifacts as its context. The artifacts carry the specific, needed context forward into every future session, and no single conversation has to hold all of it.
 
-A conversation that you see on screen is not just your questions and the model responses. There are many, many lines of content the chat applications don't show you, and those invisible lines use precious context. Some of these items are 1) thinking blocks: the text the models generate to coordinate their progress 2) tool calls: how models do things outside of their text generation capabilities, like search the web 3) MCP tools: connectors to outside tools like Jira or Figma, and more. All of these will increase the amount of content in the context, which will degrade the quality of model responses.
+A conversation that you see on screen is not just your questions and the model's responses. There are many, many lines of content the chat applications don't show you, and those invisible lines use precious context. Some of these items are 1) thinking blocks: the text the models generate to coordinate their progress; 2) tool calls: how models do things outside of their text generation capabilities, like searching the web; and 3) MCP tools: connectors to outside tools like Jira or Figma, and more. All of these will increase the amount of content in the context, which will degrade the quality of model responses.
 
 ## The ladder to delegated work
 

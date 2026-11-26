@@ -18,7 +18,7 @@ If you have used Copilot or ChatGPT mostly for one-off questions and quick answe
 
 ## Why living in the chat breaks down
 
-This is the view everyone will recognize. A single long conversation where everything you discuss lives in the chat. There are three things going on here that are less than ideal.
+This is the view everyone will recognize. A single long conversation where everything you discuss lives in the chat. There's three things going on here that are less than ideal.
 
 ![A long chat fills up, then falls apart: chat bubbles ending in "…what were we doing again?" above a context window gauge at 98% full.](/images/thinking-in-artifacts/01-living-in-the-chat@2x.png)
 
@@ -28,7 +28,7 @@ What you may have noticed is that the quality of the answers tends to get worse 
 
 Second, managing long chats, especially multiple, is just plain difficult. The list of conversations grows, and it's very easy to forget what any one session was about. You can search for your older conversations, but this problem only gets worse over time.
 
-Lastly, the conversation itself is fragile. If everything you've worked on with your agent lives in the conversation history, it's very easy to lose. Company policies change, subscriptions expire, and the chat applications themselves may change over time. This is getting better over time as tools become more mature and resilient, but it wasn't too long ago that chats would simply end, show you an error, and all your conversation history would disappear.
+Lastly, the conversation itself is fragile. If everything you've worked on with your agent lives in the conversation history, it's very easy to lose. Company policies change, subscriptions expire, and the chat applications themselves may change. This is getting better over time as tools become more mature and resilient, but it wasn't too long ago that chats would simply end, show you an error, and all your conversation history would disappear.
 
 ## Two mental models
 

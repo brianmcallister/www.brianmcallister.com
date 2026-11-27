@@ -51,3 +51,34 @@ jobs:
           name: lighthouse-reports
           path: .lighthouseci/
           if-no-files-found: ignore
+
+  # After a push to main, publishes the Lighthouse scores as badge files to
+  # the `badges` branch, which the README's badges read. The branch holds
+  # only those files, replaced each time, so main gets no automated commits.
+  badges:
+    needs: check
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci
+
+      - name: Publish the badges
+        run: |
+          node scripts/lighthouse-badges.mjs "$RUNNER_TEMP/badges"
+          cd "$RUNNER_TEMP/badges"
+          git init -q -b badges
+          git add .
+          git -c user.name="github-actions[bot]" \
+            -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -q -m "Update Lighthouse badges from ${GITHUB_SHA::7}"
+          git push -f "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" badges
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

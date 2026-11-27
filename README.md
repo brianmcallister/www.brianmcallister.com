@@ -35,6 +35,8 @@ Drafts are built locally and in preview deployments, but never in production. Re
 
 To add an image, put the file under `public/images/`, in a folder named after the post, like `public/images/my-post/chart.png`, and add it to the post in a paragraph of its own: `![A description of the image](/images/my-post/chart.png)`. The description is the alt text that screen readers announce. The build reads the image's size so the page doesn't jump while it loads, and stops with an error if the file is missing. Images uploaded through GitHub's web editor are stored on GitHub, not in the repository, so they won't work on the site.
 
+Fenced code blocks are highlighted when the site builds, with [`@pierre/diffs`](https://diffs.com/), and sent as finished HTML in declarative shadow DOM, so they display with no JavaScript and nothing shifts while the page loads. Name the language after the opening fence, and optionally a file name to show it in a header: ` ```json contract.schema.json `. Token colors too faint for the code background are darkened until they meet WCAG AA contrast.
+
 To embed a YouTube video, put a link to it in a paragraph of its own, like `[Video title](https://www.youtube.com/watch?v=VIDEO_ID)`. The post shows the video's still with a play button, and YouTube's player only loads when it's pressed. The post pages' Content-Security-Policy in `vercel.json` allows YouTube's image host and its privacy-enhanced `youtube-nocookie.com` player.
 
 Posts aren't listed automatically. To link one from the home page, add it under Writing in `public/index.html` with a path like `/writing/my-post`.

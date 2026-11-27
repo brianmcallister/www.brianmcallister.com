@@ -37,19 +37,21 @@ const DAMPING = 0.25;
 // Room below the patchwork for squares pushed downward.
 const SPARE = PUSH + 4;
 
-const canvas = document.querySelector('.patchwork');
-const page = canvas?.parentElement;
-const text = document.querySelector('.post');
-const title = document.querySelector('.post__title');
-const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-// The view transition the page arrived through, if any. Browsers that
-// support document.activeViewTransition report it directly; otherwise the
-// pagereveal event hands it over, if it hasn't fired yet.
+// This script runs from the page's head, before the body is parsed, so
+// it is always listening by the time pagereveal fires. That event hands
+// over the view transition the page arrived through, if any. Browsers
+// that report document.activeViewTransition give it here as well.
 let arrival = document.activeViewTransition ?? null;
 window.addEventListener('pagereveal', (event) => {
   arrival = event.viewTransition ?? arrival;
 });
+
+// The page's elements, found once the body has been parsed.
+let canvas;
+let page;
+let text;
+let title;
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 // A small seeded random number generator, so layouts are repeatable.
 const seededRandom = (seed) => () => {
@@ -270,10 +272,12 @@ const start = async () => {
   await arrival?.finished.catch(() => {});
 
   let squares = layout();
-  const began = performance.now();
+  // The sweep's clock starts on the first frame it draws, so a slow first
+  // frame can't skip past the top rows.
+  let began = null;
   let appearing = !reduceMotion.matches;
   let running = false;
-  let last = began;
+  let last = performance.now();
   // The pointer, in the page's viewport coordinates, while it's a mouse or
   // pen over the page.
   let client = null;
@@ -296,6 +300,7 @@ const start = async () => {
     const frames = Math.min(3, (now - last) / (1000 / 60));
     last = now;
     const moving = step(squares, pointer(), frames);
+    began ??= now;
     const appeared = draw(sheet, squares, appearing ? now - began : Infinity);
     if (appeared) {
       appearing = false;
@@ -355,8 +360,14 @@ const start = async () => {
   }).observe(page);
 };
 
-if (canvas && text && title) {
-  start().catch(() => {
-    // Without the tiles, the page is simply plain.
-  });
-}
+document.addEventListener('DOMContentLoaded', () => {
+  canvas = document.querySelector('.patchwork');
+  page = canvas?.parentElement;
+  text = document.querySelector('.post');
+  title = document.querySelector('.post__title');
+  if (canvas && text && title) {
+    start().catch(() => {
+      // Without the tiles, the page is simply plain.
+    });
+  }
+});

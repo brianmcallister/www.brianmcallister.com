@@ -43,6 +43,12 @@ Posts aren't listed automatically. To link one from the home page, add it under 
 
 The patchwork at the top of each post is drawn by `public/patchwork.js` from tiles of the home page's photo in `public/patchwork.webp`: light sky near the text, grayer sky further out and the island's rock near the edges. Behind the text it always stops above the title, and toward the edges it reaches a little over two-fifths of the way down the screen, darkest toward the bottom of the side columns. The squares appear one by one from the top, then drift slightly away from a nearby mouse pointer on springs, and the layout is seeded from the post's address, so it stays the same between visits. To cut a new set of tiles, run `python3 scripts/make-patchwork.py` with a different number, which needs Pillow and NumPy.
 
+### Search and sharing
+
+Each post gets a canonical URL, Open Graph and Twitter card tags for link previews, and JSON-LD describing it as an article. Its preview image is the first image in the post, or set one in the header with `image: /images/my-post/cover.png`. The home page has the same tags, with `public/og/home.jpg` as its image, and JSON-LD describing you as a person.
+
+The build also writes `sitemap.xml` and an RSS feed at `feed.xml`, both newest first and without drafts. `robots.txt` points crawlers to the sitemap. `vercel.json` redirects `brianmcallister.com` and the project's `vercel.app` address to `www.brianmcallister.com`, and URLs with a trailing slash to the same URL without one, so each page has one address.
+
 To build the posts locally:
 
 ```bash

@@ -1,8 +1,8 @@
 ---
 title: Artifact Contracts
 date: 2026-11-26
+image: /images/artifact-contracts/00-hero@2x.png
 description: Once agents pass files to each other, the shape of those files matters. A contract defines that shape, and makes agentic pipelines cheaper, better and easier to change.
-draft: true
 ---
 
 In [Thinking in Artifacts](/writing/thinking-in-artifacts) I wrote about how to set up a process to get your agents writing their outputs to files, artifacts, which can be used to carry context forward into new, fresh agent sessions. The primary reason for doing this is to ensure that the context window of sessions stays as small as possible, which gets you higher-quality responses from the model you're using. While I didn't go into depth, you can read all about "the dumb zone" online. Here's [a fun one from Matt Pocock](https://x.com/mattpocockuk/status/2071288332642812229). This is what we're trying to avoid by using this technique.

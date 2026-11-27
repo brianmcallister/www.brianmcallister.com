@@ -25,6 +25,12 @@ const sourceDir = join(root, 'writing');
 const outputDir = join(root, 'public', 'writing');
 const includeDrafts = process.env.VERCEL_ENV !== 'production';
 
+// Site details for metadata, the sitemap and the feed. URLs in them must
+// be absolute.
+const SITE = 'https://www.brianmcallister.com';
+const AUTHOR = 'Brian Wm. McAllister';
+const DEFAULT_IMAGE = '/og/home.jpg';
+
 const escapeHtml = (text) =>
   text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
@@ -365,6 +371,92 @@ const renderMarkdown = (markdown) => {
   return html.join('\n');
 };
 
+// Metadata
+//
+// Each post gets a canonical URL, Open Graph and Twitter card tags for link
+// previews, and JSON-LD describing it as an article. Its preview image is
+// the header's `image`, if set, or else the post's first image on the site.
+
+const firstImage = (body) => body.match(/^!\[[^\]]*\]\((\/[^)\s]+)\)/m)?.[1];
+
+const absolute = (path) => new URL(path, SITE).href;
+
+// JSON-LD sits inside a script tag, so "<" is escaped to keep "</script>"
+// in a title from ending it early.
+const jsonLd = (data) => JSON.stringify(data, null, 2).replace(/</g, '\\u003c');
+
+const renderMeta = ({ title, date, description, image }, slug, body) => {
+  const url = `${SITE}/writing/${slug}`;
+  const imageUrl = absolute(image || firstImage(body) || DEFAULT_IMAGE);
+  const text = escapeHtml(smartQuotes(description || title));
+  const heading = escapeHtml(smartQuotes(title));
+  const article = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: smartQuotes(title),
+    description: smartQuotes(description || title),
+    datePublished: date,
+    image: imageUrl,
+    url,
+    mainEntityOfPage: url,
+    author: { '@type': 'Person', name: AUTHOR, url: `${SITE}/` },
+  };
+
+  return `<link rel="canonical" href="${url}" />
+    <link rel="alternate" type="application/rss+xml" title="${AUTHOR}" href="/feed.xml" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="${AUTHOR}" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="${url}" />
+    <meta property="og:title" content="${heading}" />
+    <meta property="og:description" content="${text}" />
+    <meta property="og:image" content="${imageUrl}" />
+    <meta property="article:published_time" content="${date}" />
+    <meta property="article:author" content="${SITE}/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="${heading}" />
+    <meta name="twitter:description" content="${text}" />
+    <meta name="twitter:image" content="${imageUrl}" />
+    <script type="application/ld+json">
+${jsonLd(article)}
+    </script>`;
+};
+
+// Sitemap and feed
+
+const xmlEscape = (text) => escapeHtml(text).replace(/'/g, '&apos;');
+
+const renderSitemap = (posts) => `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>${SITE}/</loc>
+  </url>
+${posts.map(({ slug, date }) => `  <url>
+    <loc>${SITE}/writing/${slug}</loc>
+    <lastmod>${date}</lastmod>
+  </url>`).join('\n')}
+</urlset>
+`;
+
+const renderFeed = (posts) => `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>${AUTHOR}</title>
+    <link>${SITE}/</link>
+    <description>Writing by ${AUTHOR}.</description>
+    <language>en-us</language>
+    <atom:link href="${SITE}/feed.xml" rel="self" type="application/rss+xml" />
+${posts.map(({ slug, title, date, description }) => `    <item>
+      <title>${xmlEscape(smartQuotes(title))}</title>
+      <link>${SITE}/writing/${slug}</link>
+      <guid isPermaLink="true">${SITE}/writing/${slug}</guid>
+      <pubDate>${new Date(`${date}T12:00:00Z`).toUTCString()}</pubDate>
+      <description>${xmlEscape(smartQuotes(description || title))}</description>
+    </item>`).join('\n')}
+  </channel>
+</rss>
+`;
+
 // Page
 
 // The logo's rotated squircle without the initials, as the link home. It
@@ -382,7 +474,8 @@ const formatDate = (date) =>
     year: 'numeric',
   });
 
-const renderPage = async ({ title, date, description }, body) => {
+const renderPage = async (data, slug, body) => {
+  const { title, date, description } = data;
   const content = await highlightCode(renderMarkdown(body));
   const videoScript = content.includes('class="video__poster"')
     ? '\n    <script src="/video.js" defer></script>'
@@ -395,9 +488,11 @@ const renderPage = async ({ title, date, description }, body) => {
     <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
     <meta name="author" content="Brian Wm. McAllister" />
     <meta name="description" content="${escapeHtml(smartQuotes(description || title))}" />
-    <meta name="theme-color" content="#1d2122" />
+    <meta name="theme-color" content="#1c2125" />
     <title>${escapeHtml(smartQuotes(title))} • Brian Wm. McAllister</title>
+    ${renderMeta(data, slug, body)}
     <link rel="icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
     <link rel="preload" href="/fonts/karla-latin-200-800.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/ibm-plex-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="/base.css" />
@@ -436,7 +531,7 @@ const files = (await readdir(sourceDir).catch(() => [])).filter((file) => file.e
 await rm(outputDir, { force: true, recursive: true });
 await mkdir(outputDir, { recursive: true });
 
-let built = 0;
+const published = [];
 
 for (const file of files) {
   const slug = file.slice(0, -'.md'.length);
@@ -452,9 +547,15 @@ for (const file of files) {
     continue;
   }
 
-  await writeFile(join(outputDir, `${slug}.html`), await renderPage(data, body));
+  await writeFile(join(outputDir, `${slug}.html`), await renderPage(data, slug, body));
   console.log(`Built          /writing/${slug}${data.draft === 'true' ? ' (draft)' : ''}`);
-  built++;
+  published.push({ slug, ...data });
 }
 
-console.log(`${built} post${built === 1 ? '' : 's'} built.`);
+// Newest first. Drafts are left out of the sitemap and feed everywhere,
+// even where they're built.
+const listed = published.filter((post) => post.draft !== 'true').sort((a, b) => b.date.localeCompare(a.date));
+await writeFile(join(root, 'public', 'sitemap.xml'), renderSitemap(listed));
+await writeFile(join(root, 'public', 'feed.xml'), renderFeed(listed));
+
+console.log(`${published.length} post${published.length === 1 ? '' : 's'} built, ${listed.length} in the sitemap and feed.`);

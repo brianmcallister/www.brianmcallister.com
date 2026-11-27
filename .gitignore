@@ -2,3 +2,5 @@ node_modules
 .vercel
 .env
 public/writing/
+public/sitemap.xml
+public/feed.xml

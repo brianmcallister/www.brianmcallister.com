@@ -4,7 +4,30 @@
   "outputDirectory": "public",
   "buildCommand": "npm run build",
   "cleanUrls": true,
+  "trailingSlash": false,
   "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "brianmcallister.com"
+        }
+      ],
+      "destination": "https://www.brianmcallister.com/$1",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www-brianmcallister-com.vercel.app"
+        }
+      ],
+      "destination": "https://www.brianmcallister.com/$1",
+      "permanent": true
+    },
     {
       "source": "/writing",
       "destination": "/",

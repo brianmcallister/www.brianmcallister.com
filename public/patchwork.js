@@ -1,10 +1,13 @@
 // Lays a patchwork of squares, cut from the home page's photo, across the
 // top of a post. Columns behind the text stay light and always stop above
-// the title. Columns out toward the page's edges run deeper, to a little
-// over two-fifths of the way down the screen, turning grayer and then darker toward
-// their bottoms, and the bottom edge frays into stray squares and gaps.
+// the title. Columns out toward the page's edges run a little deeper, to
+// at most about a quarter of the way down the screen, turning grayer and
+// then darker toward their bottoms. The bottom edge is ragged: columns
+// stop at uneven depths and fray into stray squares and gaps.
 // The squares appear one by one, roughly row by row from the top, each
-// at its final color in a single step. Afterwards, they drift slightly
+// at its final color in a single step. When the page is arriving through
+// a view transition, they wait until the transition has finished, so the
+// whole sweep is seen and doesn't compete with the transition for frames. Afterwards, they drift slightly
 // away from a nearby mouse pointer on springs, opening small gaps around
 // it, and settle back when it leaves.
 //
@@ -40,6 +43,14 @@ const text = document.querySelector('.post');
 const title = document.querySelector('.post__title');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
+// The view transition the page arrived through, if any. Browsers that
+// support document.activeViewTransition report it directly; otherwise the
+// pagereveal event hands it over, if it hasn't fired yet.
+let arrival = document.activeViewTransition ?? null;
+window.addEventListener('pagereveal', (event) => {
+  arrival = event.viewTransition ?? arrival;
+});
+
 // A small seeded random number generator, so layouts are repeatable.
 const seededRandom = (seed) => () => {
   seed = (seed + 0x6d2b79f5) | 0;
@@ -65,10 +76,10 @@ const layout = () => {
   const sideWidth = Math.max(1, textLeft);
   const screen = window.innerHeight;
   // Behind the text, nothing reaches the title. At the sides, nothing goes
-  // lower than a little over two-fifths of the way down the screen.
+  // lower than about a quarter of the way down the screen.
   const titleTop = title.getBoundingClientRect().top - pageBox.top;
   const lastRowBehindText = Math.floor((titleTop - 8) / size) - 1;
-  const lastRowAtSides = Math.max(2, Math.floor((screen * 0.43) / size) - 1);
+  const lastRowAtSides = Math.max(2, Math.floor((screen * 0.27) / size) - 1);
 
   // Columns are laid out from the page's center, so the grid is symmetric.
   const columns = Math.ceil(width / size / 2) * 2 + 2;
@@ -92,13 +103,15 @@ const layout = () => {
       : Math.min(1, (x + size <= textLeft ? textLeft - (x + size) : x - textRight) / sideWidth);
 
     // The depth stays level across the middle, so the text doesn't look
-    // fenced off, and only drops away near the page's edges.
+    // fenced off, and only drops gently near the page's edges. Each column
+    // varies a lot from its neighbors, so the bottom edge reads as ragged
+    // rather than as a smooth curve.
     let depth;
     if (behindText) {
       depth = 1 + Math.floor(random() * 3);
     } else {
-      const reach = (0.1 + 0.2 * out ** 2) * screen * (0.8 + random() * 0.4);
-      depth = Math.max(2, Math.round(reach / size));
+      const reach = (0.09 + 0.1 * out ** 2) * screen * (0.6 + random() * 0.8);
+      depth = Math.max(2, Math.round(reach / size) + Math.floor(random() * 3) - 1);
     }
 
     const rows = new Set();
@@ -108,15 +121,15 @@ const layout = () => {
 
     // A ragged edge: stray squares below, each less likely than the last,
     // and the odd gap just above the edge.
-    const strays = behindText ? 1 : 2;
-    for (let k = 0, chance = behindText ? 0.3 : 0.6; k < strays; k++, chance *= 0.55) {
+    const strays = behindText ? 1 : 3;
+    for (let k = 0, chance = behindText ? 0.3 : 0.75; k < strays; k++, chance *= 0.6) {
       if (random() < chance) {
         rows.add(depth + k + (random() < 0.3 ? 1 : 0));
       }
     }
     if (!behindText) {
-      for (let row = Math.max(1, depth - 3); row < depth; row++) {
-        if (random() < 0.18) {
+      for (let row = Math.max(1, depth - 4); row < depth; row++) {
+        if (random() < 0.25) {
           rows.delete(row);
         }
       }
@@ -251,6 +264,10 @@ const start = async () => {
   const sheet = new Image();
   sheet.src = SHEET;
   await sheet.decode();
+  // Hold the squares back until any view transition into the page is
+  // done. While it runs, the page is fading in, so the first rows would
+  // appear unseen and every redraw would compete with the transition.
+  await arrival?.finished.catch(() => {});
 
   let squares = layout();
   const began = performance.now();

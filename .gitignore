@@ -4,3 +4,4 @@ node_modules
 public/writing/
 public/sitemap.xml
 public/feed.xml
+.lighthouseci/

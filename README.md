@@ -5,7 +5,9 @@
 
 # www.brianmcallister.com
 
-My personal site. It's static pages plus one serverless function on Vercel, with no framework or dependencies. A small build script turns the posts in `writing/` into pages.
+[![Lighthouse performance](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fbrianmcallister%2Fwww.brianmcallister.com%2Fbadges%2Fperformance.json)](https://github.com/brianmcallister/www.brianmcallister.com/actions/workflows/site-checks.yml) [![Lighthouse accessibility](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fbrianmcallister%2Fwww.brianmcallister.com%2Fbadges%2Faccessibility.json)](https://github.com/brianmcallister/www.brianmcallister.com/actions/workflows/site-checks.yml) [![Lighthouse best practices](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fbrianmcallister%2Fwww.brianmcallister.com%2Fbadges%2Fbest-practices.json)](https://github.com/brianmcallister/www.brianmcallister.com/actions/workflows/site-checks.yml) [![Lighthouse SEO](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fbrianmcallister%2Fwww.brianmcallister.com%2Fbadges%2Fseo.json)](https://github.com/brianmcallister/www.brianmcallister.com/actions/workflows/site-checks.yml)
+
+My personal site. It's static pages plus one serverless function on Vercel, with no framework. A small build script turns the posts in `writing/` into pages, highlighting their code with `@pierre/diffs`.
 
 ```
 public/                   the site: pages, styles, scripts and images
@@ -54,6 +56,15 @@ To build the posts locally:
 ```bash
 npm run build
 ```
+
+## Checks
+
+Every pull request and push to `main` runs the site checks in `.github/workflows/site-checks.yml`. It builds the site as production does, then checks every page in the sitemap, so new posts are covered automatically:
+
+- `npm run check` loads each page in a browser and fails on accessibility violations found by axe, console errors including Content-Security-Policy violations, and images that don't load. It also fails on missing or wrong search metadata: a title, description and canonical URL matching the sitemap, Open Graph and Twitter card tags with a preview image that exists, and JSON-LD of the right type. It checks the feed and `robots.txt` against the sitemap, and warns when a description is outside 50 to 160 characters.
+- `npm run lighthouse` scores each page with Lighthouse CI, failing below 95 for accessibility and SEO or 90 for best practices, and warning below 90 for performance. The reports are saved with the workflow run. After each push to `main`, the scores are published to the `badges` branch for the badges at the top of this README. Each badge shows where the site stands on that deploy: the latest run of each page, and the lowest score among the pages.
+
+Both serve the built site with `scripts/serve.mjs`, which follows the clean URLs, redirects and headers in `vercel.json`. To run them locally after `npm run build`, install the browser once with `npx playwright install chromium`.
 
 ## Now playing
 

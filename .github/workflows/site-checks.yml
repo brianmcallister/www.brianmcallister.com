@@ -1,0 +1,84 @@
+# Builds the site and checks it on every pull request and push to main:
+# accessibility, search metadata and console errors on every page in the
+# sitemap, then Lighthouse scores. See scripts/check-site.mjs and
+# lighthouserc.cjs.
+
+name: Site checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Build as production does, so drafts are left out.
+      - name: Build
+        run: npm run build
+        env:
+          VERCEL_ENV: production
+
+      - name: Install the browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Check accessibility and metadata
+        run: npm run check
+
+      - name: Run Lighthouse
+        run: |
+          export CHROME_PATH="$(node -e "console.log(require('playwright').chromium.executablePath())")"
+          npm run lighthouse
+
+      - name: Save the Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci/
+          if-no-files-found: ignore
+
+  # After a push to main, publishes the Lighthouse scores as badge files to
+  # the `badges` branch, which the README's badges read. The branch holds
+  # only those files, replaced each time, so main gets no automated commits.
+  badges:
+    needs: check
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci
+
+      - name: Publish the badges
+        run: |
+          node scripts/lighthouse-badges.mjs "$RUNNER_TEMP/badges"
+          cd "$RUNNER_TEMP/badges"
+          git init -q -b badges
+          git add .
+          git -c user.name="github-actions[bot]" \
+            -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -q -m "Update Lighthouse badges from ${GITHUB_SHA::7}"
+          git push -f "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" badges
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

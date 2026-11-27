@@ -11,7 +11,10 @@
   },
   "scripts": {
     "dev": "vercel dev",
-    "build": "node scripts/build-writing.js"
+    "build": "node scripts/build-writing.js",
+    "check": "node scripts/check-site.mjs",
+    "lighthouse": "lhci autorun",
+    "serve": "node scripts/serve.mjs"
   },
   "repository": {
     "type": "git",
@@ -19,5 +22,10 @@
   },
   "dependencies": {
     "@pierre/diffs": "1.6.4"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "@lhci/cli": "0.16.1",
+    "playwright": "1.63.0"
   }
 }

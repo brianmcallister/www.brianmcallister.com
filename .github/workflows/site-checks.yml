@@ -44,13 +44,17 @@ jobs:
           export CHROME_PATH="$(node -e "console.log(require('playwright').chromium.executablePath())")"
           npm run lighthouse
 
+      # .lighthouseci/ is a hidden folder, which upload-artifact skips
+      # unless told otherwise. If Lighthouse itself failed there may be no
+      # reports, so the error for a missing upload only applies on success.
       - name: Save the Lighthouse reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: lighthouse-reports
           path: .lighthouseci/
-          if-no-files-found: ignore
+          include-hidden-files: true
+          if-no-files-found: ${{ job.status == 'success' && 'error' || 'warn' }}
 
   # After a push to main, publishes the Lighthouse scores as badge files to
   # the `badges` branch, which the README's badges read. The branch holds

@@ -51,11 +51,16 @@
     <link rel="stylesheet" href="/base.css" />
     <link rel="stylesheet" href="/style.css" />
     <link rel="stylesheet" href="/mockups/mockups.css" />
-    <script src="/now-playing.js" defer></script>
+    <script src="/mockups/now-playing.js" defer></script>
   </head>
   <body>
     <header>
       <h1 class="visually-hidden">Brian Wm. McAllister</h1>
+      <div class="playing" id="now-playing">
+        <span class="playing__art"></span>
+        <span class="label playing__label">Now playing</span>
+        <span class="playing__track" aria-live="polite">Loading...</span>
+      </div>
       <a class="logo" href="m&#97;i&#108;to&#58;brian&#64;b&#114;ia&#110;mc&#97;&#108;lister&#46;com" aria-label="Email Brian">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 612 792">
           <path d="M222.6 366.4v-.4c0-11-8.8-17.8-24.6-17.8h-27.6c-9.8 13.7-17 26.6-20.2 37.2h46c15.8 0 26.4-6.2 26.4-19z" />
@@ -65,12 +70,12 @@
       </a>
     </header>
 
-    <main class="content mock-drawers">
+    <main class="content mock mock-drawers">
       <details class="drawer" name="sections">
         <summary>
           <span class="drawer__label">Talks</span>
           <span class="drawer__latest">Artifact contracts: the shape of what agents hand each other</span>
-          <span class="drawer__count">7</span>
+          <span class="drawer__count toggle">7</span>
         </summary>
         <ul>
           <li><a href="https://www.youtube.com/watch?v=y7LiidypVSU">Artifact contracts: the shape of what agents hand each other</a></li>
@@ -86,7 +91,7 @@
         <summary>
           <span class="drawer__label">Writing</span>
           <span class="drawer__latest">Artifact Contracts</span>
-          <span class="drawer__count">3</span>
+          <span class="drawer__count toggle">3</span>
         </summary>
         <ul>
           <li><a href="/writing/artifact-contracts">Artifact Contracts</a></li>
@@ -98,7 +103,7 @@
         <summary>
           <span class="drawer__label">Open source</span>
           <span class="drawer__latest">@giantmachines/redux-websocket</span>
-          <span class="drawer__count">9</span>
+          <span class="drawer__count toggle">9</span>
         </summary>
         <ul>
           <li><a href="https://github.com/brianmcallister/redux-websocket">@giantmachines/redux-websocket</a></li>
@@ -116,117 +121,6 @@
       <p class="meta">
         <a href="https://www.lab49.com/">Interactive Practice Head at Lab49</a><span class="sep" aria-hidden="true">·</span><a href="https://github.com/brianmcallister">GitHub</a><span class="sep" aria-hidden="true">·</span><a href="https://www.npmjs.com/~brianmcallister">npm</a><span class="sep" aria-hidden="true">·</span><a href="https://www.linkedin.com/in/brian-wm-mcallister/">LinkedIn</a>
       </p>
-      <div class="group playing">
-        <span class="label">Now playing</span>
-        <span class="now-playing" id="now-playing">
-          <span class="now-playing__loading">
-            <span class="spinner">
-              <svg viewBox="0 0 64 64">
-                <g stroke-width="4" stroke-linecap="round">
-                  <line y1="12" y2="20" transform="translate(32,32) rotate(180)">
-                    <animate
-                      attributeName="stroke-opacity"
-                      dur="750ms"
-                      values="1;.85;.7;.65;.55;.45;.35;.25;.15;.1;0;1"
-                      repeatCount="indefinite"
-                    />
-                  </line>
-                  <line y1="12" y2="20" transform="translate(32,32) rotate(210)">
-                    <animate
-                      attributeName="stroke-opacity"
-                      dur="750ms"
-                      values="0;1;.85;.7;.65;.55;.45;.35;.25;.15;.1;0"
-                      repeatCount="indefinite"
-                    />
-                  </line>
-                  <line y1="12" y2="20" transform="translate(32,32) rotate(240)">
-                    <animate
-                      attributeName="stroke-opacity"
-                      dur="750ms"
-                      values=".1;0;1;.85;.7;.65;.55;.45;.35;.25;.15;.1"
-                      repeatCount="indefinite"
-                    />
-                  </line>
-                  <line y1="12" y2="20" transform="translate(32,32) rotate(270)">
-                    <animate
-                      attributeName="stroke-opacity"
-                      dur="750ms"
-                      values=".15;.1;0;1;.85;.7;.65;.55;.45;.35;.25;.15"
-                      repeatCount="indefinite"
-                    />
-                  </line>
-                  <line y1="12" y2="20" transform="translate(32,32) rotate(300)">
-                    <animate
-                      attributeName="stroke-opacity"
-                      dur="750ms"
-                      values=".25;.15;.1;0;1;.85;.7;.65;.55;.45;.35;.25"
-                      repeatCount="indefinite"
-                    />
-                  </line>
-                  <line y1="12" y2="20" transform="translate(32,32) rotate(330)">
-                    <animate
-                      attributeName="stroke-opacity"
-                      dur="750ms"
-                      values=".35;.25;.15;.1;0;1;.85;.7;.65;.55;.45;.35"
-                      repeatCount="indefinite"
-                    />
-                  </line>
-                  <line y1="12" y2="20" transform="translate(32,32) rotate(0)">
-                    <animate
-                      attributeName="stroke-opacity"
-                      dur="750ms"
-                      values=".45;.35;.25;.15;.1;0;1;.85;.7;.65;.55;.45"
-                      repeatCount="indefinite"
-                    />
-                  </line>
-                  <line y1="12" y2="20" transform="translate(32,32) rotate(30)">
-                    <animate
-                      attributeName="stroke-opacity"
-                      dur="750ms"
-                      values=".55;.45;.35;.25;.15;.1;0;1;.85;.7;.65;.55"
-                      repeatCount="indefinite"
-                    />
-                  </line>
-                  <line y1="12" y2="20" transform="translate(32,32) rotate(60)">
-                    <animate
-                      attributeName="stroke-opacity"
-                      dur="750ms"
-                      values=".65;.55;.45;.35;.25;.15;.1;0;1;.85;.7;.65"
-                      repeatCount="indefinite"
-                    />
-                  </line>
-                  <line y1="12" y2="20" transform="translate(32,32) rotate(90)">
-                    <animate
-                      attributeName="stroke-opacity"
-                      dur="750ms"
-                      values=".7;.65;.55;.45;.35;.25;.15;.1;0;1;.85;.7"
-                      repeatCount="indefinite"
-                    />
-                  </line>
-                  <line y1="12" y2="20" transform="translate(32,32) rotate(120)">
-                    <animate
-                      attributeName="stroke-opacity"
-                      dur="750ms"
-                      values=".85;.7;.65;.55;.45;.35;.25;.15;.1;0;1;.85"
-                      repeatCount="indefinite"
-                    />
-                  </line>
-                  <line y1="12" y2="20" transform="translate(32,32) rotate(150)">
-                    <animate
-                      attributeName="stroke-opacity"
-                      dur="750ms"
-                      values="1;.85;.7;.65;.55;.45;.35;.25;.15;.1;0;1"
-                      repeatCount="indefinite"
-                    />
-                  </line>
-                </g>
-              </svg>
-            </span>
-            Loading...
-          </span>
-          <span class="now-playing__rendered" aria-live="polite"></span>
-        </span>
-      </div>
       </div>
     </main>
   </body>

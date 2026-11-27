@@ -7,11 +7,9 @@ draft: true
 
 In [Thinking in Artifacts](/writing/thinking-in-artifacts) I wrote about how to set up a process to get your agents writing their outputs to files, artifacts, which can be used to carry context forward into new, fresh agent sessions. The primary reason for doing this is to ensure that the context window of sessions stays as small as possible, which gets you higher-quality responses from the model you're using. While I didn't go into depth, you can read all about "the dumb zone" online. Here's [a fun one from Matt Pocock](https://x.com/mattpocockuk/status/2071288332642812229). This is what we're trying to avoid by using this technique.
 
-![Session one passes a JSON artifact, with a verdict, a list of files and an ask, to session two.](/images/artifact-contracts/00-hero@2x.png)
+[Artifact contracts: the shape of what agents hand each other](https://www.youtube.com/watch?v=y7LiidypVSU)
 
 This post is about how to define and describe the shape of the artifacts themselves. Once you work out the basics of this flow, the shape of the artifacts really starts to matter, and a contract is how you define it. This is the step that makes fully end-to-end agentic processes possible.
-
-[Artifact contracts: the shape of what agents hand each other](https://www.youtube.com/watch?v=y7LiidypVSU)
 
 ## Agents pass artifacts to each other
 
@@ -63,7 +61,11 @@ In the worst case you become the integration layer. Reviewing and re-checking ev
 
 ## The contract sits in the middle
 
-The contract sits between two sessions and defines what the artifact actually is. The two sessions still pass a file between them, but now a contract says exactly what that file contains.
+The contract sits between two sessions and defines what the artifact actually is.
+
+![Session one passes a JSON artifact, with a verdict, a list of files and an ask, to session two.](/images/artifact-contracts/00-hero@2x.png)
+
+The two sessions still pass a file between them, but now a contract says exactly what that file contains.
 
 ## A contract has three parts
 
@@ -110,9 +112,9 @@ So you're not locked into one artifact per session. Produce as many as you need,
 
 ## How contracts mature
 
-![Four rising steps: convention, writing a plan.md; template, with fixed headings checked by eye; schema, with required keys and enums validated by a script; and verified, with content checked against ground truth.](/images/artifact-contracts/08-how-contracts-mature@2x.png)
-
 If you want to start using this, it helps to think about adding it to your workflows progressively. There are four steps.
+
+![Four rising steps: convention, writing a plan.md; template, with fixed headings checked by eye; schema, with required keys and enums validated by a script; and verified, with content checked against ground truth.](/images/artifact-contracts/08-how-contracts-mature@2x.png)
 
 1. **Convention.** Your team, or your agent sessions, may already be writing plans. The structure of those plans isn't defined yet.
 2. **Template.** A template adds fixed structure to the artifact. Direct your agent to follow it, and check that it does.
@@ -121,9 +123,9 @@ If you want to start using this, it helps to think about adding it to your workf
 
 ## Example: a software factory
 
-![An issue goes in, six agents run in sequence, analyzer, planner, plan validator, implementer, reviewer and deployer, each writing a file, and a pull request comes out.](/images/artifact-contracts/09-a-software-factory@2x.png)
-
 Take the software factory pattern. An issue goes in one end and a reviewable pull request comes out the other. In between, six agents run in sequence, each as a fresh session: Analyzer, Planner, Plan Validator, Implementer, Reviewer and Deployer.
+
+![An issue goes in, six agents run in sequence, analyzer, planner, plan validator, implementer, reviewer and deployer, each writing a file, and a pull request comes out.](/images/artifact-contracts/09-a-software-factory@2x.png)
 
 Each stage passes artifacts to the next. At each stage a validator reads the artifact against its contract, and if a heading is missing or a value is outside its allowed type, the pipeline stops and surfaces an error.
 
@@ -165,9 +167,9 @@ If we change the inputs, like adding a data source, or swap the model an agent u
 
 ## Five rules
 
-![Five rules: write artifacts for their consumers, Markdown for people and JSON for the pipeline; define the contract once and enforce it with a script; keep schemas in version control, versioned and reviewed like code; write failure conditions into artifacts, and define them in the schema; validate artifacts, not just the schema.](/images/artifact-contracts/12-five-rules@2x.png)
-
 If you want to do this yourself, here are five rules I would propose.
+
+![Five rules: write artifacts for their consumers, Markdown for people and JSON for the pipeline; define the contract once and enforce it with a script; keep schemas in version control, versioned and reviewed like code; write failure conditions into artifacts, and define them in the schema; validate artifacts, not just the schema.](/images/artifact-contracts/12-five-rules@2x.png)
 
 1. **Write artifacts for their consumers.** Markdown for people, JSON for the pipeline.
 2. **Define the contract once and enforce it with a script.** Simple, deterministic, and a solved problem.

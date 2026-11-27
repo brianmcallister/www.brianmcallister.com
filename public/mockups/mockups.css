@@ -1,0 +1,374 @@
+/* Shared pieces for the layout mockups.
+
+   Every mockup uses one type size. Text is either full strength or muted,
+   and links are underlined, so there are only two text styles. */
+
+:root {
+  --muted: 0.62;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --speed: 280ms;
+  interpolate-size: allow-keywords;
+}
+
+.mock {
+  font-size: 1.375rem;
+  line-height: 1.35;
+}
+
+.mock ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mock li + li {
+  margin-top: 0.3em;
+}
+
+.label {
+  font-size: inherit;
+  font-weight: 400;
+  margin: 0;
+  opacity: var(--muted);
+}
+
+summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Opening a section eases its height and fades the links in, in browsers
+   that can animate details. Others open instantly. */
+.mock details::details-content {
+  block-size: 0;
+  overflow: hidden;
+  transition:
+    block-size var(--speed) var(--ease),
+    content-visibility var(--speed) allow-discrete;
+}
+
+.mock details[open]::details-content {
+  block-size: auto;
+}
+
+.mock details[open] li {
+  animation: rise var(--speed) var(--ease) both;
+}
+
+.mock details[open] li:nth-child(2) { animation-delay: 30ms; }
+.mock details[open] li:nth-child(3) { animation-delay: 60ms; }
+.mock details[open] li:nth-child(4) { animation-delay: 90ms; }
+.mock details[open] li:nth-child(5) { animation-delay: 120ms; }
+.mock details[open] li:nth-child(n + 6) { animation-delay: 150ms; }
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+/* A plus that turns into a cross when its section is open. */
+.toggle::after {
+  content: '+';
+  display: inline-block;
+  margin-left: 0.4em;
+  transition: transform var(--speed) var(--ease);
+}
+
+details[open] > summary .toggle::after {
+  transform: rotate(45deg);
+}
+
+/* Footer: role and profiles on one line. */
+
+.foot {
+  margin-top: 1.25em;
+}
+
+.meta {
+  margin: 0;
+}
+
+.meta .sep {
+  margin: 0 0.45em;
+  opacity: var(--muted);
+}
+
+/* Now playing, at the top left beside the logo. The logo's mark sits in
+   the middle of its box, so centering the row lines the two up. */
+
+body > header {
+  align-items: center;
+  position: relative;
+  justify-content: space-between;
+  padding-left: calc(40px + env(safe-area-inset-left, 0px));
+}
+
+.playing {
+  color: var(--main-color);
+  column-gap: 0;
+  display: grid;
+  font-family: 'Karla', 'Karla fallback', sans-serif;
+  font-size: 1.375rem;
+  grid-template-columns: auto 1fr;
+  line-height: 1.35;
+  max-width: 28em;
+  transition: column-gap var(--speed) var(--ease);
+}
+
+.playing--art {
+  column-gap: 0.6em;
+}
+
+.playing__art {
+  grid-row: 1 / span 2;
+}
+
+.playing__art img {
+  border-radius: 2px;
+  display: block;
+  height: 2.7em;
+  width: 2.7em;
+}
+
+.playing__label,
+.playing__track {
+  grid-column: 2;
+}
+
+.playing__track {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  overflow: hidden;
+}
+
+/* The sky behind the header is the brightest part of the photo, so a
+   shade like the one under the content keeps now playing readable. */
+body > header::before {
+  background: linear-gradient(
+    to top,
+    rgb(0 0 0 / 0%),
+    rgb(0 0 0 / 14%) 40%,
+    rgb(0 0 0 / 42%) 80%,
+    rgb(0 0 0 / 55%)
+  );
+  content: '';
+  height: 230px;
+  left: 16px;
+  pointer-events: none;
+  position: absolute;
+  right: 16px;
+  top: calc(16px + env(safe-area-inset-top, 0px));
+}
+
+.playing {
+  position: relative;
+}
+
+/* A: columns */
+
+.index {
+  display: grid;
+  gap: 1.25em 2.5em;
+  grid-template-columns: 1.3fr 1fr 1fr;
+}
+
+.index .label {
+  margin-bottom: 0.3em;
+}
+
+.index details {
+  margin-top: 0.3em;
+}
+
+.index summary {
+  opacity: var(--muted);
+  transition: opacity var(--speed) var(--ease);
+}
+
+.index summary:hover {
+  opacity: 1;
+}
+
+.index details[open] summary {
+  margin-bottom: 0.3em;
+}
+
+/* B: drawers */
+
+.drawer {
+  border-bottom: 1px solid rgb(222 222 222 / 22%);
+}
+
+.drawer summary {
+  align-items: baseline;
+  display: flex;
+  gap: 0.75em;
+  padding: 0.45em 0;
+}
+
+.drawer__label {
+  flex: 0 0 6.5em;
+  white-space: nowrap;
+}
+
+.drawer__latest {
+  flex: 1;
+  min-width: 0;
+  opacity: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition:
+    opacity var(--speed) var(--ease),
+    transform var(--speed) var(--ease);
+  white-space: nowrap;
+}
+
+.drawer[open] .drawer__latest {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+
+.drawer__count {
+  font-variant-numeric: tabular-nums;
+  opacity: var(--muted);
+}
+
+.drawer ul {
+  padding: 0 0 0.75em calc(6.5em + 0.75em);
+}
+
+/* C: tabs */
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25em 1.25em;
+  margin-bottom: 0.6em;
+  position: relative;
+}
+
+.tabs button {
+  background: none;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  opacity: var(--muted);
+  padding: 0.15em 0;
+  text-shadow: inherit;
+  transition: opacity var(--speed) var(--ease);
+}
+
+.tabs button:hover,
+.tabs button[aria-selected='true'] {
+  opacity: 1;
+}
+
+.tabs__indicator {
+  background: currentColor;
+  height: 2px;
+  left: 0;
+  position: absolute;
+  top: -2px;
+}
+
+.panels {
+  display: grid;
+  overflow: hidden;
+}
+
+.panel {
+  align-self: start;
+  grid-area: 1 / 1;
+  opacity: 0;
+  transform: translateY(6px);
+  visibility: hidden;
+}
+
+.panel.is-active {
+  opacity: 1;
+  transform: none;
+  visibility: visible;
+}
+
+/* Transitions start only once the script has placed things, so the page
+   doesn't animate into place on load. */
+.is-ready .tabs__indicator {
+  transition:
+    transform var(--speed) var(--ease),
+    width var(--speed) var(--ease);
+}
+
+.is-ready .panels {
+  transition: height var(--speed) var(--ease);
+}
+
+.is-ready .panel {
+  transition:
+    opacity var(--speed) var(--ease),
+    transform var(--speed) var(--ease),
+    visibility var(--speed);
+}
+
+@media screen and (min-width: 501px) {
+  #panel-talks,
+  #panel-oss {
+    column-gap: 2em;
+    columns: 2;
+  }
+
+  #panel-talks li,
+  #panel-oss li {
+    break-inside: avoid;
+    margin: 0 0 0.3em;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .mock,
+  .playing {
+    font-size: 1rem;
+  }
+
+  .playing__track {
+    -webkit-line-clamp: 3;
+  }
+
+  .index {
+    grid-template-columns: 1fr;
+  }
+
+  .drawer__label {
+    flex-basis: 6em;
+  }
+
+  .drawer summary {
+    align-items: center;
+    min-height: 44px;
+  }
+
+  .drawer ul {
+    padding-left: 0;
+  }
+
+  .tabs button {
+    min-height: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --speed: 0ms;
+  }
+
+  .mock details[open] li {
+    animation: none;
+  }
+}

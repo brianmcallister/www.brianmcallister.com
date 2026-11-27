@@ -1,0 +1,53 @@
+# Builds the site and checks it on every pull request and push to main:
+# accessibility, search metadata and console errors on every page in the
+# sitemap, then Lighthouse scores. See scripts/check-site.mjs and
+# lighthouserc.cjs.
+
+name: Site checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Build as production does, so drafts are left out.
+      - name: Build
+        run: npm run build
+        env:
+          VERCEL_ENV: production
+
+      - name: Install the browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Check accessibility and metadata
+        run: npm run check
+
+      - name: Run Lighthouse
+        run: |
+          export CHROME_PATH="$(node -e "console.log(require('playwright').chromium.executablePath())")"
+          npm run lighthouse
+
+      - name: Save the Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci/
+          if-no-files-found: ignore

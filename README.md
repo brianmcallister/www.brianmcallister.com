@@ -55,6 +55,15 @@ To build the posts locally:
 npm run build
 ```
 
+## Checks
+
+Every pull request and push to `main` runs the site checks in `.github/workflows/site-checks.yml`. It builds the site as production does, then checks every page in the sitemap, so new posts are covered automatically:
+
+- `npm run check` loads each page in a browser and fails on accessibility violations found by axe, console errors including Content-Security-Policy violations, and images that don't load. It also fails on missing or wrong search metadata: a title, description and canonical URL matching the sitemap, Open Graph and Twitter card tags with a preview image that exists, and JSON-LD of the right type. It checks the feed and `robots.txt` against the sitemap, and warns when a description is outside 50 to 160 characters.
+- `npm run lighthouse` scores each page with Lighthouse CI, failing below 95 for accessibility and SEO or 90 for best practices, and warning below 90 for performance. The reports are saved with the workflow run.
+
+Both serve the built site with `scripts/serve.mjs`, which follows the clean URLs, redirects and headers in `vercel.json`. To run them locally after `npm run build`, install the browser once with `npx playwright install chromium`.
+
 ## Now playing
 
 The function swaps a long-lived Spotify refresh token for a short-lived access token, then asks Spotify what's playing. Responses are cached at Vercel's edge for 15 seconds, so traffic to the site doesn't turn into traffic to Spotify.

@@ -498,7 +498,7 @@ const renderPage = async (data, slug, body) => {
     <link rel="stylesheet" href="/base.css" />
     <link rel="stylesheet" href="/writing.css" />
     <link rel="preload" href="/patchwork.webp" as="image" type="image/webp" />
-    <script src="/patchwork.js" defer></script>${videoScript}
+    <script src="/patchwork.js"></script>${videoScript}
   </head>
   <body>
     <div class="page">

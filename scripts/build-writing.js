@@ -18,6 +18,8 @@ import { readFileSync } from 'node:fs';
 import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
+import { preloadFile } from '@pierre/diffs/ssr';
+
 const root = new URL('..', import.meta.url).pathname;
 const sourceDir = join(root, 'writing');
 const outputDir = join(root, 'public', 'writing');
@@ -185,6 +187,73 @@ const renderVideo = (title, id) => `<figure class="video">
   </a>
 </figure>`;
 
+// Code blocks found while rendering a post, waiting to be highlighted.
+let codeBlocks = [];
+
+// Highlights code blocks at build time with @pierre/diffs, and sends each
+// one as finished HTML inside declarative shadow DOM. Browsers draw it
+// straight from the HTML, with no script, so nothing flashes or shifts.
+const CODE_CSS = `:host {
+  --diffs-bg: #e6ecf0;
+  --diffs-line-height: 1.65;
+  --diffs-gap-block: 14px;
+  --diffs-gap-inline: 16px;
+  --diffs-font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --diffs-header-font-family: 'IBM Plex Sans', 'IBM Plex Sans fallback', sans-serif;
+}`;
+
+const CODE_BACKGROUND = [0xe6, 0xec, 0xf0]; // --diffs-bg above.
+
+// The theme's token colors are made for white, and a few are too light for
+// small text on the code background. Each token color below 4.5:1, the
+// WCAG AA minimum, is darkened in small steps, keeping its hue, until it
+// passes.
+const luminance = (rgb) => {
+  const [r, g, b] = rgb.map((value) => {
+    const c = value / 255;
+    return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+};
+
+const contrast = (a, b) => {
+  const [light, dark] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+  return (light + 0.05) / (dark + 0.05);
+};
+
+const readableColor = (hex) => {
+  let rgb = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
+  while (contrast(rgb, CODE_BACKGROUND) < 4.5) {
+    rgb = rgb.map((value) => Math.floor(value * 0.96));
+  }
+  return `#${rgb.map((value) => value.toString(16).padStart(2, '0')).join('')}`;
+};
+
+const highlightCode = async (html) => {
+  const blocks = codeBlocks;
+  codeBlocks = [];
+  const rendered = await Promise.all(
+    blocks.map(async ({ language, name, code }) => {
+      try {
+        const { prerenderedHTML } = await preloadFile({
+          file: { name: name ?? `snippet.${language}`, contents: code, lang: language },
+          options: { theme: 'pierre-light', themeType: 'light', disableFileHeader: !name, unsafeCSS: CODE_CSS },
+        });
+        const readable = prerenderedHTML.replace(
+          /<span style="color:(#[0-9a-fA-F]{6})">/g,
+          (_, color) => `<span style="color:${readableColor(color)}">`,
+        );
+        return `<diffs-container class="code-block"><template shadowrootmode="open">${readable}</template></diffs-container>`;
+      } catch (error) {
+        // An unknown language falls back to a plain block.
+        console.warn(`Code block not highlighted (${language}): ${error.message}`);
+        return `<pre><code>${escapeHtml(code)}</code></pre>`;
+      }
+    }),
+  );
+  return html.replace(/\u0001(\d+)\u0001/g, (_, index) => rendered[index]);
+};
+
 const LIST_ITEM = /^(\s*)([-*+]|\d+\.)\s+(.*)$/;
 
 const renderMarkdown = (markdown) => {
@@ -218,16 +287,17 @@ const renderMarkdown = (markdown) => {
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
 
-    // Fenced code
-    const fence = line.match(/^```\s*([\w-]*)\s*$/);
+    // Fenced code, highlighted later by highlightCode. The opening line can
+    // name the language and a file, like ```json contract.schema.json.
+    const fence = line.match(/^```\s*([\w-]*)(?:\s+(\S+))?\s*$/);
     if (fence) {
       flushParagraph();
       const code = [];
       for (i++; i < lines.length && !/^```\s*$/.test(lines[i]); i++) {
         code.push(lines[i]);
       }
-      const language = fence[1] ? ` class="language-${fence[1]}"` : '';
-      html.push(`<pre><code${language}>${escapeHtml(code.join('\n'))}</code></pre>`);
+      codeBlocks.push({ language: fence[1] || 'text', name: fence[2], code: code.join('\n') });
+      html.push(`\u0001${codeBlocks.length - 1}\u0001`);
       continue;
     }
 
@@ -404,9 +474,9 @@ const formatDate = (date) =>
     year: 'numeric',
   });
 
-const renderPage = (data, slug, body) => {
+const renderPage = async (data, slug, body) => {
   const { title, date, description } = data;
-  const content = renderMarkdown(body);
+  const content = await highlightCode(renderMarkdown(body));
   const videoScript = content.includes('class="video__poster"')
     ? '\n    <script src="/video.js" defer></script>'
     : '';
@@ -477,7 +547,7 @@ for (const file of files) {
     continue;
   }
 
-  await writeFile(join(outputDir, `${slug}.html`), renderPage(data, slug, body));
+  await writeFile(join(outputDir, `${slug}.html`), await renderPage(data, slug, body));
   console.log(`Built          /writing/${slug}${data.draft === 'true' ? ' (draft)' : ''}`);
   published.push({ slug, ...data });
 }

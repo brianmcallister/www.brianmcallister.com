@@ -16,5 +16,8 @@
   "repository": {
     "type": "git",
     "url": "git@github.com:brianmcallister/www.brianmcallister.com.git"
+  },
+  "dependencies": {
+    "@pierre/diffs": "1.6.4"
   }
 }

@@ -1,0 +1,256 @@
+/* Shared pieces for the layout mockups. */
+
+.content ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.content .label {
+  font-size: 0.75em;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  margin: 0;
+  opacity: 0.7;
+}
+
+.foot {
+  font-size: 0.8em;
+  margin-top: 1.5em;
+}
+
+.meta {
+  margin: 0;
+}
+
+.meta .sep {
+  margin: 0 0.5em;
+  opacity: 0.6;
+}
+
+.playing {
+  margin-top: 0.5em;
+}
+
+.playing .label {
+  margin-right: 0.5em;
+}
+
+summary {
+  cursor: pointer;
+}
+
+/* A: columns */
+
+.mock-index {
+  font-size: 1.375rem;
+}
+
+.index {
+  display: grid;
+  gap: 1.25em 2.5em;
+  grid-template-columns: 1.3fr 1fr 1fr;
+}
+
+.index li {
+  line-height: 1.3;
+  margin-top: 0.35em;
+}
+
+.index .label {
+  margin-bottom: 0.2em;
+}
+
+.index details {
+  margin-top: 0.35em;
+}
+
+.index details summary {
+  font-size: 0.8em;
+  list-style: none;
+  opacity: 0.75;
+}
+
+.index details summary::-webkit-details-marker {
+  display: none;
+}
+
+.index details summary::after {
+  content: ' +';
+}
+
+.index details[open] summary::after {
+  content: ' \2212';
+}
+
+.index details[open] summary {
+  margin-bottom: 0.1em;
+}
+
+/* B: drawers */
+
+.mock-drawers {
+  font-size: 1.5rem;
+}
+
+.drawer {
+  border-bottom: 1px solid rgb(222 222 222 / 22%);
+}
+
+.drawer summary {
+  align-items: baseline;
+  display: flex;
+  gap: 0.75em;
+  list-style: none;
+  padding: 0.45em 0;
+}
+
+.drawer summary::-webkit-details-marker {
+  display: none;
+}
+
+.drawer__label {
+  flex: 0 0 6.5em;
+}
+
+.drawer__latest {
+  flex: 1;
+  font-size: 0.75em;
+  min-width: 0;
+  opacity: 0.65;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.drawer[open] .drawer__latest {
+  visibility: hidden;
+}
+
+.drawer__count {
+  font-size: 0.7em;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.7;
+}
+
+.drawer__count::after {
+  content: '+';
+  display: inline-block;
+  margin-left: 0.6em;
+  transition: transform 0.2s ease;
+}
+
+.drawer[open] .drawer__count::after {
+  transform: rotate(45deg);
+}
+
+.drawer ul {
+  font-size: 0.8em;
+  padding: 0 0 0.75em calc(6.5em / 0.8 + 0.75em / 0.8);
+}
+
+.drawer li {
+  line-height: 1.3;
+  margin-bottom: 0.35em;
+}
+
+/* C: tabs */
+
+.mock-tabs {
+  font-size: 1.5rem;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25em 1.25em;
+  margin-bottom: 0.6em;
+}
+
+.tabs button {
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  opacity: 0.6;
+  padding: 0.15em 0;
+  text-shadow: inherit;
+}
+
+.tabs button[aria-selected='true'] {
+  border-bottom-color: currentColor;
+  opacity: 1;
+}
+
+/* Every panel sits in the same cell, so the block is as tall as the
+   longest list and switching tabs doesn't shift the tabs up and down. */
+.panels {
+  display: grid;
+}
+
+.panel {
+  grid-area: 1 / 1;
+  visibility: hidden;
+}
+
+.panel.is-active {
+  visibility: visible;
+}
+
+@media screen and (min-width: 501px) {
+  #panel-talks,
+  #panel-oss {
+    column-gap: 2em;
+    columns: 2;
+  }
+
+  .panel li {
+    break-inside: avoid;
+  }
+}
+
+.panel li {
+  font-size: 0.8em;
+  line-height: 1.3;
+  margin-bottom: 0.35em;
+}
+
+@media screen and (max-width: 500px) {
+  .mock-index,
+  .mock-drawers,
+  .mock-tabs {
+    font-size: 1rem;
+  }
+
+  .index {
+    grid-template-columns: 1fr;
+  }
+
+  .drawer__label {
+    flex-basis: 6em;
+    white-space: nowrap;
+  }
+
+  .drawer summary {
+    min-height: 44px;
+    align-items: center;
+  }
+
+  .drawer ul {
+    padding-left: 0;
+  }
+
+  .tabs button {
+    min-height: 44px;
+  }
+
+  .foot {
+    font-size: 0.875em;
+  }
+
+  .playing .label {
+    display: block;
+  }
+}

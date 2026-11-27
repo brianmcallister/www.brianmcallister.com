@@ -11,8 +11,10 @@ Brian's personal site, deployed on Vercel. It is static pages in `public/` plus 
 - `npm run build` builds posts into `public/writing/` and writes `public/sitemap.xml` and `public/feed.xml`. All three are generated and gitignored, so never edit them by hand.
 - `npm run dev` runs `vercel dev`, serving the pages and functions together. It needs the Vercel CLI and a linked project, and `vercel env pull` brings down the Spotify environment variables.
 - `python3 scripts/make-patchwork.py <seed>` cuts a new `public/patchwork.webp` tile sheet. It needs Pillow and NumPy.
+- `npm run check` serves the built site and checks every page in the sitemap for accessibility violations, console and Content-Security-Policy errors, broken images, and missing or wrong search metadata. Run `npm run build` first, and `npx playwright install chromium` once.
+- `npm run lighthouse` scores every page with Lighthouse CI against the built site.
 
-There are no tests, linter or formatter. To check a change to the build script, run `npm run build` and inspect the generated HTML in `public/writing/`.
+CI runs both on every pull request and push to `main`, in `.github/workflows/site-checks.yml`, and publishes the Lighthouse scores to the `badges` branch for the README's badges. There is no linter or formatter. After changing the build script, run `npm run build` and `npm run check`.
 
 ## Architecture
 

@@ -30,6 +30,8 @@ There are no tests, linter or formatter. To check a change to the build script, 
 
 Always work on a feature branch off `main` and open a pull request into `main`. Never commit directly to `main`.
 
+Name branches `{author initials}-{descriptive-name}`. Claude's branches use the `cc-` prefix, like `cc-fix-feed-dates`, and Brian's hand-made branches use `bm-`.
+
 ## Writing style
 
 These apply to posts, the README, commit messages and PR descriptions.

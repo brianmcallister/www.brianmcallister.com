@@ -1,13 +1,13 @@
 // Turns the Lighthouse CI results in .lighthouseci/ into badge files for
-// shields.io, one per category. Each badge shows the lowest score across the
-// site's pages, from each page's representative (median) run. CI publishes
-// the files to the `badges` branch after every push to main, and the README
-// shows them.
+// shields.io, one per category. Each badge shows where the site stands on
+// this deploy: the latest run of each page, and the lowest score among the
+// pages. CI publishes the files to the `badges` branch after every push to
+// main, and the README shows them.
 //
 //   node scripts/lighthouse-badges.mjs <output directory>
 
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
-import { join } from 'node:path';
+import { basename, join } from 'node:path';
 
 const CATEGORIES = {
   performance: 'performance',
@@ -22,10 +22,22 @@ if (!output) {
 }
 
 const manifest = JSON.parse(await readFile('.lighthouseci/manifest.json', 'utf8'));
-const runs = manifest.filter((run) => run.isRepresentativeRun);
-if (!runs.length) {
+if (!manifest.length) {
   throw new Error('No Lighthouse results found in .lighthouseci/manifest.json');
 }
+
+// The manifest isn't in time order, so each run's own fetch time decides
+// which is the latest for its page.
+const latest = new Map();
+for (const run of manifest) {
+  // Paths in the manifest are from the machine that ran Lighthouse.
+  const report = join('.lighthouseci', basename(run.jsonPath));
+  const { fetchTime } = JSON.parse(await readFile(report, 'utf8'));
+  if (!latest.has(run.url) || fetchTime > latest.get(run.url).fetchTime) {
+    latest.set(run.url, { fetchTime, summary: run.summary });
+  }
+}
+const runs = [...latest.values()];
 
 // Lighthouse's own bands: 90 and up is good, 50 to 89 needs work.
 const color = (score) => (score >= 90 ? 'brightgreen' : score >= 50 ? 'orange' : 'red');
